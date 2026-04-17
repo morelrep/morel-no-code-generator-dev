@@ -1,0 +1,587 @@
+<p>&lt;!DOCTYPE html&gt;</p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>26 Color Variants from 3 Base Colors</title>
+    <style>
+        :root {
+            /* Base colors */
+            --color-1: #2a3425;
+            --color-2: #d4695c;
+            --color-3: #86a27b;
+            
+            /* Generated variants using color-mix() */
+            /* Mix between color-1 and color-2 */
+            /*--color-a: color-mix(in srgb, var(--color-1) 90%, var(--color-2) 10%);*/
+            --color-b: color-mix(in srgb, var(--color-1) 80%, var(--color-2) 20%);
+            --color-c: color-mix(in srgb, var(--color-1) 70%, var(--color-2) 30%);
+            --color-d: color-mix(in srgb, var(--color-1) 60%, var(--color-2) 40%);
+            --color-e: color-mix(in srgb, var(--color-1) 50%, var(--color-2) 50%);
+            --color-f: color-mix(in srgb, var(--color-1) 40%, var(--color-2) 60%);
+            --color-g: color-mix(in srgb, var(--color-1) 30%, var(--color-2) 70%);
+            --color-h: color-mix(in srgb, var(--color-1) 20%, var(--color-2) 80%);
+            --color-i: color-mix(in srgb, var(--color-1) 10%, var(--color-2) 90%);
+            
+            /* Mix between color-2 and color-3 */
+            --color-j: color-mix(in srgb, var(--color-2) 90%, var(--color-3) 10%);
+            --color-k: color-mix(in srgb, var(--color-2) 80%, var(--color-3) 20%);
+            --color-l: color-mix(in srgb, var(--color-2) 70%, var(--color-3) 30%);
+            --color-m: color-mix(in srgb, var(--color-2) 60%, var(--color-3) 40%);
+            --color-n: color-mix(in srgb, var(--color-2) 50%, var(--color-3) 50%);
+            --color-o: color-mix(in srgb, var(--color-2) 40%, var(--color-3) 60%);
+            --color-p: color-mix(in srgb, var(--color-2) 30%, var(--color-3) 70%);
+            --color-q: color-mix(in srgb, var(--color-2) 20%, var(--color-3) 80%);
+            --color-r: color-mix(in srgb, var(--color-2) 10%, var(--color-3) 90%);
+            
+            /* Mix between color-3 and color-1 */
+            --color-s: color-mix(in srgb, var(--color-3) 90%, var(--color-1) 10%);
+            --color-t: color-mix(in srgb, var(--color-3) 80%, var(--color-1) 20%);
+            --color-u: color-mix(in srgb, var(--color-3) 70%, var(--color-1) 30%);
+            --color-v: color-mix(in srgb, var(--color-3) 60%, var(--color-1) 40%);
+            --color-w: color-mix(in srgb, var(--color-3) 50%, var(--color-1) 50%);
+            --color-x: color-mix(in srgb, var(--color-3) 40%, var(--color-1) 60%);
+            --color-y: color-mix(in srgb, var(--color-3) 30%, var(--color-1) 70%);
+            --color-z: color-mix(in srgb, var(--color-3) 20%, var(--color-1) 80%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto 20px;
+        }
+        
+        .base-colors {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .base-color {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .color-item {
+            height: 140px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .color-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .color-name {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .color-value {
+            font-size: 0.85rem;
+            opacity: 0.95;
+            background-color: rgba(0, 0, 0, 0.25);
+            padding: 3px 8px;
+            border-radius: 10px;
+            backdrop-filter: blur(2px);
+        }
+        
+        .color-range {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .color-info {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+        }
+        
+        .info-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .color-formula {
+            background-color: #f1f8ff;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--color-1);
+        }
+        
+        footer {
+            text-align: center;
+            color: #777;
+            font-size: 0.9rem;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        
+        @media (max-width: 768px) {
+            .color-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            }
+            
+            .base-colors {
+                gap: 15px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .color-grid {
+                grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            }
+            
+            .color-item {
+                height: 120px;
+            }
+            
+            .color-name {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>26 Color Variants from 3 Base Colors</h1>
+            <p class="description">
+                Pure HTML/CSS solution using CSS <code>color-mix()</code> function to generate 26 color variants from 3 base colors.
+                No JavaScript required.
+            </p>
+        </header>
+        
+        <div class="base-colors">
+            <div class="base-color" style="background-color: var(--color-1);">
+                <span>Color 1</span>
+                <small>#3a86ff</small>
+            </div>
+            <div class="base-color" style="background-color: var(--color-2);">
+                <span>Color 2</span>
+                <small>#ff006e</small>
+            </div>
+            <div class="base-color" style="background-color: var(--color-3);">
+                <span>Color 3</span>
+                <small>#38b000</small>
+            </div>
+        </div>
+        
+        <div class="color-info">
+            <h3 class="info-title">How the colors are generated</h3>
+            <p>The <code>color-mix()</code> function creates new colors by mixing two colors in specified proportions:</p>
+            <div class="color-formula">
+                --color-a: color-mix(in srgb, var(--color-1) 90%, var(--color-2) 10%);<br />
+                --color-e: color-mix(in srgb, var(--color-1) 50%, var(--color-2) 50%);<br />
+                --color-n: color-mix(in srgb, var(--color-2) 50%, var(--color-3) 50%);<br />
+                --color-w: color-mix(in srgb, var(--color-3) 50%, var(--color-1) 50%);
+            </div>
+            <p>Colors A-I transition from Color 1 to Color 2, J-R from Color 2 to Color 3, and S-Z from Color 3 back to Color 1.</p>
+        </div>
+        
+        <div class="color-grid">
+            <!-- Colors A-I: Mix between color-1 and color-2 -->
+            <div class="color-item" style="background-color: 
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                ;">
+                <div class="color-name">
+                
+
+
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                </div>
+                <div class="color-value">90% Color 1 + 10% Color 2</div>
+                <div class="color-range">
+                    <span>90% Color 1</span>
+                    <span>10% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-b);">
+                <div class="color-name">Color B</div>
+                <div class="color-value">80% Color 1 + 20% Color 2</div>
+                <div class="color-range">
+                    <span>80% Color 1</span>
+                    <span>20% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-c);">
+                <div class="color-name">Color C</div>
+                <div class="color-value">70% Color 1 + 30% Color 2</div>
+                <div class="color-range">
+                    <span>70% Color 1</span>
+                    <span>30% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-d);">
+                <div class="color-name">Color D</div>
+                <div class="color-value">60% Color 1 + 40% Color 2</div>
+                <div class="color-range">
+                    <span>60% Color 1</span>
+                    <span>40% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-e);">
+                <div class="color-name">Color E</div>
+                <div class="color-value">50% Color 1 + 50% Color 2</div>
+                <div class="color-range">
+                    <span>50% Color 1</span>
+                    <span>50% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-f);">
+                <div class="color-name">Color F</div>
+                <div class="color-value">40% Color 1 + 60% Color 2</div>
+                <div class="color-range">
+                    <span>40% Color 1</span>
+                    <span>60% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-g);">
+                <div class="color-name">Color G</div>
+                <div class="color-value">30% Color 1 + 70% Color 2</div>
+                <div class="color-range">
+                    <span>30% Color 1</span>
+                    <span>70% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-h);">
+                <div class="color-name">Color H</div>
+                <div class="color-value">20% Color 1 + 80% Color 2</div>
+                <div class="color-range">
+                    <span>20% Color 1</span>
+                    <span>80% Color 2</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-i);">
+                <div class="color-name">Color I</div>
+                <div class="color-value">10% Color 1 + 90% Color 2</div>
+                <div class="color-range">
+                    <span>10% Color 1</span>
+                    <span>90% Color 2</span>
+                </div>
+            </div>
+            
+            <!-- Colors J-R: Mix between color-2 and color-3 -->
+            <div class="color-item" style="background-color: var(--color-j);">
+                <div class="color-name">Color J</div>
+                <div class="color-value">90% Color 2 + 10% Color 3</div>
+                <div class="color-range">
+                    <span>90% Color 2</span>
+                    <span>10% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-k);">
+                <div class="color-name">Color K</div>
+                <div class="color-value">80% Color 2 + 20% Color 3</div>
+                <div class="color-range">
+                    <span>80% Color 2</span>
+                    <span>20% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-l);">
+                <div class="color-name">Color L</div>
+                <div class="color-value">70% Color 2 + 30% Color 3</div>
+                <div class="color-range">
+                    <span>70% Color 2</span>
+                    <span>30% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-m);">
+                <div class="color-name">Color M</div>
+                <div class="color-value">60% Color 2 + 40% Color 3</div>
+                <div class="color-range">
+                    <span>60% Color 2</span>
+                    <span>40% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-n);">
+                <div class="color-name">Color N</div>
+                <div class="color-value">50% Color 2 + 50% Color 3</div>
+                <div class="color-range">
+                    <span>50% Color 2</span>
+                    <span>50% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-o);">
+                <div class="color-name">Color O</div>
+                <div class="color-value">40% Color 2 + 60% Color 3</div>
+                <div class="color-range">
+                    <span>40% Color 2</span>
+                    <span>60% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-p);">
+                <div class="color-name">Color P</div>
+                <div class="color-value">30% Color 2 + 70% Color 3</div>
+                <div class="color-range">
+                    <span>30% Color 2</span>
+                    <span>70% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-q);">
+                <div class="color-name">Color Q</div>
+                <div class="color-value">20% Color 2 + 80% Color 3</div>
+                <div class="color-range">
+                    <span>20% Color 2</span>
+                    <span>80% Color 3</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-r);">
+                <div class="color-name">Color R</div>
+                <div class="color-value">10% Color 2 + 90% Color 3</div>
+                <div class="color-range">
+                    <span>10% Color 2</span>
+                    <span>90% Color 3</span>
+                </div>
+            </div>
+            
+            <!-- Colors S-Z: Mix between color-3 and color-1 -->
+            <div class="color-item" style="background-color: var(--color-s);">
+                <div class="color-name">Color S</div>
+                <div class="color-value">90% Color 3 + 10% Color 1</div>
+                <div class="color-range">
+                    <span>90% Color 3</span>
+                    <span>10% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-t);">
+                <div class="color-name">Color T</div>
+                <div class="color-value">80% Color 3 + 20% Color 1</div>
+                <div class="color-range">
+                    <span>80% Color 3</span>
+                    <span>20% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-u);">
+                <div class="color-name">Color U</div>
+                <div class="color-value">70% Color 3 + 30% Color 1</div>
+                <div class="color-range">
+                    <span>70% Color 3</span>
+                    <span>30% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-v);">
+                <div class="color-name">Color V</div>
+                <div class="color-value">60% Color 3 + 40% Color 1</div>
+                <div class="color-range">
+                    <span>60% Color 3</span>
+                    <span>40% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-w);">
+                <div class="color-name">Color W</div>
+                <div class="color-value">50% Color 3 + 50% Color 1</div>
+                <div class="color-range">
+                    <span>50% Color 3</span>
+                    <span>50% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-x);">
+                <div class="color-name">Color X</div>
+                <div class="color-value">40% Color 3 + 60% Color 1</div>
+                <div class="color-range">
+                    <span>40% Color 3</span>
+                    <span>60% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-y);">
+                <div class="color-name">Color Y</div>
+                <div class="color-value">30% Color 3 + 70% Color 1</div>
+                <div class="color-range">
+                    <span>30% Color 3</span>
+                    <span>70% Color 1</span>
+                </div>
+            </div>
+            <div class="color-item" style="background-color: var(--color-z);">
+                <div class="color-name">Color Z</div>
+                <div class="color-value">20% Color 3 + 80% Color 1</div>
+                <div class="color-range">
+                    <span>20% Color 3</span>
+                    <span>80% Color 1</span>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Pure CSS solution using <code>color-mix()</code> function | No JavaScript used</p>
+        </footer>
+    </div>
+</body>
+</html>

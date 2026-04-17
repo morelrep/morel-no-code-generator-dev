@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="es"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="/feed.xml" rel="self" type="application/atom+xml" /><link href="/" rel="alternate" type="text/html" hreflang="es" /><updated>2026-04-17T20:18:57+00:00</updated><id>/feed.xml</id><title type="html">Biblioteca Abierta Venezolana</title><entry><title type="html">Lanzamiento</title><link href="/2026/03/12/lanzamiento.html" rel="alternate" type="text/html" title="Lanzamiento" /><published>2026-03-12T00:00:00+00:00</published><updated>2026-03-12T00:00:00+00:00</updated><id>/2026/03/12/lanzamiento</id><content type="html" xml:base="/2026/03/12/lanzamiento.html"><![CDATA[<p>La Biblioteca Abierta Venezolana (BibAV) inicia su actividad pública conmemorando un episodio que da testimonio de las fuentes transnacionales y caribeñas del nacionalismo venezolano: el momento en que se izó por primera vez, en Jacmel, Haití, el pabellón de Colombia —aquella república continental que se proyectaba “del Misisipi al Cabo de Hornos”— mientras Francisco de Miranda ultimaba los preparativos para su expedición independentista en Venezuela, con apoyo de criollos en el exilio y actores en Haití, Estados Unidos y el Reino Unido (1806).</p>
+
+<p>Evocando esa gravitación de flujos internacionales en el origen imaginario de Venezuela, BibAV se propone abrir la caleta de Alphabet mediante los metadatos de Wikidata y VIAF, y el almacenamiento de Archive.org. Su colección se nutre del trabajo acumulado de bibliotecarios del hemisferio que preservaron los originales, y de hombres y mujeres venezolanas que los escribieron, imprimieron y tradujeron durante siglos.</p>
+
+<p>En la colección inicial, la mayoría de los materiales fueron digitalizados por Google Books, en bibliotecas del Norte Global, que cedieron sus colecciones bajo la promesa de apertura. Pero Alphabet restringe el acceso a las copias mediante limitaciones en su API y otras barreras programáticas. BibAV interviene este corpus empleando Wikidata, Zotero y scripts propios para liberar el material venezolano de dominio público, complementándolo con obras de repositorios comunitarios excluidos del ecosistema corporativo. Estas herramientas son abiertas y están diseñadas para que el modelo pueda ser replicado en otros corpus, nacionales o internacionales.</p>
+
+<p>Este ha sido un esfuerzo de trabajo voluntario, al que se han empezado a sumar colaboradores. Puedes contribuir a su desarrollo siguiendo el enlace de la biografía.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[La Biblioteca Abierta Venezolana (BibAV) inicia su actividad pública conmemorando un episodio que da testimonio de las fuentes transnacionales y caribeñas del nacionalismo venezolano: el momento en que se izó por primera vez, en Jacmel, Haití, el pabellón de Colombia —aquella república continental que se proyectaba “del Misisipi al Cabo de Hornos”— mientras Francisco de Miranda ultimaba los preparativos para su expedición independentista en Venezuela, con apoyo de criollos en el exilio y actores en Haití, Estados Unidos y el Reino Unido (1806). Evocando esa gravitación de flujos internacionales en el origen imaginario de Venezuela, BibAV se propone abrir la caleta de Alphabet mediante los metadatos de Wikidata y VIAF, y el almacenamiento de Archive.org. Su colección se nutre del trabajo acumulado de bibliotecarios del hemisferio que preservaron los originales, y de hombres y mujeres venezolanas que los escribieron, imprimieron y tradujeron durante siglos. En la colección inicial, la mayoría de los materiales fueron digitalizados por Google Books, en bibliotecas del Norte Global, que cedieron sus colecciones bajo la promesa de apertura. Pero Alphabet restringe el acceso a las copias mediante limitaciones en su API y otras barreras programáticas. BibAV interviene este corpus empleando Wikidata, Zotero y scripts propios para liberar el material venezolano de dominio público, complementándolo con obras de repositorios comunitarios excluidos del ecosistema corporativo. Estas herramientas son abiertas y están diseñadas para que el modelo pueda ser replicado en otros corpus, nacionales o internacionales. Este ha sido un esfuerzo de trabajo voluntario, al que se han empezado a sumar colaboradores. Puedes contribuir a su desarrollo siguiendo el enlace de la biografía.]]></summary></entry><entry><title type="html">Reutilizando los metadatos</title><link href="/metadatos" rel="alternate" type="text/html" title="Reutilizando los metadatos" /><published>2026-01-18T00:00:00+00:00</published><updated>2026-01-18T00:00:00+00:00</updated><id>/metadatos</id><content type="html" xml:base="/metadatos"><![CDATA[<h1 id="guía-para-la-reutilización-de-metadatos-de-bibav">Guía para la reutilización de metadatos de BibAV</h1>
+
+<p>La exportación y reutilización de metadatos permite trabajar de manera autónoma y crítica con colecciones bibliográficas, sin depender exclusivamente de plataformas cerradas o interfaces predeterminadas. Esta guía describe cómo exportar metadatos desde Zotero en formato <strong>CSL JSON</strong> y propone distintas formas de reutilizarlos mediante herramientas de Humanidades Digitales de uso extendido. Está dirigida a docentes, investigadores y estudiantes con conocimientos intermedios o avanzados que deseen trabajar con datos bibliográficos de manera crítica y reproducible.</p>
+
+<hr />
+
+<h2 id="1-exportación-de-metadatos-desde-zotero-csl-json">1. Exportación de metadatos desde Zotero (CSL JSON)</h2>
+
+<p>Zotero permite exportar bibliotecas personales o grupales en distintos formatos. Para maximizar la interoperabilidad y la reutilización académica, se recomienda utilizar <strong>CSL JSON</strong>.</p>
+
+<p><strong>Pasos:</strong></p>
+
+<ul>
+  <li>Haz click en el ícono de Zotero en el footer y pide acceso a la biblioteca BibAV, o crea una copia siguiendo los pasos de la <a href="/copia-docente">guía para docentes</a></li>
+  <li>Abre <strong>Zotero Desktop</strong>.</li>
+  <li>Selecciona la biblioteca personal o grupal que se desea exportar.</li>
+  <li>Ve al menú <code class="language-plaintext highlighter-rouge">Archivo → Exportar biblioteca…</code>.</li>
+  <li>Elige el formato <strong>CSL JSON</strong>.</li>
+  <li>Guarda el archivo en una ubicación conocida del equipo.</li>
+</ul>
+
+<p>El archivo resultante contiene, entre otros datos:</p>
+<ul>
+  <li>autores y roles,</li>
+  <li>títulos,</li>
+  <li>fechas de publicación,</li>
+  <li>editoriales e imprentas,</li>
+  <li>lugares de publicación,</li>
+  <li>identificadores,</li>
+  <li>enlaces a archivos y repositorios.</li>
+</ul>
+
+<p>Este proceso no modifica la biblioteca original ni afecta el trabajo colaborativo en Zotero.</p>
+
+<hr />
+
+<h2 id="2-reutilizaciones-sugeridas-a-partir-de-csl-json">2. Reutilizaciones sugeridas a partir de CSL JSON</h2>
+
+<p>El archivo CSL JSON funciona como un <strong>formato puente</strong> que permite múltiples reutilizaciones, con o sin programación, según los objetivos del curso o del proyecto.</p>
+
+<h3 id="a-limpieza-normalización-y-enriquecimiento-de-metadatos">A. Limpieza, normalización y enriquecimiento de metadatos</h3>
+
+<p><strong>OpenRefine</strong><br />
+https://openrefine.org</p>
+
+<p>OpenRefine permite trabajar con grandes conjuntos de datos bibliográficos para:</p>
+
+<ul>
+  <li>limpiar campos inconsistentes (fechas, nombres, lugares),</li>
+  <li>detectar y resolver duplicados,</li>
+  <li>normalizar valores repetidos (editoriales, ciudades),</li>
+  <li>enriquecer registros mediante reconciliación con bases de autoridad.</li>
+</ul>
+
+<p>Para proyectos como BibAV, OpenRefine resulta especialmente útil para trabajar con:</p>
+<ul>
+  <li>autorías,</li>
+  <li>ciudades de publicación,</li>
+  <li>editoriales e imprentas,</li>
+  <li>fechas y ediciones.</li>
+</ul>
+
+<p>La reconciliación con Wikidata puede realizarse mediante:<br />
+https://wikidata.reconci.link/</p>
+
+<hr />
+
+<h3 id="b-visualización-exploratoria-sin-programación">B. Visualización exploratoria sin programación</h3>
+
+<p><strong>RAWGraphs</strong><br />
+https://www.rawgraphs.io/</p>
+
+<p>RAWGraphs permite generar visualizaciones exploratorias a partir de datos tabulares. El archivo CSL JSON puede convertirse previamente a CSV para:</p>
+
+<ul>
+  <li>observar la distribución de publicaciones por década,</li>
+  <li>analizar la concentración editorial,</li>
+  <li>explorar la dispersión geográfica de las ediciones.</li>
+</ul>
+
+<p>Es especialmente adecuado para:</p>
+<ul>
+  <li>exploración inicial de datos,</li>
+  <li>actividades de aula,</li>
+  <li>informes y presentaciones.</li>
+</ul>
+
+<hr />
+
+<h3 id="c-análisis-de-redes-y-circulación-editorial">C. Análisis de redes y circulación editorial</h3>
+
+<p><strong>Palladio</strong><br />
+https://hdlab.stanford.edu/palladio/</p>
+
+<p>Palladio permite explorar relaciones entre entidades bibliográficas. A partir de los metadatos exportados, puede utilizarse para:</p>
+
+<ul>
+  <li>analizar relaciones entre autores, ciudades y editoriales,</li>
+  <li>reconstruir circuitos de publicación,</li>
+  <li>visualizar redes de circulación intelectual.</li>
+</ul>
+
+<p>Es una herramienta particularmente pertinente para estudios de:</p>
+<ul>
+  <li>historia del libro,</li>
+  <li>historia intelectual,</li>
+  <li>circulación atlántica y transnacional.</li>
+</ul>
+
+<hr />
+
+<h3 id="d-análisis-textual-de-corpus-cuando-hay-archivos-disponibles">D. Análisis textual de corpus (cuando hay archivos disponibles)</h3>
+
+<p><strong>Voyant Tools</strong><br />
+https://voyant-tools.org/</p>
+
+<p>Cuando los registros incluyen archivos PDF o textos completos, los metadatos exportados desde Zotero pueden usarse para organizar corpus destinados al análisis textual. Voyant Tools permite:</p>
+
+<ul>
+  <li>análisis léxico y de frecuencias,</li>
+  <li>comparación entre autores, períodos o conjuntos de obras,</li>
+  <li>exploración temática preliminar.</li>
+</ul>
+
+<p>Flujo de trabajo habitual:</p>
+<ul>
+  <li>Zotero → selección de textos → corpus → Voyant.</li>
+</ul>
+
+<hr />
+
+<h3 id="e-visualización-pública-y-divulgación">E. Visualización pública y divulgación</h3>
+
+<p><strong>Datawrapper</strong><br />
+https://www.datawrapper.de/</p>
+
+<p>Datawrapper permite crear visualizaciones orientadas a la comunicación pública a partir de datos bibliográficos, tales como:</p>
+
+<ul>
+  <li>mapas de ciudades de publicación,</li>
+  <li>gráficos temporales,</li>
+  <li>visualizaciones embebibles en sitios web o informes.</li>
+</ul>
+
+<p>Es especialmente útil para proyectos finales, actividades de divulgación o presentaciones públicas.</p>
+
+<hr />
+
+<h3 id="f-construcción-de-líneas-de-tiempo">F. Construcción de líneas de tiempo</h3>
+
+<p><strong>TimelineJS</strong><br />
+https://timeline.knightlab.com/</p>
+
+<p>TimelineJS permite construir cronologías a partir de fechas contenidas en los metadatos. A partir del CSL JSON convertido, puede utilizarse para:</p>
+
+<ul>
+  <li>crear líneas de tiempo editoriales,</li>
+  <li>contextualizar obras en procesos históricos,</li>
+  <li>vincular publicaciones con eventos intelectuales o políticos.</li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[Guía para la reutilización de metadatos de BibAV La exportación y reutilización de metadatos permite trabajar de manera autónoma y crítica con colecciones bibliográficas, sin depender exclusivamente de plataformas cerradas o interfaces predeterminadas. Esta guía describe cómo exportar metadatos desde Zotero en formato CSL JSON y propone distintas formas de reutilizarlos mediante herramientas de Humanidades Digitales de uso extendido. Está dirigida a docentes, investigadores y estudiantes con conocimientos intermedios o avanzados que deseen trabajar con datos bibliográficos de manera crítica y reproducible. 1. Exportación de metadatos desde Zotero (CSL JSON) Zotero permite exportar bibliotecas personales o grupales en distintos formatos. Para maximizar la interoperabilidad y la reutilización académica, se recomienda utilizar CSL JSON. Pasos: Haz click en el ícono de Zotero en el footer y pide acceso a la biblioteca BibAV, o crea una copia siguiendo los pasos de la guía para docentes Abre Zotero Desktop. Selecciona la biblioteca personal o grupal que se desea exportar. Ve al menú Archivo → Exportar biblioteca…. Elige el formato CSL JSON. Guarda el archivo en una ubicación conocida del equipo. El archivo resultante contiene, entre otros datos: autores y roles, títulos, fechas de publicación, editoriales e imprentas, lugares de publicación, identificadores, enlaces a archivos y repositorios. Este proceso no modifica la biblioteca original ni afecta el trabajo colaborativo en Zotero. 2. Reutilizaciones sugeridas a partir de CSL JSON El archivo CSL JSON funciona como un formato puente que permite múltiples reutilizaciones, con o sin programación, según los objetivos del curso o del proyecto. A. Limpieza, normalización y enriquecimiento de metadatos OpenRefine https://openrefine.org OpenRefine permite trabajar con grandes conjuntos de datos bibliográficos para: limpiar campos inconsistentes (fechas, nombres, lugares), detectar y resolver duplicados, normalizar valores repetidos (editoriales, ciudades), enriquecer registros mediante reconciliación con bases de autoridad. Para proyectos como BibAV, OpenRefine resulta especialmente útil para trabajar con: autorías, ciudades de publicación, editoriales e imprentas, fechas y ediciones. La reconciliación con Wikidata puede realizarse mediante: https://wikidata.reconci.link/ B. Visualización exploratoria sin programación RAWGraphs https://www.rawgraphs.io/ RAWGraphs permite generar visualizaciones exploratorias a partir de datos tabulares. El archivo CSL JSON puede convertirse previamente a CSV para: observar la distribución de publicaciones por década, analizar la concentración editorial, explorar la dispersión geográfica de las ediciones. Es especialmente adecuado para: exploración inicial de datos, actividades de aula, informes y presentaciones. C. Análisis de redes y circulación editorial Palladio https://hdlab.stanford.edu/palladio/ Palladio permite explorar relaciones entre entidades bibliográficas. A partir de los metadatos exportados, puede utilizarse para: analizar relaciones entre autores, ciudades y editoriales, reconstruir circuitos de publicación, visualizar redes de circulación intelectual. Es una herramienta particularmente pertinente para estudios de: historia del libro, historia intelectual, circulación atlántica y transnacional. D. Análisis textual de corpus (cuando hay archivos disponibles) Voyant Tools https://voyant-tools.org/ Cuando los registros incluyen archivos PDF o textos completos, los metadatos exportados desde Zotero pueden usarse para organizar corpus destinados al análisis textual. Voyant Tools permite: análisis léxico y de frecuencias, comparación entre autores, períodos o conjuntos de obras, exploración temática preliminar. Flujo de trabajo habitual: Zotero → selección de textos → corpus → Voyant. E. Visualización pública y divulgación Datawrapper https://www.datawrapper.de/ Datawrapper permite crear visualizaciones orientadas a la comunicación pública a partir de datos bibliográficos, tales como: mapas de ciudades de publicación, gráficos temporales, visualizaciones embebibles en sitios web o informes. Es especialmente útil para proyectos finales, actividades de divulgación o presentaciones públicas. F. Construcción de líneas de tiempo TimelineJS https://timeline.knightlab.com/ TimelineJS permite construir cronologías a partir de fechas contenidas en los metadatos. A partir del CSL JSON convertido, puede utilizarse para: crear líneas de tiempo editoriales, contextualizar obras en procesos históricos, vincular publicaciones con eventos intelectuales o políticos.]]></summary></entry><entry><title type="html">Usando BibAV en el aula de clases</title><link href="/copia-docente" rel="alternate" type="text/html" title="Usando BibAV en el aula de clases" /><published>2026-01-16T00:00:00+00:00</published><updated>2026-01-16T00:00:00+00:00</updated><id>/docencia</id><content type="html" xml:base="/copia-docente"><![CDATA[<h1 id="configuración-inicial">Configuración inicial</h1>
+
+<p>Estas instrucciones asumen que ya tienes una cuenta en Zotero y un cliente de escritorio de Zotero instalado. Si no los tienes, ve primero a este <a href="https://biblioguias.ucm.es/zotero/instalacion">enlace</a>.</p>
+
+<ul>
+  <li>Configuración del sitio web
+    <ul>
+      <li><a href="https://github.com/signup?ref_cta=Sign+up&amp;ref_loc=header+logged+out&amp;ref_page=%2F&amp;source=header-home">Crea una cuenta en GitHub</a> si no lo has hecho</li>
+      <li>Crea una “bifurcación” (fork) del <a href="https://github.com/morelrep/BibAV">repositorio</a>. Cuando se abra la página del repositorio bifurcado, guárdala en favoritos, pues tendrás que regresar aquí al final del proceso.
+        <ul>
+          <li><img src="/assets/img/posts/fe0e0c65a8074e28173b4cc25ac2d0c7.png" alt="" /></li>
+        </ul>
+      </li>
+      <li>Haz click en el archivo <code class="language-plaintext highlighter-rouge">Public.bib</code>
+        <ul>
+          <li><img src="/assets/img/posts/0112fd6911a32fb29b8fd4e09a8faa4e.png" alt="" /></li>
+          <li><img src="/assets/img/posts/6e1d40804c8c1d4080622d12d3c6ca7a.png" alt="" /></li>
+        </ul>
+      </li>
+      <li>Haz click en “descargar” en la esquina superior derecha. Recuerda la ubicación pues lo necesitarás en el próximo paso.
+        <ul>
+          <li><img src="/assets/img/posts/caafd8d461fbf490cbf344e3d8e0178b.png" alt="" /></li>
+        </ul>
+      </li>
+      <li>En la barra superior haz click en “Acciones” y ahí haz click en el botón verde grande, para habilitarlas.
+        <ul>
+          <li><img src="/assets/img/posts/2368f689ed68081f9391038bd4d3cc10.png" alt="" /></li>
+          <li><img src="/assets/img/posts/c14bc43bb7a87586f819b3edd92c3158.png" alt="" /></li>
+        </ul>
+      </li>
+      <li>Vuelve a “código” en la esquina superior izquierda, abre el archivo <code class="language-plaintext highlighter-rouge">_config.yml</code> y selecciona “editar” en la esquina superior derecha
+        <ul>
+          <li><img src="/assets/img/posts/5ae869c48ffee42538c4fd835624de4a.png" alt="" /></li>
+          <li><img src="/assets/img/posts/a436729ac772b8053ca10ae00430efd5.png" alt="" /></li>
+        </ul>
+      </li>
+      <li>Edita los campos <code class="language-plaintext highlighter-rouge">title</code> y <code class="language-plaintext highlighter-rouge">tagline</code> con información sobre tu curso, seminario o taller. Debes hacer al menos un pequeño cambio para que se dispare la generación del sitio.  Cuando hayas hecho el cambio haz click en el botón verde en la esquina superior derecha, para confirmar cambios
+        <ul>
+          <li><img src="/assets/img/posts/c9c8169fa6c64c12cc7258c63d26e4bd.png" alt="" /></li>
+          <li><img src="/assets/img/posts/9b1f8706931f822eb7a2a37608dcad05.png" alt="" /></li>
+        </ul>
+      </li>
+      <li>¡Casi listo! Solo tienes que esperar unos minutos a que el sitio se genere. Ve a “configuración” en la esquina superior derecha y busca en la barra lateral la opción de “páginas”. Ahí, selecciona la rama <code class="language-plaintext highlighter-rouge">gh-pages</code> para generar el sitio. No olvides guardar para terminar.
+        <ul>
+          <li><img src="/assets/img/posts/426a61a6e2661fce8c1bb2f4ab1dfcf5.png" alt="" /></li>
+          <li><img src="/assets/img/posts/eb49fd25d4ba8afe50a1c490494a0a51.png" alt="" /></li>
+          <li><img src="/assets/img/posts/5a496ab9a43f207dc62550966714e0ed.png" alt="" /></li>
+          <li><img src="/assets/img/posts/b946ea061537784dcebb0eabb305402a.png" alt="b946ea061537784dcebb0eabb305402a.png" /></li>
+        </ul>
+      </li>
+      <li>¡Listo! Refresca la página apretando <code class="language-plaintext highlighter-rouge">F5</code> y haz click en el link que aparecerá en el tope de la página, para abrir tu copia de BibAV, lista para asignarle una biblioteca grupal y crear actividades de enseñanza.</li>
+    </ul>
+  </li>
+  <li>Configuración de la biblioteca grupal
+    <ul>
+      <li><a href="https://www.zotero.org/user/register">Crea una cuenta en Zotero</a> si no lo has hecho</li>
+      <li><a href="https://www.zotero.org/user/login/">Ingresa</a> en tu cuenta de Zotero, ve a la <a href="https://www.zotero.org/groups">sección de “grupos”</a> y crea uno nuevo<img src="/assets/img/posts/d18832c1e4ab1d1a926e01d779c0963b.png" alt="d18832c1e4ab1d1a926e01d779c0963b.png" /></li>
+      <li>Elige la privacidad. La recomendable es la segunda: público con membresía cerrada. Mantén la configuración predeterminada.<img src="/assets/img/posts/32340518177840ef9b93aa03277d8cfe.png" alt="32340518177840ef9b93aa03277d8cfe.png" /></li>
+      <li>Ve a la configuración de miembros, y envía una invitación a tus estudiantes
+        <ul>
+          <li><img src="/assets/img/posts/85fcef3f459f0df313a3b447b37d74df.png" alt="85fcef3f459f0df313a3b447b37d74df.png" /></li>
+          <li><img src="/assets/img/posts/744e6e823f7d72f7ec39c59c9d1185a6.png" alt="744e6e823f7d72f7ec39c59c9d1185a6.png" /></li>
+          <li><img src="/assets/img/posts/c1915b47180cc5fa828589b1a8cdd6aa.png" alt="c1915b47180cc5fa828589b1a8cdd6aa.png" /></li>
+        </ul>
+      </li>
+      <li>Abre tu cliente Zotero de escritorio (local) y encuentra en la columna izquierda el grupo que acabas de crear. Selecciónalo.
+        <ul>
+          <li><img src="/assets/img/posts/8aae1099caa7583cdcfb5e86a19c224d.png" alt="8aae1099caa7583cdcfb5e86a19c224d.png" /></li>
+        </ul>
+      </li>
+      <li>Ve al menú <code class="language-plaintext highlighter-rouge">Archivo &gt; Importar...</code> y selecciona el archivo <code class="language-plaintext highlighter-rouge">Public.bib</code> que descargaste de GitHub
+        <ul>
+          <li><img src="/assets/img/posts/0b5950f99a66143467ca3c4af00499fe.png" alt="0b5950f99a66143467ca3c4af00499fe.png" /></li>
+          <li><img src="/assets/img/posts/d6e816ff5ca1d9f172466780e8c6cc6a.png" alt="d6e816ff5ca1d9f172466780e8c6cc6a.png" /></li>
+          <li><img src="/assets/img/posts/824fea1a264a8e1564cc3263c6d59e6a.png" alt="824fea1a264a8e1564cc3263c6d59e6a.png" /></li>
+        </ul>
+      </li>
+      <li>Ya tienes una copia de BibAV lista para trabajar en el aula de clases, que estará sincronizándose con tu biblioteca grupal en línea. Ahora solo queda enlazarla a la página que creaste en el primer paso.</li>
+    </ul>
+  </li>
+  <li>Enlazando la biblioteca grupal al sitio web
+    <ul>
+      <li>Vuelve a Zotero y elige “grupos” en el menú principal
+        <ul>
+          <li><img src="/assets/img/posts/0e666921635c7cf8001f1a3f8a39164a.png" alt="0e666921635c7cf8001f1a3f8a39164a.png" /></li>
+          <li><img src="/assets/img/posts/df6642e3f83bcf87439897ac889b25b7.png" alt="df6642e3f83bcf87439897ac889b25b7.png" /></li>
+        </ul>
+      </li>
+      <li>Copia el número que aparece en la url del grupo
+        <ul>
+          <li><img src="/assets/img/posts/febdf3c40cd07433afac941b25b0c3bb.png" alt="febdf3c40cd07433afac941b25b0c3bb.png" /></li>
+          <li><img src="/assets/img/posts/e4c98282222e3bb66984e02d9f38e859.png" alt="e4c98282222e3bb66984e02d9f38e859.png" /></li>
+        </ul>
+      </li>
+      <li>Vuelve a la página del repositorio, que guardaste en “favoritos”, y abre el archivo <code class="language-plaintext highlighter-rouge">_config.yml</code></li>
+      <li>En la línea <code class="language-plaintext highlighter-rouge">zot-group: 6350646/bibav</code> sustituye <code class="language-plaintext highlighter-rouge">6350646</code> por el número de tu grupo.</li>
+      <li>Listo. En un par de minutos, los botones con el ícono de lápiz en las páginas de tu sitio te llevarán al item correspondiente en Zotero.</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="algunas-actividades-sugeridas">Algunas actividades sugeridas</h1>
+
+<ul>
+  <li>Curaduría colaborativa de registros
+    <ul>
+      <li>Seleccionar ítems con metadatos incompletos, inconsistentes o erróneos.</li>
+      <li>Corregir y enriquecer información sobre autoría, fechas, ediciones, editoriales y repositorios.</li>
+      <li>Documentar las fuentes utilizadas y las decisiones editoriales tomadas.</li>
+    </ul>
+  </li>
+  <li>Comparación de accesos y plataformas
+    <ul>
+      <li>Localizar un mismo título en BibAV, Google Books y otros repositorios digitales.</li>
+      <li>Comparar formatos disponibles, restricciones de acceso y calidad de los archivos.</li>
+      <li>Discutir las implicaciones del dominio público y el rol de las plataformas comerciales.</li>
+    </ul>
+  </li>
+  <li>Reconstrucción de circuitos editoriales
+    <ul>
+      <li>Usar los filtros por ciudad de publicación, editorial e imprenta para agrupar obras.</li>
+      <li>Identificar patrones de circulación regional o transnacional.</li>
+      <li>Relacionar los resultados con contextos históricos, políticos o culturales trabajados en clase.</li>
+    </ul>
+  </li>
+  <li>Creación de colecciones temáticas
+    <ul>
+      <li>Definir criterios de selección (período, autor, tema, género, movimiento intelectual).</li>
+      <li>Crear y mantener una colección específica dentro de la biblioteca grupal.</li>
+      <li>Redactar una breve justificación curatorial que explique el alcance y los límites del conjunto.</li>
+    </ul>
+  </li>
+  <li>Análisis crítico de ausencias y sesgos
+    <ul>
+      <li>Identificar grupos subrepresentados en la colección (autoras, autores afrodescendientes, temas indígenas).</li>
+      <li>Investigar posibles causas de esas ausencias (históricas, técnicas, institucionales).</li>
+      <li>Proponer e incorporar nuevos registros cuando sea posible, dejando constancia del proceso.</li>
+    </ul>
+  </li>
+  <li>Trabajo con metadatos para investigación
+    <ul>
+      <li>Exportar registros desde Zotero en formatos como BibTeX, RIS o CSV.</li>
+      <li>Elaborar bibliografías comentadas, cronologías o listas de lectura.</li>
+      <li>Usar los datos como punto de partida para proyectos de investigación más amplios.</li>
+    </ul>
+  </li>
+  <li>Documentación del trabajo bibliotecario
+    <ul>
+      <li>Registrar las tareas realizadas por cada estudiante o grupo.</li>
+      <li>Reflexionar sobre el trabajo archivístico y bibliotecario involucrado.</li>
+      <li>Vincular la experiencia con debates sobre acceso, autoridad y preservación.</li>
+    </ul>
+  </li>
+  <li>Proyecto final de curso
+    <ul>
+      <li>Crear una copia funcional del sitio vinculada a una biblioteca grupal propia.</li>
+      <li>Adaptar el sitio a los objetivos del curso (título, descripción, selección de obras).</li>
+      <li>Presentar el proyecto con una memoria crítica del proceso y los resultados.</li>
+    </ul>
+  </li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[Configuración inicial Estas instrucciones asumen que ya tienes una cuenta en Zotero y un cliente de escritorio de Zotero instalado. Si no los tienes, ve primero a este enlace. Configuración del sitio web Crea una cuenta en GitHub si no lo has hecho Crea una “bifurcación” (fork) del repositorio. Cuando se abra la página del repositorio bifurcado, guárdala en favoritos, pues tendrás que regresar aquí al final del proceso. Haz click en el archivo Public.bib Haz click en “descargar” en la esquina superior derecha. Recuerda la ubicación pues lo necesitarás en el próximo paso. En la barra superior haz click en “Acciones” y ahí haz click en el botón verde grande, para habilitarlas. Vuelve a “código” en la esquina superior izquierda, abre el archivo _config.yml y selecciona “editar” en la esquina superior derecha Edita los campos title y tagline con información sobre tu curso, seminario o taller. Debes hacer al menos un pequeño cambio para que se dispare la generación del sitio. Cuando hayas hecho el cambio haz click en el botón verde en la esquina superior derecha, para confirmar cambios ¡Casi listo! Solo tienes que esperar unos minutos a que el sitio se genere. Ve a “configuración” en la esquina superior derecha y busca en la barra lateral la opción de “páginas”. Ahí, selecciona la rama gh-pages para generar el sitio. No olvides guardar para terminar. ¡Listo! Refresca la página apretando F5 y haz click en el link que aparecerá en el tope de la página, para abrir tu copia de BibAV, lista para asignarle una biblioteca grupal y crear actividades de enseñanza. Configuración de la biblioteca grupal Crea una cuenta en Zotero si no lo has hecho Ingresa en tu cuenta de Zotero, ve a la sección de “grupos” y crea uno nuevo Elige la privacidad. La recomendable es la segunda: público con membresía cerrada. Mantén la configuración predeterminada. Ve a la configuración de miembros, y envía una invitación a tus estudiantes Abre tu cliente Zotero de escritorio (local) y encuentra en la columna izquierda el grupo que acabas de crear. Selecciónalo. Ve al menú Archivo &gt; Importar... y selecciona el archivo Public.bib que descargaste de GitHub Ya tienes una copia de BibAV lista para trabajar en el aula de clases, que estará sincronizándose con tu biblioteca grupal en línea. Ahora solo queda enlazarla a la página que creaste en el primer paso. Enlazando la biblioteca grupal al sitio web Vuelve a Zotero y elige “grupos” en el menú principal Copia el número que aparece en la url del grupo Vuelve a la página del repositorio, que guardaste en “favoritos”, y abre el archivo _config.yml En la línea zot-group: 6350646/bibav sustituye 6350646 por el número de tu grupo. Listo. En un par de minutos, los botones con el ícono de lápiz en las páginas de tu sitio te llevarán al item correspondiente en Zotero. Algunas actividades sugeridas Curaduría colaborativa de registros Seleccionar ítems con metadatos incompletos, inconsistentes o erróneos. Corregir y enriquecer información sobre autoría, fechas, ediciones, editoriales y repositorios. Documentar las fuentes utilizadas y las decisiones editoriales tomadas. Comparación de accesos y plataformas Localizar un mismo título en BibAV, Google Books y otros repositorios digitales. Comparar formatos disponibles, restricciones de acceso y calidad de los archivos. Discutir las implicaciones del dominio público y el rol de las plataformas comerciales. Reconstrucción de circuitos editoriales Usar los filtros por ciudad de publicación, editorial e imprenta para agrupar obras. Identificar patrones de circulación regional o transnacional. Relacionar los resultados con contextos históricos, políticos o culturales trabajados en clase. Creación de colecciones temáticas Definir criterios de selección (período, autor, tema, género, movimiento intelectual). Crear y mantener una colección específica dentro de la biblioteca grupal. Redactar una breve justificación curatorial que explique el alcance y los límites del conjunto. Análisis crítico de ausencias y sesgos Identificar grupos subrepresentados en la colección (autoras, autores afrodescendientes, temas indígenas). Investigar posibles causas de esas ausencias (históricas, técnicas, institucionales). Proponer e incorporar nuevos registros cuando sea posible, dejando constancia del proceso. Trabajo con metadatos para investigación Exportar registros desde Zotero en formatos como BibTeX, RIS o CSV. Elaborar bibliografías comentadas, cronologías o listas de lectura. Usar los datos como punto de partida para proyectos de investigación más amplios. Documentación del trabajo bibliotecario Registrar las tareas realizadas por cada estudiante o grupo. Reflexionar sobre el trabajo archivístico y bibliotecario involucrado. Vincular la experiencia con debates sobre acceso, autoridad y preservación. Proyecto final de curso Crear una copia funcional del sitio vinculada a una biblioteca grupal propia. Adaptar el sitio a los objetivos del curso (título, descripción, selección de obras). Presentar el proyecto con una memoria crítica del proceso y los resultados.]]></summary></entry><entry><title type="html">Notes For Json Extra Field</title><link href="/2025/12/20/notes-for-json-extra-field.html" rel="alternate" type="text/html" title="Notes For Json Extra Field" /><published>2025-12-20T00:00:00+00:00</published><updated>2025-12-20T00:00:00+00:00</updated><id>/2025/12/20/notes-for-json-extra-field</id><content type="html" xml:base="/2025/12/20/notes-for-json-extra-field.html"><![CDATA[<p>Este data file se combinaría con el csv, usando los Zotero key para hacer los matches exactos. El “first edition” vendrá del field “edition”, que se usará combinando con una coma el número de la edición y la fecha de primera edición, si se conoce. Nationality estará hard coded, para conservar la data que nosotros generamos, y subirla a wikidata. Habría que modificar el script viaf-zotero para: 1) que escriba la data en json y no csv; 2) que además de crear la entidad, diga la nacionalidad. Aunque esto sería complicado porque no sé qué referencia usaría para haer el claim.</p>
+
+<p>{
+  “books_extras”: [
+    {
+      “z-key”: “xxx”,
+      “author 1”: {
+        “name”: “J.K. Rowling”,
+        “viaf”: “xxx”,
+        “nationality”: “England”
+      },
+      “author 2”: {
+        “name”: “”,
+        “viaf”: “”,
+        “nationality”: “”
+      },
+      “first_edition”: “1997”
+    },
+    {
+      “z-key”: “yyy”,
+      “author 1”: {
+        “name”: “George Orwell”,
+        “viaf”: “yyy”,
+        “nationality”: “”
+      },
+      “first_edition”: “1949”
+    }
+  ]
+}</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Este data file se combinaría con el csv, usando los Zotero key para hacer los matches exactos. El “first edition” vendrá del field “edition”, que se usará combinando con una coma el número de la edición y la fecha de primera edición, si se conoce. Nationality estará hard coded, para conservar la data que nosotros generamos, y subirla a wikidata. Habría que modificar el script viaf-zotero para: 1) que escriba la data en json y no csv; 2) que además de crear la entidad, diga la nacionalidad. Aunque esto sería complicado porque no sé qué referencia usaría para haer el claim. { “books_extras”: [ { “z-key”: “xxx”, “author 1”: { “name”: “J.K. Rowling”, “viaf”: “xxx”, “nationality”: “England” }, “author 2”: { “name”: “”, “viaf”: “”, “nationality”: “” }, “first_edition”: “1997” }, { “z-key”: “yyy”, “author 1”: { “name”: “George Orwell”, “viaf”: “yyy”, “nationality”: “” }, “first_edition”: “1949” } ] }]]></summary></entry><entry><title type="html">Algunas de las formas en que Google Books dificulta el acceso a su colección con deficiencias en su API</title><link href="/2025/12/19/gatekeeping-by-google-books.html" rel="alternate" type="text/html" title="Algunas de las formas en que Google Books dificulta el acceso a su colección con deficiencias en su API" /><published>2025-12-19T00:00:00+00:00</published><updated>2025-12-19T00:00:00+00:00</updated><id>/2025/12/19/gatekeeping-by-google-books</id><content type="html" xml:base="/2025/12/19/gatekeeping-by-google-books.html"><![CDATA[]]></content><author><name></name></author><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">some known issues</title><link href="/2025/12/02/known-issues.html" rel="alternate" type="text/html" title="some known issues" /><published>2025-12-02T00:00:00+00:00</published><updated>2025-12-02T00:00:00+00:00</updated><id>/2025/12/02/known-issues</id><content type="html" xml:base="/2025/12/02/known-issues.html"><![CDATA[<p>Run <code class="language-plaintext highlighter-rouge">git config --global core.longpaths true</code> to avoid the 260-characters limit for files, if you have one like that</p>
+
+<p>If you are using Zotero on Windows but running your commands on the WSL, the generator won’t find your files. You need to run Zotero also on WSL</p>]]></content><author><name></name></author><summary type="html"><![CDATA[Run git config --global core.longpaths true to avoid the 260-characters limit for files, if you have one like that If you are using Zotero on Windows but running your commands on the WSL, the generator won’t find your files. You need to run Zotero also on WSL]]></summary></entry><entry><title type="html">Mltilingual</title><link href="/2025/11/25/mltilingual.html" rel="alternate" type="text/html" title="Mltilingual" /><published>2025-11-25T00:00:00+00:00</published><updated>2025-11-25T00:00:00+00:00</updated><id>/2025/11/25/mltilingual</id><content type="html" xml:base="/2025/11/25/mltilingual.html"><![CDATA[<p>Páginas a considerar para la transición a multilingüe:</p>
+
+<ul>
+  <li>index</li>
+  <li>about</li>
+  <li>README.md</li>
+  <li>add</li>
+  <li>books</li>
+  <li>downloads.md</li>
+  <li>no-downloads.md</li>
+  <li>podcast.md</li>
+  <li>repositories</li>
+  <li>publishers</li>
+  <li>posts</li>
+  <li>cities</li>
+  <li>criteria</li>
+  <li>authors</li>
+</ul>]]></content><author><name></name></author><summary type="html"><![CDATA[Páginas a considerar para la transición a multilingüe: index about README.md add books downloads.md no-downloads.md podcast.md repositories publishers posts cities criteria authors]]></summary></entry><entry><title type="html">Hola World</title><link href="/2023/07/24/hola-world.html" rel="alternate" type="text/html" title="Hola World" /><published>2023-07-24T00:00:00+00:00</published><updated>2023-07-24T00:00:00+00:00</updated><id>/2023/07/24/hola-world</id><content type="html" xml:base="/2023/07/24/hola-world.html"><![CDATA[<p>MOREL comenzó por la idea –desmesurada, inalcanzable, ciclópea– de crear una plataforma cooperativa para organizar en una colección dinámica y entrelazada las obras literarias latinoamericanas digitalizadas que se encuentran en el dominio público. Así surgió Metadatos de Obras para Repositorios Electrónicos Latinoamericanos: un repositorio donde hay casi 500 obras organizadas en listas dinámicas… etc.</p>
+
+<p>El carácter monumental de tal tarea –que de todas formas permanece y permanecerá inconclusa pues su duración es incalculable– motivó la creación de algunas tecnologías y metodologías para facilitar la agregación de contenidos. Así surgió Mobile Open Resilient Electronic Libraries: un método para que personas no expertas en el manejo de tecnologías web pero familiarizadas con el uso de gestores de referencias puedan colaborar en la alimentación de archivos colectivos.</p>
+
+<p>[Explicación del acrónimo]</p>
+
+<p>Hoy estoy haciendo pública la primera versión de el generador de sitios MOREL, que aspira a ser utilizable y reproducible por personas con un conocimiento técnico mínimo, sin grandes dificultades. Este generador combina…</p>
+
+<p>Con MOREL, la creación de archivos de nicho y colecciones especializadas sea tan fácil como la importación de una hoja de obras citadas. Actualmente hay un par de pasos intermedios más. Pero con algunas contribuciones puede llegar a ser posible a mediano plazo.</p>
+
+<p>La transición de una serie de scripts, metodologías, layouts, etcétera, utilizadas individualmente o por equipos pequeños, a una caja de herramientas al público general, para que se las apropien y las utilicen según sus necesidades, es una tarea mucho más compleja que lo que uno se imagina.</p>]]></content><author><name>Eduardo Febres</name></author><summary type="html"><![CDATA[MOREL comenzó por la idea –desmesurada, inalcanzable, ciclópea– de crear una plataforma cooperativa para organizar en una colección dinámica y entrelazada las obras literarias latinoamericanas digitalizadas que se encuentran en el dominio público. Así surgió Metadatos de Obras para Repositorios Electrónicos Latinoamericanos: un repositorio donde hay casi 500 obras organizadas en listas dinámicas… etc. El carácter monumental de tal tarea –que de todas formas permanece y permanecerá inconclusa pues su duración es incalculable– motivó la creación de algunas tecnologías y metodologías para facilitar la agregación de contenidos. Así surgió Mobile Open Resilient Electronic Libraries: un método para que personas no expertas en el manejo de tecnologías web pero familiarizadas con el uso de gestores de referencias puedan colaborar en la alimentación de archivos colectivos. [Explicación del acrónimo] Hoy estoy haciendo pública la primera versión de el generador de sitios MOREL, que aspira a ser utilizable y reproducible por personas con un conocimiento técnico mínimo, sin grandes dificultades. Este generador combina… Con MOREL, la creación de archivos de nicho y colecciones especializadas sea tan fácil como la importación de una hoja de obras citadas. Actualmente hay un par de pasos intermedios más. Pero con algunas contribuciones puede llegar a ser posible a mediano plazo. La transición de una serie de scripts, metodologías, layouts, etcétera, utilizadas individualmente o por equipos pequeños, a una caja de herramientas al público general, para que se las apropien y las utilicen según sus necesidades, es una tarea mucho más compleja que lo que uno se imagina.]]></summary></entry></feed>

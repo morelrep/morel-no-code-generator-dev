@@ -1,0 +1,44 @@
+<rdf:RDF
+ xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+ xmlns:z="http://www.zotero.org/namespaces/export#"
+ xmlns:bib="http://purl.org/net/biblio#"
+ xmlns:foaf="http://xmlns.com/foaf/0.1/"
+ xmlns:dcterms="http://purl.org/dc/terms/"
+ xmlns:link="http://purl.org/rss/1.0/modules/link/"
+ xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <bib:Book rdf:about="http://books.google.com.co/books/download/Gramatica_de_la_lengua_castellana_destin.pdf?id=2UkQAAAAYAAJ&amp;hl=&amp;output=pdf&amp;sig=ACfU3U3XtmYvjzFREj3xc-s8diPGQycGiA&amp;source=gbs_api">
+        <z:itemType>book</z:itemType>
+        <bib:authors>
+            <rdf:Seq>
+                <rdf:li>
+                    <foaf:Person>
+                        <foaf:surname>Bello</foaf:surname>
+                        <foaf:givenName>Andrés</foaf:givenName>
+                    </foaf:Person>
+                </rdf:li>
+            </rdf:Seq>
+        </bib:authors>
+        <dcterms:isReferencedBy rdf:resource="#item_22937"/>
+        <link:link rdf:resource="#item_22938"/>
+        <dc:title>Gramatica de la lengua castellana, destinada al uso de los americanos,</dc:title>
+        <dc:date>1875</dc:date>
+        <z:language>es</z:language>
+        <z:archive>Google Books</z:archive>
+        <dc:identifier>
+            <dcterms:URI>
+                <rdf:value>http://books.google.com.co/books/download/Gramatica_de_la_lengua_castellana_destin.pdf?id=2UkQAAAAYAAJ&amp;hl=&amp;output=pdf&amp;sig=ACfU3U3XtmYvjzFREj3xc-s8diPGQycGiA&amp;source=gbs_api</rdf:value>
+            </dcterms:URI>
+        </dc:identifier>
+        <dc:description>Venezuela</dc:description>
+        <z:numPages>424</z:numPages>
+    </bib:Book>
+    <bib:Memo rdf:about="#item_22937">
+        <rdf:value>&lt;div data-schema-version=&quot;8&quot;&gt;&lt;p&gt;This is a Note&lt;/p&gt;
+&lt;/div&gt;</rdf:value>
+    </bib:Memo>
+    <z:Attachment rdf:about="#item_22938">
+        <z:itemType>attachment</z:itemType>
+        <dc:title>this is an attachment.txt</dc:title>
+        <link:type>text/plain</link:type>
+    </z:Attachment>
+</rdf:RDF>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reutilizando los metadatos | Biblioteca Abierta Venezolana</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    
+    <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Reutilizando los metadatos | Biblioteca Abierta Venezolana</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Reutilizando los metadatos" />
+<meta property="og:locale" content="es" />
+<meta name="description" content="Guía para la reutilización de metadatos de BibAV La exportación y reutilización de metadatos permite trabajar de manera autónoma y crítica con colecciones bibliográficas, sin depender exclusivamente de plataformas cerradas o interfaces predeterminadas. Esta guía describe cómo exportar metadatos desde Zotero en formato CSL JSON y propone distintas formas de reutilizarlos mediante herramientas de Humanidades Digitales de uso extendido. Está dirigida a docentes, investigadores y estudiantes con conocimientos intermedios o avanzados que deseen trabajar con datos bibliográficos de manera crítica y reproducible. 1. Exportación de metadatos desde Zotero (CSL JSON) Zotero permite exportar bibliotecas personales o grupales en distintos formatos. Para maximizar la interoperabilidad y la reutilización académica, se recomienda utilizar CSL JSON. Pasos: Haz click en el ícono de Zotero en el footer y pide acceso a la biblioteca BibAV, o crea una copia siguiendo los pasos de la guía para docentes Abre Zotero Desktop. Selecciona la biblioteca personal o grupal que se desea exportar. Ve al menú Archivo → Exportar biblioteca…. Elige el formato CSL JSON. Guarda el archivo en una ubicación conocida del equipo. El archivo resultante contiene, entre otros datos: autores y roles, títulos, fechas de publicación, editoriales e imprentas, lugares de publicación, identificadores, enlaces a archivos y repositorios. Este proceso no modifica la biblioteca original ni afecta el trabajo colaborativo en Zotero. 2. Reutilizaciones sugeridas a partir de CSL JSON El archivo CSL JSON funciona como un formato puente que permite múltiples reutilizaciones, con o sin programación, según los objetivos del curso o del proyecto. A. Limpieza, normalización y enriquecimiento de metadatos OpenRefine https://openrefine.org OpenRefine permite trabajar con grandes conjuntos de datos bibliográficos para: limpiar campos inconsistentes (fechas, nombres, lugares), detectar y resolver duplicados, normalizar valores repetidos (editoriales, ciudades), enriquecer registros mediante reconciliación con bases de autoridad. Para proyectos como BibAV, OpenRefine resulta especialmente útil para trabajar con: autorías, ciudades de publicación, editoriales e imprentas, fechas y ediciones. La reconciliación con Wikidata puede realizarse mediante: https://wikidata.reconci.link/ B. Visualización exploratoria sin programación RAWGraphs https://www.rawgraphs.io/ RAWGraphs permite generar visualizaciones exploratorias a partir de datos tabulares. El archivo CSL JSON puede convertirse previamente a CSV para: observar la distribución de publicaciones por década, analizar la concentración editorial, explorar la dispersión geográfica de las ediciones. Es especialmente adecuado para: exploración inicial de datos, actividades de aula, informes y presentaciones. C. Análisis de redes y circulación editorial Palladio https://hdlab.stanford.edu/palladio/ Palladio permite explorar relaciones entre entidades bibliográficas. A partir de los metadatos exportados, puede utilizarse para: analizar relaciones entre autores, ciudades y editoriales, reconstruir circuitos de publicación, visualizar redes de circulación intelectual. Es una herramienta particularmente pertinente para estudios de: historia del libro, historia intelectual, circulación atlántica y transnacional. D. Análisis textual de corpus (cuando hay archivos disponibles) Voyant Tools https://voyant-tools.org/ Cuando los registros incluyen archivos PDF o textos completos, los metadatos exportados desde Zotero pueden usarse para organizar corpus destinados al análisis textual. Voyant Tools permite: análisis léxico y de frecuencias, comparación entre autores, períodos o conjuntos de obras, exploración temática preliminar. Flujo de trabajo habitual: Zotero → selección de textos → corpus → Voyant. E. Visualización pública y divulgación Datawrapper https://www.datawrapper.de/ Datawrapper permite crear visualizaciones orientadas a la comunicación pública a partir de datos bibliográficos, tales como: mapas de ciudades de publicación, gráficos temporales, visualizaciones embebibles en sitios web o informes. Es especialmente útil para proyectos finales, actividades de divulgación o presentaciones públicas. F. Construcción de líneas de tiempo TimelineJS https://timeline.knightlab.com/ TimelineJS permite construir cronologías a partir de fechas contenidas en los metadatos. A partir del CSL JSON convertido, puede utilizarse para: crear líneas de tiempo editoriales, contextualizar obras en procesos históricos, vincular publicaciones con eventos intelectuales o políticos." />
+<meta property="og:description" content="Guía para la reutilización de metadatos de BibAV La exportación y reutilización de metadatos permite trabajar de manera autónoma y crítica con colecciones bibliográficas, sin depender exclusivamente de plataformas cerradas o interfaces predeterminadas. Esta guía describe cómo exportar metadatos desde Zotero en formato CSL JSON y propone distintas formas de reutilizarlos mediante herramientas de Humanidades Digitales de uso extendido. Está dirigida a docentes, investigadores y estudiantes con conocimientos intermedios o avanzados que deseen trabajar con datos bibliográficos de manera crítica y reproducible. 1. Exportación de metadatos desde Zotero (CSL JSON) Zotero permite exportar bibliotecas personales o grupales en distintos formatos. Para maximizar la interoperabilidad y la reutilización académica, se recomienda utilizar CSL JSON. Pasos: Haz click en el ícono de Zotero en el footer y pide acceso a la biblioteca BibAV, o crea una copia siguiendo los pasos de la guía para docentes Abre Zotero Desktop. Selecciona la biblioteca personal o grupal que se desea exportar. Ve al menú Archivo → Exportar biblioteca…. Elige el formato CSL JSON. Guarda el archivo en una ubicación conocida del equipo. El archivo resultante contiene, entre otros datos: autores y roles, títulos, fechas de publicación, editoriales e imprentas, lugares de publicación, identificadores, enlaces a archivos y repositorios. Este proceso no modifica la biblioteca original ni afecta el trabajo colaborativo en Zotero. 2. Reutilizaciones sugeridas a partir de CSL JSON El archivo CSL JSON funciona como un formato puente que permite múltiples reutilizaciones, con o sin programación, según los objetivos del curso o del proyecto. A. Limpieza, normalización y enriquecimiento de metadatos OpenRefine https://openrefine.org OpenRefine permite trabajar con grandes conjuntos de datos bibliográficos para: limpiar campos inconsistentes (fechas, nombres, lugares), detectar y resolver duplicados, normalizar valores repetidos (editoriales, ciudades), enriquecer registros mediante reconciliación con bases de autoridad. Para proyectos como BibAV, OpenRefine resulta especialmente útil para trabajar con: autorías, ciudades de publicación, editoriales e imprentas, fechas y ediciones. La reconciliación con Wikidata puede realizarse mediante: https://wikidata.reconci.link/ B. Visualización exploratoria sin programación RAWGraphs https://www.rawgraphs.io/ RAWGraphs permite generar visualizaciones exploratorias a partir de datos tabulares. El archivo CSL JSON puede convertirse previamente a CSV para: observar la distribución de publicaciones por década, analizar la concentración editorial, explorar la dispersión geográfica de las ediciones. Es especialmente adecuado para: exploración inicial de datos, actividades de aula, informes y presentaciones. C. Análisis de redes y circulación editorial Palladio https://hdlab.stanford.edu/palladio/ Palladio permite explorar relaciones entre entidades bibliográficas. A partir de los metadatos exportados, puede utilizarse para: analizar relaciones entre autores, ciudades y editoriales, reconstruir circuitos de publicación, visualizar redes de circulación intelectual. Es una herramienta particularmente pertinente para estudios de: historia del libro, historia intelectual, circulación atlántica y transnacional. D. Análisis textual de corpus (cuando hay archivos disponibles) Voyant Tools https://voyant-tools.org/ Cuando los registros incluyen archivos PDF o textos completos, los metadatos exportados desde Zotero pueden usarse para organizar corpus destinados al análisis textual. Voyant Tools permite: análisis léxico y de frecuencias, comparación entre autores, períodos o conjuntos de obras, exploración temática preliminar. Flujo de trabajo habitual: Zotero → selección de textos → corpus → Voyant. E. Visualización pública y divulgación Datawrapper https://www.datawrapper.de/ Datawrapper permite crear visualizaciones orientadas a la comunicación pública a partir de datos bibliográficos, tales como: mapas de ciudades de publicación, gráficos temporales, visualizaciones embebibles en sitios web o informes. Es especialmente útil para proyectos finales, actividades de divulgación o presentaciones públicas. F. Construcción de líneas de tiempo TimelineJS https://timeline.knightlab.com/ TimelineJS permite construir cronologías a partir de fechas contenidas en los metadatos. A partir del CSL JSON convertido, puede utilizarse para: crear líneas de tiempo editoriales, contextualizar obras en procesos históricos, vincular publicaciones con eventos intelectuales o políticos." />
+<meta property="og:site_name" content="Biblioteca Abierta Venezolana" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-01-18T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Reutilizando los metadatos" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","dateModified":"2026-01-18T00:00:00+00:00","datePublished":"2026-01-18T00:00:00+00:00","description":"Guía para la reutilización de metadatos de BibAV La exportación y reutilización de metadatos permite trabajar de manera autónoma y crítica con colecciones bibliográficas, sin depender exclusivamente de plataformas cerradas o interfaces predeterminadas. Esta guía describe cómo exportar metadatos desde Zotero en formato CSL JSON y propone distintas formas de reutilizarlos mediante herramientas de Humanidades Digitales de uso extendido. Está dirigida a docentes, investigadores y estudiantes con conocimientos intermedios o avanzados que deseen trabajar con datos bibliográficos de manera crítica y reproducible. 1. Exportación de metadatos desde Zotero (CSL JSON) Zotero permite exportar bibliotecas personales o grupales en distintos formatos. Para maximizar la interoperabilidad y la reutilización académica, se recomienda utilizar CSL JSON. Pasos: Haz click en el ícono de Zotero en el footer y pide acceso a la biblioteca BibAV, o crea una copia siguiendo los pasos de la guía para docentes Abre Zotero Desktop. Selecciona la biblioteca personal o grupal que se desea exportar. Ve al menú Archivo → Exportar biblioteca…. Elige el formato CSL JSON. Guarda el archivo en una ubicación conocida del equipo. El archivo resultante contiene, entre otros datos: autores y roles, títulos, fechas de publicación, editoriales e imprentas, lugares de publicación, identificadores, enlaces a archivos y repositorios. Este proceso no modifica la biblioteca original ni afecta el trabajo colaborativo en Zotero. 2. Reutilizaciones sugeridas a partir de CSL JSON El archivo CSL JSON funciona como un formato puente que permite múltiples reutilizaciones, con o sin programación, según los objetivos del curso o del proyecto. A. Limpieza, normalización y enriquecimiento de metadatos OpenRefine https://openrefine.org OpenRefine permite trabajar con grandes conjuntos de datos bibliográficos para: limpiar campos inconsistentes (fechas, nombres, lugares), detectar y resolver duplicados, normalizar valores repetidos (editoriales, ciudades), enriquecer registros mediante reconciliación con bases de autoridad. Para proyectos como BibAV, OpenRefine resulta especialmente útil para trabajar con: autorías, ciudades de publicación, editoriales e imprentas, fechas y ediciones. La reconciliación con Wikidata puede realizarse mediante: https://wikidata.reconci.link/ B. Visualización exploratoria sin programación RAWGraphs https://www.rawgraphs.io/ RAWGraphs permite generar visualizaciones exploratorias a partir de datos tabulares. El archivo CSL JSON puede convertirse previamente a CSV para: observar la distribución de publicaciones por década, analizar la concentración editorial, explorar la dispersión geográfica de las ediciones. Es especialmente adecuado para: exploración inicial de datos, actividades de aula, informes y presentaciones. C. Análisis de redes y circulación editorial Palladio https://hdlab.stanford.edu/palladio/ Palladio permite explorar relaciones entre entidades bibliográficas. A partir de los metadatos exportados, puede utilizarse para: analizar relaciones entre autores, ciudades y editoriales, reconstruir circuitos de publicación, visualizar redes de circulación intelectual. Es una herramienta particularmente pertinente para estudios de: historia del libro, historia intelectual, circulación atlántica y transnacional. D. Análisis textual de corpus (cuando hay archivos disponibles) Voyant Tools https://voyant-tools.org/ Cuando los registros incluyen archivos PDF o textos completos, los metadatos exportados desde Zotero pueden usarse para organizar corpus destinados al análisis textual. Voyant Tools permite: análisis léxico y de frecuencias, comparación entre autores, períodos o conjuntos de obras, exploración temática preliminar. Flujo de trabajo habitual: Zotero → selección de textos → corpus → Voyant. E. Visualización pública y divulgación Datawrapper https://www.datawrapper.de/ Datawrapper permite crear visualizaciones orientadas a la comunicación pública a partir de datos bibliográficos, tales como: mapas de ciudades de publicación, gráficos temporales, visualizaciones embebibles en sitios web o informes. Es especialmente útil para proyectos finales, actividades de divulgación o presentaciones públicas. F. Construcción de líneas de tiempo TimelineJS https://timeline.knightlab.com/ TimelineJS permite construir cronologías a partir de fechas contenidas en los metadatos. A partir del CSL JSON convertido, puede utilizarse para: crear líneas de tiempo editoriales, contextualizar obras en procesos históricos, vincular publicaciones con eventos intelectuales o políticos.","headline":"Reutilizando los metadatos","mainEntityOfPage":{"@type":"WebPage","@id":"/metadatos"},"url":"/metadatos"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+<body style="background: url('/assets/img/tema/pattern.png');">
+    <script>0</script>
+    <!--Nav Bar-->
+    <nav class="navBar">
+        <nav class="wrapper">
+            <div class="logo" >
+                <a href="/index.html"><img src="/assets/img/tema/logo.png" alt="MOREL" class="logo-img"></a>
+
+            </div>
+
+
+            <input type="checkbox" id="menu-toggle" />
+            <label for="menu-toggle" class="label-toggle"></label>
+            <ul>
+                <li><a href="/buscar"><i class="fa fa-search" aria-hidden="true"></i></a></li>
+                <li><a href="/agregar"><i class="fa fa-plus-circle" aria-hidden="true"></i></a></li>
+                <li><a href="/acercade"><i class="fa fa-question" aria-hidden="true"></i></a></li>
+                
+            </ul>
+        </nav>
+    </nav>
+        
+        <div class="main-container post-container">
+ <!--Obra del día-->
+    <div class="obra-dia">
+    <div class="post-cover" style="">
+      <div class="ficha-title">
+        <h1>
+          Reutilizando los metadatos
+        </h1>
+      </div> 
+    </div>
+    <div class="workarround">
+      
+    </div>
+    <div class="ficha-container sombra-solida blog" style="">
+      <div class="ficha-extract">
+        
+        <div class="blog-post">
+                  
+                  <h1 id="guía-para-la-reutilización-de-metadatos-de-bibav">Guía para la reutilización de metadatos de BibAV</h1>
+
+<p>La exportación y reutilización de metadatos permite trabajar de manera autónoma y crítica con colecciones bibliográficas, sin depender exclusivamente de plataformas cerradas o interfaces predeterminadas. Esta guía describe cómo exportar metadatos desde Zotero en formato <strong>CSL JSON</strong> y propone distintas formas de reutilizarlos mediante herramientas de Humanidades Digitales de uso extendido. Está dirigida a docentes, investigadores y estudiantes con conocimientos intermedios o avanzados que deseen trabajar con datos bibliográficos de manera crítica y reproducible.</p>
+
+<hr />
+
+<h2 id="1-exportación-de-metadatos-desde-zotero-csl-json">1. Exportación de metadatos desde Zotero (CSL JSON)</h2>
+
+<p>Zotero permite exportar bibliotecas personales o grupales en distintos formatos. Para maximizar la interoperabilidad y la reutilización académica, se recomienda utilizar <strong>CSL JSON</strong>.</p>
+
+<p><strong>Pasos:</strong></p>
+
+<ul>
+  <li>Haz click en el ícono de Zotero en el footer y pide acceso a la biblioteca BibAV, o crea una copia siguiendo los pasos de la <a href="/copia-docente">guía para docentes</a></li>
+  <li>Abre <strong>Zotero Desktop</strong>.</li>
+  <li>Selecciona la biblioteca personal o grupal que se desea exportar.</li>
+  <li>Ve al menú <code class="language-plaintext highlighter-rouge">Archivo → Exportar biblioteca…</code>.</li>
+  <li>Elige el formato <strong>CSL JSON</strong>.</li>
+  <li>Guarda el archivo en una ubicación conocida del equipo.</li>
+</ul>
+
+<p>El archivo resultante contiene, entre otros datos:</p>
+<ul>
+  <li>autores y roles,</li>
+  <li>títulos,</li>
+  <li>fechas de publicación,</li>
+  <li>editoriales e imprentas,</li>
+  <li>lugares de publicación,</li>
+  <li>identificadores,</li>
+  <li>enlaces a archivos y repositorios.</li>
+</ul>
+
+<p>Este proceso no modifica la biblioteca original ni afecta el trabajo colaborativo en Zotero.</p>
+
+<hr />
+
+<h2 id="2-reutilizaciones-sugeridas-a-partir-de-csl-json">2. Reutilizaciones sugeridas a partir de CSL JSON</h2>
+
+<p>El archivo CSL JSON funciona como un <strong>formato puente</strong> que permite múltiples reutilizaciones, con o sin programación, según los objetivos del curso o del proyecto.</p>
+
+<h3 id="a-limpieza-normalización-y-enriquecimiento-de-metadatos">A. Limpieza, normalización y enriquecimiento de metadatos</h3>
+
+<p><strong>OpenRefine</strong><br />
+https://openrefine.org</p>
+
+<p>OpenRefine permite trabajar con grandes conjuntos de datos bibliográficos para:</p>
+
+<ul>
+  <li>limpiar campos inconsistentes (fechas, nombres, lugares),</li>
+  <li>detectar y resolver duplicados,</li>
+  <li>normalizar valores repetidos (editoriales, ciudades),</li>
+  <li>enriquecer registros mediante reconciliación con bases de autoridad.</li>
+</ul>
+
+<p>Para proyectos como BibAV, OpenRefine resulta especialmente útil para trabajar con:</p>
+<ul>
+  <li>autorías,</li>
+  <li>ciudades de publicación,</li>
+  <li>editoriales e imprentas,</li>
+  <li>fechas y ediciones.</li>
+</ul>
+
+<p>La reconciliación con Wikidata puede realizarse mediante:<br />
+https://wikidata.reconci.link/</p>
+
+<hr />
+
+<h3 id="b-visualización-exploratoria-sin-programación">B. Visualización exploratoria sin programación</h3>
+
+<p><strong>RAWGraphs</strong><br />
+https://www.rawgraphs.io/</p>
+
+<p>RAWGraphs permite generar visualizaciones exploratorias a partir de datos tabulares. El archivo CSL JSON puede convertirse previamente a CSV para:</p>
+
+<ul>
+  <li>observar la distribución de publicaciones por década,</li>
+  <li>analizar la concentración editorial,</li>
+  <li>explorar la dispersión geográfica de las ediciones.</li>
+</ul>
+
+<p>Es especialmente adecuado para:</p>
+<ul>
+  <li>exploración inicial de datos,</li>
+  <li>actividades de aula,</li>
+  <li>informes y presentaciones.</li>
+</ul>
+
+<hr />
+
+<h3 id="c-análisis-de-redes-y-circulación-editorial">C. Análisis de redes y circulación editorial</h3>
+
+<p><strong>Palladio</strong><br />
+https://hdlab.stanford.edu/palladio/</p>
+
+<p>Palladio permite explorar relaciones entre entidades bibliográficas. A partir de los metadatos exportados, puede utilizarse para:</p>
+
+<ul>
+  <li>analizar relaciones entre autores, ciudades y editoriales,</li>
+  <li>reconstruir circuitos de publicación,</li>
+  <li>visualizar redes de circulación intelectual.</li>
+</ul>
+
+<p>Es una herramienta particularmente pertinente para estudios de:</p>
+<ul>
+  <li>historia del libro,</li>
+  <li>historia intelectual,</li>
+  <li>circulación atlántica y transnacional.</li>
+</ul>
+
+<hr />
+
+<h3 id="d-análisis-textual-de-corpus-cuando-hay-archivos-disponibles">D. Análisis textual de corpus (cuando hay archivos disponibles)</h3>
+
+<p><strong>Voyant Tools</strong><br />
+https://voyant-tools.org/</p>
+
+<p>Cuando los registros incluyen archivos PDF o textos completos, los metadatos exportados desde Zotero pueden usarse para organizar corpus destinados al análisis textual. Voyant Tools permite:</p>
+
+<ul>
+  <li>análisis léxico y de frecuencias,</li>
+  <li>comparación entre autores, períodos o conjuntos de obras,</li>
+  <li>exploración temática preliminar.</li>
+</ul>
+
+<p>Flujo de trabajo habitual:</p>
+<ul>
+  <li>Zotero → selección de textos → corpus → Voyant.</li>
+</ul>
+
+<hr />
+
+<h3 id="e-visualización-pública-y-divulgación">E. Visualización pública y divulgación</h3>
+
+<p><strong>Datawrapper</strong><br />
+https://www.datawrapper.de/</p>
+
+<p>Datawrapper permite crear visualizaciones orientadas a la comunicación pública a partir de datos bibliográficos, tales como:</p>
+
+<ul>
+  <li>mapas de ciudades de publicación,</li>
+  <li>gráficos temporales,</li>
+  <li>visualizaciones embebibles en sitios web o informes.</li>
+</ul>
+
+<p>Es especialmente útil para proyectos finales, actividades de divulgación o presentaciones públicas.</p>
+
+<hr />
+
+<h3 id="f-construcción-de-líneas-de-tiempo">F. Construcción de líneas de tiempo</h3>
+
+<p><strong>TimelineJS</strong><br />
+https://timeline.knightlab.com/</p>
+
+<p>TimelineJS permite construir cronologías a partir de fechas contenidas en los metadatos. A partir del CSL JSON convertido, puede utilizarse para:</p>
+
+<ul>
+  <li>crear líneas de tiempo editoriales,</li>
+  <li>contextualizar obras en procesos históricos,</li>
+  <li>vincular publicaciones con eventos intelectuales o políticos.</li>
+</ul>
+
+
+
+        </div>
+      </div>
+      
+      <!-- <div class="ficha-metadata">
+        Aired on <span class="metadata-input">18 Jan 2026</span> // Available on <span class="metadata-input">Youtube</span> and <span class="metadata-input">Spotify</span>.
+      </div>-->
+      
+      
+    </div>
+   
+                
+  </div>
+</div>
+ 
+</body>
+</html>
