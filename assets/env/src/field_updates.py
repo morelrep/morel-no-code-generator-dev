@@ -6,5 +6,6 @@ with open('assets/data/books_zotero.csv','r') as file:
     filedata = filedata.replace('Library Catalog','Library')
     filedata = filedata.replace('Call Number','Call_Number')
     filedata = filedata.replace('Archive Location','Archive_Location')
+    filedata = filedata.replace('Manual Tags','Tags')
 with open('assets/data/books_zotero.csv','w') as file:
     file.write(filedata)

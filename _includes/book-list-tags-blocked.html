@@ -1,0 +1,24 @@
+  <!--lista 1 -->
+        <div class="row">
+            <!--LOOP DE LISTA 1, idioma venezolano-->
+            {% for book in site.data.books %}
+            {% if book.Tags contains "blocked" and book.Tags contains tag %}
+            {% include book-list-base.html %}
+            {% endif %}
+            {% endfor %}
+            <div class="basis masobras">
+                <div class="container">
+                    <label for="listas"><img src="{{ site.BASE_PATH }}/assets/img/tema/+obras.png" class="image sombra"></label>
+                    <div>
+{% comment %}                        {% if site.lang == "es" %}
+                        {% assign target = tag %}
+                        {% include ver-mas.html %}
+                        {% else %}
+                        {% assign target = "spanish" %}
+                        {% include see-more.html %}
+                        {% endif %}
+                        {% endif %}{% endcomment %}
+                    </div> 
+                </div>
+            </div>
+        </div>

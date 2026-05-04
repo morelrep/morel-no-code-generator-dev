@@ -7,19 +7,32 @@ layout: default
         <!--Búsqueda-->
         <a href="buscar"><div class="search-index"><i class="fa fa-search" aria-hidden="true" class="search-index"></i></div></a>
         
-                <!-- One random book -->
+       
+        
+        <!--- ventana presentación -->
         <div class="row obras obra-suerte">
-            <h2 class="index">{% if site.lang == "es" %}Obra del día{% else %}One book by chance{% endif %}</h2>
+            <h2 class="index">Ventana al idioma venezolano</h2>
         </div>
-        
-        {% include obra-dia.html %}
-        
+        {% assign tema = "idioma-venezolano" %}
+        {% include ventana-presentacion.html %}
+
+        <!--ventana lista -->
+        {% assign tag = "idioma-venezolano" %}
+        {% include book-list-tags-index.html %}
+
+        <!-- Criterios de búsqueda -->
         <div class="row obras">
         <h2 class="index">Listas dinámicas por:</h2>
         </div>
         {% include criterios.html %}
+
+         <!-- Obra del día -->
+        <div class="row obras obra-suerte">
+            <h2 class="index">{% if site.lang == "es" %}Obra del día{% else %}One book by chance{% endif %}</h2>
+        </div>
+       {% include obra-dia.html %}   
        
-        <!-- Presentación del proyecto -->
+        <!-- Presentación del MOREL (se desactiva al cambiar el título de la página ) -->
         {% include project-presentation.html %}
 
 

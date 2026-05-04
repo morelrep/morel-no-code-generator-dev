@@ -1,0 +1,46 @@
+<!-- presentación-->
+ <!-- definir en el index, con "assign": tag, tema y presentacion -->
+ {% for v in site.ventanas %}
+            {% if v.tag == tema %}
+<div class="obra-dia sombra">
+    <div class="ficha-container" style="">
+       
+        <div class="ficha-title">
+            <h2>
+                {% assign ventana_size = site.data.books | where_exp: "book", "book.Tags contains v.tag"%}
+                {{ ventana_size | size }} obras sobre {{ v.tema }}
+                    <a class="morel a2a_dd" href="https://www.addtoany.com/share">
+                    <i class="fa fa-share-alt" style="padding: 0em 0em;">
+                        <script async src="https://static.addtoany.com/menu/page.js"></script>
+                    </i></a><br>
+            </h2>
+         
+
+        </div>
+        <div class="ficha-extract" style="">
+            <p class="morel">
+                {{ v.content }}
+            </p>
+        </div>
+         {% endif %}
+{% endfor %}
+        <div class="ficha-metadata">
+            {% include book-metadata.html %}
+        </div>
+    </div>
+    <div class="portada" style="">
+       <figure class="img-frame">
+        <a href="{{BASE_PATH}}/{{ v.tag }}">
+                        {% include img-slide.html %}
+        </a>
+                    <div class="actions-h">
+                        {% if site.zot-item %}
+                        <a class="morel" href="{{ site.zot-item }}{{page.key}}" target="_blank"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                        {% endif %}
+                    </div>
+        </figure>
+    </div>
+    <div class="actions-v">
+    {% include actions-v.html %}
+    </div>
+</div>

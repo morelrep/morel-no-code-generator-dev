@@ -1,3 +1,3 @@
 ---
-title: Tipografía Americana
+title: Tipografía americana
 ---

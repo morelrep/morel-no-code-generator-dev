@@ -17,7 +17,7 @@ lang: es
 biba: true # Set to true if you want to enable Biblioteca Abierta features
 # If you want to change the name of the repo, update the BASE_PATH name. Also, if you are going to use the MOREL repo as your main github page (e.g. `myuser.github.io`) comment this line
 BASE_PATH:
-
+gofundme: https://www.gofundme.com/f/ayuda-a-desbloquear-estos-materiales # Set to your gofundme campaign if you have one
 # ADD AN X OR DELETE IT AND COMMIT IN ORDER TO UPDATE YOUR SITE
 
 UPDATE: X
@@ -54,6 +54,8 @@ collections:
     output: true
     permalink: /criteria/:name
   abouts:
+    output: true
+  ventanas:
     output: true
 
 defaults:

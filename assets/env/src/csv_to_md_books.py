@@ -16,6 +16,7 @@ for book in books:
     author_raw = book[3]
     title_raw = book[4]
     unique_id = book[0]
+    tags = book[39].replace('; ', ', ') 
     
     # creating the different components of the url for the main author
     authors_array = author_raw.split("; ")
@@ -46,6 +47,6 @@ for book in books:
     file_name = f'_books/{url}.md'	
 
     with open(file_name, 'w', encoding="utf-8") as f:
-        f.write(f'---\ntitle: "{title_raw_str}"\nkey: "{unique_id}"\nauthor: {author_raw}\n---\n{xcrpt}')
+        f.write(f'---\ntitle: "{title_raw_str}"\nkey: "{unique_id}"\nauthor: {author_raw}\ntags: [{tags}]\n---\n{xcrpt}')
         f.close()
     print(f'{file_name} saved')

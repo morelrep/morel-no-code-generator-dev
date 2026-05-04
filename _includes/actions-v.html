@@ -17,5 +17,10 @@
     {%if site.zot-item %}
     <label for="edit" class="morel"><i class="fa fa-pencil" aria-hidden="true"></i></label>
     {% endif %}
+    <br>
+    <br>
+    {% if page.tags contains target_tag %}
+                        <a class="morel" href="{{site.gofundme}}" target="_blank"><i class="fa fa-exclamation-triangle" aria-hidden="true" style="font-size: 1.6rem;"></i></a>
+    {% endif %}
 {% endif %}
 {% endfor %}
