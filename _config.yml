@@ -1,20 +1,20 @@
-title: Biblioteca Abierta Venezolana # Write here the name of your site
+title: Black Latin American Writers in Translation # Write here the name of your site
 tagline: Descargas gratuitas en formato facsimilar y metadatos bibliográficos venezolanos # Write here your site tagline
 img: logo.png # Add a file with your site's logo on /assets/img/tema
 background: pattern.png # Add a file with your site's pattern on /assets/img/tema
 image : avatar.png  # Add a file with a copy of your site's avatar on /assets/img/tema
-email : proyectomorel@gmail.com
-github : morelrep/BibAV
+email : alawitsongoro@gmail.com
+github : blawit-nd
 twitter :
 instagram:
 podcast: # Set to true if you want to enable podcast or blog support
 jotform: https://form.jotform.com/211904785426056
 bsky: 
 mastodon:
-zot-group: 6350646/bibav/collections/XV92RCHB/collection
+zot-group: 5948299/alawit/collections/5WFCA4FT/collection
 zot-item: https://www.zotero.org/groups/6350646/bibav/collections/XV92RCHB/items/
-lang: es
-biba: true # Set to true if you want to enable Biblioteca Abierta features
+lang: en
+biba: false # Set to true if you want to enable Biblioteca Abierta features
 # If you want to change the name of the repo, update the BASE_PATH name. Also, if you are going to use the MOREL repo as your main github page (e.g. `myuser.github.io`) comment this line
 BASE_PATH:
 gofundme: https://www.gofundme.com/f/ayuda-a-desbloquear-estos-materiales # Set to your gofundme campaign if you have one
