@@ -1,0 +1,42 @@
+{
+  "name": "morel-v3",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.1.2",
+  "scripts": {
+    "dev": "pnpm --filter @morel/web dev",
+    "dev:worker": "pnpm --filter @morel/github-auth-worker dev",
+
+    "build": "pnpm -r build",
+    "build:app": "pnpm --filter @morel/web build",
+    "build:worker": "pnpm --filter @morel/github-auth-worker build",
+
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint . && pnpm -r lint",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "pnpm -r test",
+
+    "clean": "pnpm -r clean",
+    "check": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test && pnpm run build",
+    "check:outdated": "tsx scripts/check-outdated-series-fast.ts",
+    "md:format": "mdformat --number --compact-tables --no-validate .",
+    "md:check": "mdformat --number --compact-tables --no-validate --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "globals": "catalog:",
+    "tsx": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "typescript-eslint": "catalog:"
+  },
+  "engines": {
+    "node": ">=24.15.0",
+    "pnpm": ">=11.1.2"
+  }
+}

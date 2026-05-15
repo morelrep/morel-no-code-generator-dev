@@ -1,0 +1,20 @@
+.snyk
+.tmp
+**/.git
+**/.hg
+**/.pnp.*
+**/.svn
+**/.yarn/**
+**/build
+**/dist/**
+**/node_modules
+**/temp
+**/docs/**
+tsconfig.json
+
+# Markdown is formatted by mdformat (see `pnpm md:format`)
+*.md
+*.mdx
+**/*.md
+**/*.mdx
+

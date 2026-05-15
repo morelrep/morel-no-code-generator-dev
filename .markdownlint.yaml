@@ -1,0 +1,9 @@
+# mdformat pads empty table cells (|  |  |) — disable conflicting rule
+MD060: false
+
+# Allow duplicate headings under different parent sections (e.g. "Examples" in multiple topics)
+MD024:
+  siblings_only: true
+
+# Disable line-length limit — code blocks and tables often exceed 80 chars
+MD013: false

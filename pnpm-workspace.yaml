@@ -1,0 +1,48 @@
+packages:
+- 'apps/*'
+- 'workers/*'
+
+catalog:
+  # App
+  react: "^19.2.6"
+  react-dom: "^19.2.6"
+  "@types/react": "^19.2.14"
+  "@types/react-dom": "^19.2.3"
+  "@types/node": "^24.12.4"
+  "@vitejs/plugin-react": "^6.0.1"
+  vite: "^8.0.12"
+  "@tanstack/react-query": "^5.100.9"
+  "@tanstack/react-router": "^1.169.1"
+  "@octokit/rest": "^22.0.1"
+  # Worker
+  hono: "^4.12.18"
+  wrangler: "~4.90.1"
+  # Shared
+  zod: "^4.4.3"
+  typescript: "~6.0.3"
+  tsx: "^4.21.0"
+  # Linting
+  eslint: "^10.3.0"
+  "@eslint/js": "^10.0.1"
+  eslint-plugin-react-hooks: "^7.1.1"
+  eslint-plugin-react-refresh: "^0.5.2"
+  globals: "^17.6.0"
+  typescript-eslint: "^8.59.3"
+  prettier: "^3.8.3"
+  # UI
+  tailwindcss: "^4.3.0"
+  "@tailwindcss/vite": "^4.3.0"
+  "class-variance-authority": "^0.7.1"
+  "clsx": "^2.1.1"
+  "tailwind-merge": "^3.6.0"
+  "lucide-react": "^1.14.0"
+
+allowBuilds:
+  esbuild: true
+  sharp: true
+  workerd: true
+blockExoticSubdeps: true
+enablePrePostScripts: true
+minimumReleaseAge: 2880
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 262980

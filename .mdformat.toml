@@ -1,0 +1,11 @@
+# Markdown formatter configuration
+# Docs: https://mdformat.readthedocs.io/en/stable/users/configuration_file.html
+
+wrap = "keep"
+number = true
+end_of_line = "lf"
+
+exclude = ["**/node_modules/**", "**/.next/**", "**/older-code/**"]
+
+[plugin.tables]
+compact_tables = true

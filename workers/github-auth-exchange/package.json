@@ -1,0 +1,21 @@
+{
+  "name": "@morel/github-auth-worker",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "hono": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "wrangler": "catalog:"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "build": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo \"lint not configured yet\"",
+    "test": "echo \"tests not configured yet\"",
+    "clean": "rm -rf dist .wrangler"
+  }
+}
