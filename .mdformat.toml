@@ -5,7 +5,7 @@ wrap = "keep"
 number = true
 end_of_line = "lf"
 
-exclude = ["**/node_modules/**", "**/.next/**", "**/older-code/**"]
+exclude = ["**/node_modules/**", "**/.next/**", "**/00-older-code/**"]
 
 [plugin.tables]
 compact_tables = true
