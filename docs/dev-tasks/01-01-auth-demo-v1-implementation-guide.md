@@ -585,12 +585,31 @@ ______________________________________________________________________
 
 ### Phase 4 — Acceptance Criteria
 
-- [ ] `pnpm typecheck` passes
-- [ ] `pnpm dev` starts and renders the Settings page with the `ConnectGitHub` card
-- [ ] Tabs show PAT (enabled), OAuth App (disabled), GitHub App (disabled)
-- [ ] Entering an invalid token shows an inline error in the `Alert`
-- [ ] Console shows grouped `[auth]` logs for every step
-- [ ] No tokens are visible in the console output
+- [x] `pnpm run typecheck` passes
+- [x] `/` renders the auth demo instead of the old `Morel` placeholder
+- [x] `/settings/security` renders the same auth demo through the shared `AuthDemo` wrapper
+- [x] Tabs show PAT (enabled), OAuth App (disabled), GitHub App (disabled)
+- [x] Entering an invalid token shows an inline error in the `Alert` before any GitHub request
+- [x] Console shows grouped `[auth]` logs for the PAT flow in dev builds
+- [x] Tokens are not logged; logs only include the token type, request step, user, scopes, and error summaries
+
+### Phase 4 — Implementation Report
+
+Implemented files:
+
+- `src/features/auth/types/githubAuth.types.ts` defines the auth method, status, user, and state shapes.
+- `src/features/auth/schemas/githubAuth.schema.ts` validates fine-grained PATs and the displayed `GET /user` response shape.
+- `src/features/auth/crypto/random.ts` and `src/features/auth/crypto/pkce.ts` scaffold PKCE helpers for later OAuth phases.
+- `src/features/auth/lib/authLogger.ts` provides dev-only grouped console logging with production no-ops.
+- `src/features/auth/components/ConnectGitHub.tsx` renders the PAT form and disabled future-method tabs.
+- `src/features/auth/components/AuthStatus.tsx` renders connected, connecting, and failed states.
+- `src/features/auth/components/AuthDemo.tsx` wraps the hook and components so both app routes can show the same demo.
+- `src/features/auth/index.ts` exports the feature API.
+- `src/lib/utils.ts` provides the `cn()` helper required by generated shadcn/ui components.
+- `src/routes/index.tsx` now renders the auth demo on the home page.
+- `src/routes/settings.security.tsx` renders the same auth demo on the settings route.
+
+Generated shadcn/ui primitives in `src/components/ui/` were not edited. Tooling was adjusted outside that folder so generated files can keep their upstream export shape.
 
 ______________________________________________________________________
 
@@ -743,14 +762,186 @@ ______________________________________________________________________
 
 ______________________________________________________________________
 
+### 5.7 Write-pipeline smoke test
+
+After `GET /user` succeeds, the `AuthStatus` card is followed by a **Write Access Test** card. Clicking **"Test Write Access"** runs a four-step pipeline that proves the token can do what MOREL needs for US-3 (create project repo + install caller workflow):
+
+1. **Create repo** — `POST /user/repos` creates a private `morel-test-<timestamp>` repo
+2. **Write file** — `PUT /repos/{owner}/{repo}/contents/README.md` writes a test file
+3. **Verify file** — `GET /repos/{owner}/{repo}/contents/README.md` reads it back
+4. **Delete repo** — `DELETE /repos/{owner}/{repo}` cleans up
+
+Each step shows live status (pending → running → done/failed) in the `WriteTestCard`. On success, the card shows the commit SHA and notes the repo was deleted. On failure, it shows which step failed and the error message.
+
+#### 5.7.1 Types
+
+Add to `src/features/auth/types/githubAuth.types.ts`:
+
+```ts
+export type WriteTestStatus = "idle" | "running" | "passed" | "failed";
+
+export interface WriteTestStep {
+  label: string;
+  status: "pending" | "running" | "done" | "failed";
+  detail?: string;
+}
+
+export interface WriteTestResult {
+  status: WriteTestStatus;
+  repoName: string | null;
+  repoUrl: string | null;
+  commitSha: string | null;
+  fileUrl: string | null;
+  error: string | null;
+  steps: WriteTestStep[];
+}
+```
+
+#### 5.7.2 Hook: `useWriteTest`
+
+Create `src/features/auth/hooks/useWriteTest.ts`. The hook takes the raw token (only when connected), creates its own Octokit instance, and runs the four-step pipeline. Each step updates React state and logs through `authLogger`.
+
+Key design decisions:
+
+- The token is **not** passed as a React prop to any rendered component — only `useWriteTest` holds it internally.
+- The repo name includes `Date.now()` to avoid collisions.
+- The repo is always private to avoid polluting the user's public profile.
+- The delete step runs even if verify fails (best-effort cleanup).
+
+#### 5.7.3 Component: `WriteTestCard`
+
+Create `src/features/auth/components/WriteTestCard.tsx`. Renders in four states:
+
+| State | UI |
+| -- | -- |
+| `idle` | Description text + "Test Write Access" button |
+| `running` | Step list with live status icons (○ pending, ◌ running, ✓ done, ✗ failed) |
+| `passed` | All steps green + commit SHA + "(deleted)" repo URL + "Dismiss" button |
+| `failed` | Failed step highlighted red + error message + "Dismiss" button |
+
+#### 5.7.4 Wire into `AuthDemo`
+
+`AuthDemo.tsx` gains `useWriteTest` and renders `WriteTestCard` between `AuthStatus` and `ConnectGitHub` (only when connected).
+
+#### 5.7.5 Expose `token` from `useGitHubAuth`
+
+The write test hook needs the raw token to create its own Octokit instance. The hook's return value gains:
+
+```ts
+token: state.status === "connected" ? lastTokenRef.current : null,
+```
+
+The token stays in memory only — never rendered, never logged, never stored in the DOM.
+
+#### 5.7.6 Console log output
+
+The test produces grouped `[auth]` logs:
+
+| Step | Level | Example output |
+| -- | -- | -- |
+| Start | `group` | `[auth] Write-pipeline test` |
+| Create repo | `info` | `POST /user/repos (morel-test-1747311234567) ...` |
+| Repo created | `info` | `Repo created: https://github.com/user/morel-test-...` |
+| Write file | `info` | `PUT /repos/user/morel-test-.../contents/README.md ...` |
+| File written | `info` | `File written: commit abc1234, <url>` |
+| Verify | `debug` | `GET /repos/user/morel-test-.../contents/README.md ...` |
+| Verified | `info` | `File verified via GET` |
+| Delete repo | `info` | `DELETE /repos/user/morel-test-... ...` |
+| Done | `info` | `Write-pipeline test passed — repo cleaned up` |
+| End | `groupEnd` | *(closes group)* |
+
+#### 5.7.7 Required PAT permissions
+
+The fine-grained PAT must have these permissions for the write test to pass:
+
+| Permission | Level | Reason |
+| -- | -- | -- |
+| Administration | Read and write | `DELETE /repos/{owner}/{repo}` (cleanup) |
+| Contents | Read and write | `PUT /repos/{owner}/{repo}/contents/{path}` (write file) |
+
+Without these, `GET /user` passes but the write test fails with `403` — exactly the kind of permission gap this test is designed to catch.
+
+#### 5.7.8 Manual testing procedure (write test)
+
+1. Generate a fine-grained PAT at <https://github.com/settings/personal-access-tokens/new>
+   - Name: `morel-dev-write-test`
+   - Expiration: 7 days
+   - Repository access: **All repositories** (needed for repo creation/deletion)
+   - Permissions: **Administration: Read and write**, **Contents: Read and write**
+2. Run `pnpm dev`
+3. Navigate to `/` or `/settings/security`
+4. Paste the token → click **Connect** → verify `AuthStatus` shows your profile
+5. Click **"Test Write Access"**
+6. Verify:
+   - Steps progress from pending → running → done
+   - Final state shows "Passed" badge, commit SHA, and "(deleted)" repo URL
+   - Console shows `[auth] Write-pipeline test` group with all steps
+   - No `morel-test-*` repo remains in your GitHub account
+7. Test with a PAT that has **no** Administration permission → should fail at step 4 (delete) or show 403 at step 1
+8. Test with a PAT that has **no** Contents permission → should fail at step 2 (write)
+
+______________________________________________________________________
+
 ### Phase 5 — Acceptance Criteria
 
-- [ ] Valid fine-grained PAT → user avatar + username shown in `AuthStatus`
-- [ ] Invalid format → inline error before any network call
-- [ ] Revoked token → 401 error message shown
-- [ ] Network offline → user-friendly error
-- [ ] Retry button re-attempts the last token
-- [ ] Console logs every step grouped under `[auth] PAT flow`
-- [ ] Token value never appears in console output
-- [ ] `pnpm typecheck` passes
-- [ ] `pnpm lint` passes
+- [x] Valid fine-grained PAT path implemented: Octokit calls `GET /user` and stores the parsed user in `AuthStatus`
+- [x] Invalid format path implemented: Zod rejects non-matching tokens before any network call
+- [x] Revoked-token path implemented: GitHub `401` maps to "Token is invalid or revoked"
+- [x] Forbidden-token path implemented: GitHub `403` maps to "Token lacks required permissions"
+- [x] Network-failure path implemented: fetch/network failures map to "Cannot reach GitHub - check your connection"
+- [x] Unexpected-response path implemented: invalid `GET /user` data maps to "Unexpected response from GitHub"
+- [x] Retry button re-attempts the last submitted token
+- [x] Fine-grained PATs display a "Fine-grained PAT" badge when OAuth scopes are absent
+- [x] Console logs every step grouped under `[auth] PAT flow`
+- [x] Token value never appears in console output
+- [x] "Test Write Access" button appears after successful PAT connection
+- [x] Write test creates a private `morel-test-<timestamp>` repo via `POST /user/repos`
+- [x] Write test writes `README.md` via `PUT /repos/.../contents/README.md`
+- [x] Write test reads back the file via `GET /repos/.../contents/README.md`
+- [x] Write test defers deletion — shows "Delete Test Repo" button for manual cleanup
+- [x] Deletion triggers on button click, on disconnect, or on page close (best-effort `beforeunload`)
+- [x] Each step shows live status (pending → running → done/failed) in the `WriteTestCard`
+- [x] Passed state shows commit SHA and live repo URL (clickable link)
+- [x] After deletion, repo URL shows "(deleted)" and "Dismiss" button appears
+- [x] Failed state shows which step failed and the error message
+- [x] Console logs every step grouped under `[auth] Write-pipeline test`
+- [x] Cleanup logs grouped under `[auth] Write-pipeline cleanup`
+- [x] 403 on repo creation surfaces a clear error guiding the user to add permissions
+- [x] Token is never passed as a prop to rendering components; only `useWriteTest` holds it
+- [x] Reconnecting after disconnect starts with clean write-test state (no stale results)
+- [x] All Octokit instances use `X-GitHub-Api-Version: 2026-03-10`
+- [x] `pnpm run typecheck` passes
+- [x] `pnpm run lint` passes
+- [x] `pnpm --filter @morel/web build` passes
+- [ ] Manual live-token verification with valid, revoked, and offline scenarios
+- [ ] Manual write-test verification with correct permissions, missing permissions, and cleanup
+
+### Phase 5 — Implementation Report
+
+The PAT flow is complete at code level. `useGitHubAuth.connectWithPat()` trims and stores the last submitted token for retry, validates the fine-grained PAT shape, logs "Token received (type: bearer)" without printing the token, then verifies the credential through Octokit `rest.users.getAuthenticated()`. Successful responses update the auth state with avatar, login, display name, method, and scopes. Error handling distinguishes GitHub status errors, network errors, and unexpected response shapes. All Octokit instances use `X-GitHub-Api-Version: 2026-03-10` to target the current GitHub API version and avoid deprecation warnings.
+
+The write-pipeline smoke test (`useWriteTest` hook + `WriteTestCard` component) runs a three-step create → write → verify cycle against a throwaway private repo, then **defers deletion** so the user can inspect the repo on GitHub. Cleanup is triggered by:
+
+1. The **"Delete Test Repo"** button (manual)
+2. The **Disconnect** action (`handleDisconnect` calls `cleanup()` then `reset()`)
+3. The **`beforeunload`** event (best-effort `fetch` with `keepalive: true`)
+
+Implemented files (write-test additions to Phase 4's base):
+
+- `src/features/auth/types/githubAuth.types.ts` — added `WriteTestStatus`, `WriteTestStep`, and `WriteTestResult` types. `WriteTestResult` includes `owner` so `needsCleanup` is derived from a single state object without race conditions.
+- `src/features/auth/hooks/useWriteTest.ts` — new hook that runs the pipeline. Uses a single `Date` timestamp captured at test start for the repo name (`morel-test-YYYY-MM-DD-HH-MM-SS`), repo description, file content, and commit message. Deletion is exposed as a separate `cleanup()` callback. A `beforeunload` handler fires `fireAndForgetDelete()` (raw `fetch` with `keepalive`) for best-effort cleanup on page close. Refs are synced via `useEffect` to satisfy strict `react-hooks/refs` lint rules.
+- `src/features/auth/components/WriteTestCard.tsx` — renders idle/running/passed/failed states with step-by-step progress. Shows a clickable repo URL while the repo exists, a red "Delete Test Repo" button when `needsCleanup` is true, and a "Dismiss" button after deletion. Uses existing shadcn components only: `Card`, `Badge`, `Button`, `Separator`.
+- `src/features/auth/hooks/useGitHubAuth.ts` — added `token` to state (via `useState`, not ref read during render). Token is set on successful verification and cleared on disconnect.
+- `src/features/auth/components/AuthDemo.tsx` — wires `useWriteTest` with the auth token and renders `WriteTestCard` between `AuthStatus` and `ConnectGitHub` (only when connected). `handleDisconnect` calls `cleanup()` + `reset()` before `disconnect()` so reconnecting starts fresh.
+- `src/features/auth/index.ts` — exports `WriteTestCard`, `useWriteTest`, `WriteTestResult`, and `WriteTestStep`.
+
+Design decisions:
+
+- Token is tracked in React state (`useState`) rather than read from `useRef` during render. This avoids the `react-hooks/refs` lint error while keeping the same behavior. The ref is still used internally for retry logic.
+- The write test hook receives the token as a parameter (not a ref) and creates its own `Octokit` instance internally. The token is never passed as a prop to any component that renders DOM.
+- The test repo is always private to avoid polluting the user's public GitHub profile.
+- `owner` lives inside `WriteTestResult` (not in a separate state) so that `needsCleanup` is derived from a single state object — eliminating the race condition that occurred when `owner` and `result.status` were in separate `useState` calls.
+- `beforeunload` cleanup uses raw `fetch` with `keepalive: true` because Octokit's async flow cannot complete after the page unloads. This is best-effort — if it fails, the user can delete the repo manually from GitHub.
+- All GitHub API calls specify `X-GitHub-Api-Version: 2026-03-10` (released March 2026). The previous default (`2022-11-28`) is deprecated with a sunset date of March 2028. No breaking changes in `2026-03-10` affect our usage.
+
+Static verification passed: `pnpm run typecheck`, `pnpm run lint`, and `pnpm --filter @morel/web build` all succeed. Manual acceptance still requires a real fine-grained PAT with Administration + Contents permissions and a local browser session.

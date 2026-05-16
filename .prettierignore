@@ -11,6 +11,7 @@
 **/node_modules
 **/temp
 **/docs/**
+apps/web/src/components/ui/
 tsconfig.json
 
 # Markdown is formatted by mdformat (see `pnpm md:format`)
@@ -18,4 +19,3 @@ tsconfig.json
 *.mdx
 **/*.md
 **/*.mdx
-
