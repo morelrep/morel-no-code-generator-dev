@@ -1,3 +1,0 @@
----
-title: Méndez, Pedro Briceño
----

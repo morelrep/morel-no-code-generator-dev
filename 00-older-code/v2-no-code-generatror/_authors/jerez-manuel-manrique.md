@@ -1,3 +1,0 @@
----
-title: Jérez, Manuel Manrique
----

@@ -1,3 +1,0 @@
----
-title: Febres Cordero, Tulio
----

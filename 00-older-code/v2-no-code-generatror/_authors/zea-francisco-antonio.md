@@ -1,3 +1,0 @@
----
-title: Zea, Francisco Antonio
----

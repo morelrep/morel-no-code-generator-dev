@@ -1,6 +1,0 @@
----
-title: "Diccionario de galicismos: ó sea de las voces, locuciones y frases de la lengua francesa que se han introducido en el habla castellana moderna, con el juicio critico de las que deben adoptarse, y la equivalencia castiza de las que no se hallen en este caso"
-key: "W79F6YCY"
-author: Baralt, Rafael María
----
-<div data-schema-version="9"><p>Hoy es comunísimo el uso del pronombre yo en forma de nombre sustantivo para expresar</p> <p>1.° El apego que tenemos á lo que nos toca personalmente, v. gr.: “La cortesanía debe ocultar el yo humano , y la religion aniquilarle.”</p> <p>2.° Todo lo que concierne y atañe á alguno , v. gr.: “La irreligion concentra todas las pasiones en la bajeza del interes particular, en la abyeccion del yo humano.”</p> <p>3.º El hombre con su egoismo y sus pasiones , v. gr. : “El yo es para los egoistas el alfa y el omega del universo.”</p> <p>4.° La personalidad metafisica, esto es, el ser ó la sustancia en que se realizan los hechos del fuero interno, y el sujeto que los percibe y tiene conciencia de esa percepcion , v. gr.: “No obstante los cambios continuos del individuo material, el mismo yo subsiste siempre. "</p> <p>Estas acepciones, tomadas de las que los franceses dan á moi (imitando á los alemanes ) deben conservarse en el lenguaje filosófico, y emplearse con parsimonia en el literario.</p> </div>

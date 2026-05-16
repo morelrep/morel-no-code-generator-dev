@@ -1,3 +1,0 @@
----
-title: Arismendi Brito, Pedro
----

@@ -1,3 +1,0 @@
----
-title: Lanz, Laureano Vallenilla
----

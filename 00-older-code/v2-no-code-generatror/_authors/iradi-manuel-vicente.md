@@ -1,3 +1,0 @@
----
-title: Iradi, Manuel Vicente
----

@@ -1,3 +1,0 @@
----
-title: Arguindegui, José María
----

@@ -1,3 +1,0 @@
----
-title: Bolet Peraza, Nicanor
----

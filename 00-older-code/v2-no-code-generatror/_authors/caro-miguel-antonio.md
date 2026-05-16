@@ -1,3 +1,0 @@
----
-title: Caro, Miguel Antonio
----

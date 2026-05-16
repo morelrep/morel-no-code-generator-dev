@@ -1,3 +1,0 @@
----
-title: Pachano, Jacinto Regino
----

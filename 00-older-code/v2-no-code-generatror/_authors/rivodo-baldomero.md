@@ -1,3 +1,0 @@
----
-title: Rivodó, Baldomero
----

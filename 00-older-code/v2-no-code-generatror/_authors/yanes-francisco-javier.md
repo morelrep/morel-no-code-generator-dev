@@ -1,3 +1,0 @@
----
-title: Yanes, Francisco Javier
----

@@ -1,3 +1,0 @@
----
-title: Blanco, Andrés Eloy
----

@@ -1,3 +1,0 @@
----
-title: Pabón Núñez, Lucio
----

@@ -1,3 +1,0 @@
----
-title: Imprenta de "La Opinión Nacional"
----

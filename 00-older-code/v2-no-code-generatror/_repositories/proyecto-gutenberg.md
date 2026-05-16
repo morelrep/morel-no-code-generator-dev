@@ -1,3 +1,0 @@
----
-title: "Proyecto Gutenberg"
----

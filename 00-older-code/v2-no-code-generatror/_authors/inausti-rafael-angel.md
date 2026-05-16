@@ -1,3 +1,0 @@
----
-title: Inausti, Rafael Ángel
----

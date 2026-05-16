@@ -1,3 +1,0 @@
----
-title: Antepara, J.M.
----

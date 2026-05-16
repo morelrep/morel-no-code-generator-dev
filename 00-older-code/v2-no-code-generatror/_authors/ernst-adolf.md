@@ -1,3 +1,0 @@
----
-title: Ernst, Adolf
----

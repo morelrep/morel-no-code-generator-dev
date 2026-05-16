@@ -1,3 +1,0 @@
----
-title: Tell Villegas, Guillermo
----

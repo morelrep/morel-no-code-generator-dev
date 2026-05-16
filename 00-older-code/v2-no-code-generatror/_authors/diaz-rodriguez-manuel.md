@@ -1,3 +1,0 @@
----
-title: Díaz Rodríguez, Manuel
----

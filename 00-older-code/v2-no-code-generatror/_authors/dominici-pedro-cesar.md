@@ -1,3 +1,0 @@
----
-title: Dominici, Pedro César
----

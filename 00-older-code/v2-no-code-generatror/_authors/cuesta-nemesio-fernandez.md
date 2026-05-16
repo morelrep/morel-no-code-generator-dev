@@ -1,3 +1,0 @@
----
-title: Cuesta, Nemesio Fernández
----

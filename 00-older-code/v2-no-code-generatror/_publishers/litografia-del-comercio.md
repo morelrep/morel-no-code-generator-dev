@@ -1,3 +1,0 @@
----
-title: Litografía del Comercio
----

@@ -1,3 +1,0 @@
----
-title: Pedro G. Ramírez
----

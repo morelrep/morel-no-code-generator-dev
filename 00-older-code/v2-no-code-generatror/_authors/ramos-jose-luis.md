@@ -1,3 +1,0 @@
----
-title: Ramos, José Luis
----

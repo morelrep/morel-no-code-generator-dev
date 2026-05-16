@@ -1,3 +1,0 @@
----
-title: Pocaterra, José Rafael
----

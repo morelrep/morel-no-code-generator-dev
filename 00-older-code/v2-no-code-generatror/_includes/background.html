@@ -1,1 +1,0 @@
-url({{site.BASE_PATH}}/assets/img/tema/{% assign last_char = book.Date | slice: -1 % %}{% for bg in site.data.cover-backgrounds %}{% if bg.number == last_char %}{{bg.background }}{% endif %}{% endfor %})

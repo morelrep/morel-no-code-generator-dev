@@ -1,3 +1,0 @@
----
-title: Guzmán, Antonio Leocadio
----

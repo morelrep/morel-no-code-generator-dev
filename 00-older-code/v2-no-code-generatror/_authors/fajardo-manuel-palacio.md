@@ -1,3 +1,0 @@
----
-title: Fajardo, Manuel Palacio
----

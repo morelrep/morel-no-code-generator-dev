@@ -1,3 +1,0 @@
----
-title: Villavicencio, Rafael
----

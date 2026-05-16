@@ -1,3 +1,0 @@
----
-title: Febres, Gonzalo Picón
----

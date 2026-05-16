@@ -1,3 +1,0 @@
----
-title: Yepes, José Ramón
----

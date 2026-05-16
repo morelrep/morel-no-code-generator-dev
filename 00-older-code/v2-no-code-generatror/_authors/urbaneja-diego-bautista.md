@@ -1,3 +1,0 @@
----
-title: Urbaneja, Diego Bautista
----

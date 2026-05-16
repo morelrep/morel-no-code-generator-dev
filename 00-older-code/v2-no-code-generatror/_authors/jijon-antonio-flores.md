@@ -1,3 +1,0 @@
----
-title: Jijón, Antonio Flores
----

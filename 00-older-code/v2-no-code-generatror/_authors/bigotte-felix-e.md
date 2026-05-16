@@ -1,3 +1,0 @@
----
-title: Bigotte, Félix E.
----

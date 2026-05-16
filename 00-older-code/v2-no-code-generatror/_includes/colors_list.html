@@ -1,7 +1,0 @@
-
-{% assign first_char = book.Title | slice: 0, 1 % | downcase %}
-{% for color in site.data.cover-colors %}
-                {% if color.letter == first_char %}
-                {{color.color}}
-                {% endif %}
-                {% endfor %}

@@ -1,6 +1,0 @@
----
-title: "Historia de la conquista y población de la provincia de Venezuela, tomo I"
-key: "MWT27C4Z"
-author: de Oviedo y Baños, José
----
-<div data-schema-version="9"><p>Cuando los españoles descubrieron a primera vez esta laguna, hallaron grandes poblaciones de indios formadas dentro del agua por todas sus orillas, y de aquí tomaron motivo para llamarla Venezuela, por la similitud que tenía su planta con la ciudad de Venecia; nombre que se extendió después á toda la provincia, aunque al presente sólo han quedado cuatro pueblos que mantienen la memoria de los que dió fundamento á la causa de su origen, y esos de tan corta vecindad, que el de Moporo (que es el mayor de todos) me parece que tendría treinta casas el año de 686 que estuve en él: experiméntase en estos pueblos un raro efecto y singular transmutación que obra la naturaleza, pues todos los maderos sobre que fabrican las casas, como sean de una especie que llaman era, que es muy sólida y fuerte, toda aquella parte que cogió dentro del agua de la laguna, pasando algunos años se convierte en piedra, quedando lo demás en su ser primitivo de madera, manteniéndose unidas en un cuerpo tan distintas materias</p> <p></p> </div>

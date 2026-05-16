@@ -1,3 +1,0 @@
----
-title: Spence, James Mudie
----

@@ -1,3 +1,0 @@
----
-title: Fortoul, José Gil
----

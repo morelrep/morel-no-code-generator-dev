@@ -1,6 +1,0 @@
----
-title: "Guzmanillo de Alfarache: artículos del Diario de la tarde, 1846"
-key: "NMDKVCFE"
-author: González, Juan Vicente; Inausti, Rafael Ángel
----
-<div data-schema-version="8"><p>Acaba de publicarse en la oficina de Aagaard el retrato de Alfarache, primorosamente ejecutado por un virtuoso artista nacional. Está Alfarache en traje de presidente civil: su faz revela gozo profundo; sus ojos de mono, redondos y rodeados de un círculo sanguinolento, han adquirido en el pincel dulzura y majestad; la calva está cubierta con esmero; la patilla es negra como la tinta que la empapa; ninguna alusión al lado del destino que desempeña, ninguno de los símbolos de Mercurio. Hay en el interior de la oficina doce copias que llevan una graciosa particularidad: derecho siempre, siempre estirado y en la misma tualet, un jeme de pabilo asoma por parte poco decente. Parece que han pagado algunos esa extravagancia, sin duda para aludir a la asquerosa operación calilla. Alfarache, deseando especular con su retrato, lo da a dos pesos para los suscriptores, y a veinte reales para los demás. ¿Quién no ha de dar veinte reales por poseer el retrato de Alfarache?</p> </div>
