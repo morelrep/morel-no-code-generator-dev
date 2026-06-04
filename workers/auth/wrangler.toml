@@ -22,4 +22,11 @@ name = "morel-auth-staging"
 GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
 GITHUB_OAUTH_TOKEN_URL = "https://github.com/login/oauth/access_token"
-# GITHUB_OAUTH_REDIRECT_URI — managed via Infisical as a Cloudflare remote secret
+
+[env.production]
+name = "morel-auth"
+
+[env.production.vars]
+GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
+GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GITHUB_OAUTH_TOKEN_URL = "https://github.com/login/oauth/access_token"
