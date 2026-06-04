@@ -141,21 +141,16 @@ ______________________________________________________________________
 
 ## Part 3 — Cloudflare Worker (`workers/auth`)
 
-### 3.1 Connect to GitHub via Workers Builds
+The worker is **not** connected to GitHub via Workers Builds. Workers Builds creates
+a separate worker instance, which means losing the existing `morel-auth` configuration:
+staging environment, Infisical secrets sync, and any custom domain bindings.
 
-The worker is currently deployed manually with `wrangler deploy`. To switch to
-GitHub-connected deployments:
+Instead, the worker is deployed locally with `wrangler deploy`, which targets the
+existing `morel-auth` worker and respects the environments in `wrangler.toml`.
 
-1. Go to **Cloudflare Dashboard → Workers & Pages → morel-auth → Settings → Builds**.
-2. Click **Connect to Git** and select the `morel-no-code-generator-dev` repo.
-3. **Production branch:** `major/morel-v3`
-4. **Build command:** `pnpm build:worker`
-5. **Deploy command:** *(leave blank — wrangler handles this via the connected build)*. Cloudflare Workers Builds uses a built-in `wrangler deploy` step after the build.
-6. **Disable automatic deployments** in the same panel — same toggle as Pages.
+### 3.1 Deploy scripts
 
-### 3.2 Add deploy scripts to root `package.json`
-
-For manual local deploys (fallback, or when iterating quickly):
+Add to root `package.json`:
 
 ```json
 "deploy:worker": "pnpm --filter @morel/github-auth-worker deploy",
@@ -169,17 +164,28 @@ Add to `workers/auth/package.json`:
 "deploy:staging": "wrangler deploy --env staging"
 ```
 
-### 3.3 API-triggered Worker deployment
+### 3.2 Deployment workflow
 
-If you want the same API-trigger pattern as Pages for the Worker, use the Cloudflare
-Deployments API (Workers Builds must be connected first):
+```sh
+# Validate first
+pnpm check
 
-```plaintext
-POST https://api.cloudflare.com/client/v4/accounts/{ACCOUNT_ID}/workers/scripts/{SCRIPT_NAME}/deployments
+# Deploy to staging
+pnpm deploy:worker:staging
+
+# Deploy to production
+pnpm deploy:worker
 ```
 
-For most workflows, however, `pnpm deploy:worker` (running `wrangler deploy` locally
-after a `pnpm check` pass) is the simpler and more reliable path.
+### 3.3 Why not Workers Builds?
+
+- Workers Builds creates a **new worker** instead of linking to the existing `morel-auth`.
+- The new worker does not inherit the Infisical → Cloudflare secrets sync.
+- The new worker does not inherit the `[env.staging]` configuration.
+- Monorepo support in Workers Builds is limited — pnpm workspace resolution
+  fails in the Cloudflare build environment.
+- The worker changes infrequently — a local `wrangler deploy` after `pnpm check`
+  is simple and reliable.
 
 ______________________________________________________________________
 
@@ -213,6 +219,26 @@ ______________________________________________________________________
 | `major/morel-v3` | Production (`morel-beta`) — manual trigger | `morel-auth` — manual trigger |
 | `feature/*` | Auto preview URL (no manual step needed) | Not deployed |
 | `main` (default) | Not connected — GitHub Pages unchanged | Not connected |
+
+______________________________________________________________________
+
+## Part 6 — Future: CI/CD via GitHub Actions
+
+The current setup relies on manual local deployments (`pnpm deploy:pages`,
+`pnpm deploy:worker:staging`). Eventually, both staging and production deployments
+should be automated through GitHub Actions:
+
+- **Staging** — trigger on push to a staging branch or on PR merge, running
+  `wrangler deploy --env staging` and the Pages deployment script.
+- **Production** — trigger on push to `major/morel-v3` (or a release tag), deploying
+  both the Pages app and the worker.
+- **Secrets** — `CF_ACCOUNT_ID`, `CF_API_TOKEN`, and `CLOUDFLARE_API_TOKEN` would be
+  stored as GitHub Actions secrets (or injected via the Infisical GitHub integration).
+- **Build validation** — the workflow should run `pnpm check` before deploying to
+  prevent broken builds from reaching production.
+
+This eliminates the need for local credentials and ensures deployments are reproducible
+and auditable.
 
 ______________________________________________________________________
 

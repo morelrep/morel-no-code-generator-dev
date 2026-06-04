@@ -17,6 +17,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "echo \"lint not configured yet\"",
     "test": "echo \"tests not configured yet\"",
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
     "clean": "rm -rf dist .wrangler"
   }
 }

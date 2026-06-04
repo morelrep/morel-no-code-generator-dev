@@ -3,6 +3,12 @@ main = "src/index.ts"
 compatibility_date = "2026-05-15"
 compatibility_flags = ["nodejs_compat"]
 
+# Non-secret, environment-agnostic vars go here.
+# Environment-specific vars (e.g. GITHUB_OAUTH_REDIRECT_URI) are managed via
+# Infisical as Cloudflare remote secrets. Do NOT add them to [vars] or
+# [env.*.vars] — wrangler's [vars] always override remote secrets, which would
+# silently replace the Infisical-managed values on every deploy.
+
 [vars]
 GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
@@ -16,4 +22,4 @@ name = "morel-auth-staging"
 GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
 GITHUB_OAUTH_TOKEN_URL = "https://github.com/login/oauth/access_token"
-GITHUB_OAUTH_REDIRECT_URI = "http://localhost:5173/auth/callback"
+# GITHUB_OAUTH_REDIRECT_URI — managed via Infisical as a Cloudflare remote secret
