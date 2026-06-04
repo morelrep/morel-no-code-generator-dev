@@ -32,6 +32,7 @@
     "globals": "catalog:",
     "tsx": "catalog:",
     "prettier": "catalog:",
+    "prettier-plugin-tailwindcss": "catalog:",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:"
   },
