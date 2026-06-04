@@ -156,16 +156,15 @@ https://jdelpino-dev.github.io/morel-v3/auth/callback
 | `staging` | `http://127.0.0.1:5173/auth/callback` |
 | `production` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
 
-**Infisical `/workers/auth` → `ALLOWED_ORIGINS`** (existing variable — update when deploying)
+**Infisical `/workers/auth` → `ALLOWED_ORIGINS`** (existing variable — real values)
 
 | Infisical env | Value |
 | -- | -- |
 | `dev` | `http://localhost:5173` |
-| `staging` | `http://localhost:5173` |
-| `production` | `https://jdelpino-dev.github.io` |
+| `staging` | `https://jdelpino-dev.github.io` |
+| `production` | production URL when deployed |
 
-`ALLOWED_ORIGINS` is comma-separated. Staging intentionally includes `localhost` so you can
-point your local SPA at the live staging worker during integration testing.
+`ALLOWED_ORIGINS` is the origin only (no path). Staging points to the live GitHub Pages deployment.
 
 **SPA build config → `VITE_MOREL_AUTH_GATEWAY_URL`**
 (In `apps/web/.env.local` for dev; in Cloudflare Pages env vars for staging/production.)
@@ -271,7 +270,7 @@ No `wrangler secret put` commands are needed.
 | `GITHUB_APP_ID` | ✅ set | ✅ set | ✅ set |
 | `GITHUB_CLIENT_ID` | ✅ Morel Studio Dev client ID | ✅ Morel Studio Dev client ID | ✅ Morel Studio client ID |
 | `GITHUB_CLIENT_SECRET` | ✅ set | ✅ set | ✅ set |
-| `ALLOWED_ORIGINS` | `http://localhost:5173` | *(update when SPA deployed — see 2.3.2)* | *(update when SPA deployed)* |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | `https://jdelpino-dev.github.io` | production URL when deployed |
 
 #### New variable to add: `GITHUB_OAUTH_REDIRECT_URI`
 
@@ -281,11 +280,11 @@ and add:
 | Infisical env | Variable | Exact value |
 | -- | -- | -- |
 | `dev` | `GITHUB_OAUTH_REDIRECT_URI` | `http://127.0.0.1:5173/auth/callback` |
-| `staging` | `GITHUB_OAUTH_REDIRECT_URI` | `http://127.0.0.1:5173/auth/callback` |
-| `production` | `GITHUB_OAUTH_REDIRECT_URI` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
+| `staging` | `GITHUB_OAUTH_REDIRECT_URI` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
+| `production` | `GITHUB_OAUTH_REDIRECT_URI` | production URL when deployed |
 
-Staging uses the same localhost value as dev — there is no live staging SPA URL for MVP.
-Update all values if the SPA is later moved to Cloudflare Pages.
+Staging points to the live GitHub Pages URL — that IS the staging deployment for MVP.
+Update production value when a production deployment exists.
 
 #### Variables that stay in `wrangler.toml` (never in Infisical)
 
@@ -313,9 +312,8 @@ VITE_MOREL_AUTH_GATEWAY_URL=http://localhost:8787
 VITE_GITHUB_CLIENT_ID=<Morel Studio Dev client_id>
 ```
 
-For staging and production, set the same variables in the **Cloudflare Pages → Settings →
-Environment variables** panel (or the equivalent in Render/GitHub Pages build config),
-using the per-environment values from the table in section 2.3.2.
+For staging, set the same variables in the **GitHub Pages build workflow** (via GitHub Actions
+env vars or repository secrets), using the per-environment values from section 2.3.2.
 
 #### `workers/auth/.dev.vars.example` — update to document new variable
 
@@ -323,8 +321,8 @@ After adding `GITHUB_OAUTH_REDIRECT_URI` to Infisical, also update `.dev.vars.ex
 so future developers know it exists:
 
 ```diff
-+# OAuth web flow — environment-specific redirect URI (get from Infisical /workers/auth)
-+GITHUB_OAUTH_REDIRECT_URI=http://localhost:5173/auth/callback
++# OAuth web flow — environment-specific redirect URI (get from Infisical /worker)
++GITHUB_OAUTH_REDIRECT_URI=http://127.0.0.1:5173/auth/callback
 +
 +# Note: GITHUB_OAUTH_TOKEN_URL is a public constant in wrangler.toml [vars] — not here.
 ```

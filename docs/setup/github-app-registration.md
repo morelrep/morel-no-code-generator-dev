@@ -31,7 +31,7 @@ Go to: [github.com/settings/apps/new](https://github.com/settings/apps/new)
 | Field | Value |
 | -- | -- |
 | Callback URL (line 1) | `http://127.0.0.1:5173/auth/callback` |
-| Callback URL (line 2) | `https://<your-staging-pages-url>/auth/callback` |
+| Callback URL (line 2) | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
 | Expire user authorization tokens | checked |
 | Request user authorization during installation | unchecked |
 | Enable Device Flow | **checked** |
@@ -108,16 +108,17 @@ Go to: [github.com/settings/apps/new](https://github.com/settings/apps/new)
 | -- | -- |
 | GitHub App name | `Morel Studio` |
 | Description | `MOREL Studio — connect your GitHub account to manage research publications` |
-| Homepage URL | `https://<your-production-pages-url>` (update when known) |
+| Homepage URL | `https://jdelpino-dev.github.io/morel-v3` (update when production is deployed) |
 
 ### 2.2 Identifying and Authorizing Users
 
 | Field | Value |
 | -- | -- |
-| Callback URL | `https://<your-production-pages-url>/auth/callback` |
 | Expire user authorization tokens | checked |
 | Request user authorization during installation | unchecked |
 | Enable Device Flow | **checked** |
+
+> Production app not deployed yet. Update callback URL when production is ready.
 
 ### 2.3 Post Installation
 
@@ -179,7 +180,8 @@ Infisical project ID: `86b469f7-276d-49f9-8795-472e793cdaf0`
 | `GITHUB_APP_ID` | Dev app ID | Dev app ID | Prod app ID |
 | `GITHUB_CLIENT_ID` | Dev client ID | Dev client ID | Prod client ID |
 | `GITHUB_CLIENT_SECRET` | Dev client secret | Dev client secret | Prod client secret |
-| `ALLOWED_ORIGINS` | `http://localhost:5173` | staging pages URL | production pages URL |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | `https://jdelpino-dev.github.io` | production URL when deployed |
+| `GITHUB_OAUTH_REDIRECT_URI` | `http://127.0.0.1:5173/auth/callback` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` | production URL when deployed |
 | `SENTRY_DSN` | empty | staging DSN | prod DSN |
 
 Not in Infisical — hardcoded in `wrangler.toml` as `[vars]`:

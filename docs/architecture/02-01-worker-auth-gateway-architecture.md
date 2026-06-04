@@ -381,12 +381,13 @@ Implemented in `workers/auth/src/lib/cors.ts`. The allowlist is configured via t
 
 ```plaintext
 dev:        http://localhost:5173
-staging:    https://jdelpino-dev.github.io/morel-v3  (set in Infisical)
-production: https://jdelpino-dev.github.io/morel-v3  (set in Infisical)
+staging:    https://jdelpino-dev.github.io  (set in Infisical — GitHub Pages, MVP live URL)
+production: not deployed yet
 ```
 
-Staging and production share the same GitHub Pages URL for MVP.
-Will be updated to a custom domain in production hardening phase.
+Staging uses the GitHub Pages deployment (`https://jdelpino-dev.github.io/morel-v3`) as the
+live SPA URL. The `ALLOWED_ORIGINS` value is the origin only (no path): `https://jdelpino-dev.github.io`.
+Will be updated when production is deployed or the project moves to a custom domain.
 
 ### 10.2 Forbidden
 
