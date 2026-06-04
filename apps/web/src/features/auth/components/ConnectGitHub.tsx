@@ -53,13 +53,34 @@ export function ConnectGitHub({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <Tabs defaultValue="pat">
+        <Tabs defaultValue="github-app">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="pat">PAT</TabsTrigger>
-            <TabsTrigger value="device">Device Flow</TabsTrigger>
-            <TabsTrigger value="oauth">OAuth App</TabsTrigger>
             <TabsTrigger value="github-app">GitHub App</TabsTrigger>
+            <TabsTrigger value="oauth">OAuth App</TabsTrigger>
+            <TabsTrigger value="device">Device Flow</TabsTrigger>
+            <TabsTrigger value="pat">PAT</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="github-app" className="space-y-4 pt-4">
+            <p className="text-sm text-muted-foreground">
+              Connects via the MOREL GitHub App. Installs the app and
+              authorizes your account in one step.
+            </p>
+            <Button onClick={() => onConnectOAuth("github-app")}>
+              Connect with GitHub App
+            </Button>
+          </TabsContent>
+
+          <TabsContent value="oauth" className="space-y-4 pt-4">
+            <p className="text-sm text-muted-foreground">
+              Redirects to GitHub for authorization. You will be returned to
+              this page with a token scoped to <code>repo</code> and{" "}
+              <code>workflow</code>.
+            </p>
+            <Button onClick={() => onConnectOAuth("oauth")}>
+              Connect with GitHub OAuth
+            </Button>
+          </TabsContent>
 
           <TabsContent value="pat" className="space-y-4 pt-4">
             <form onSubmit={handlePatSubmit} className="space-y-4">
@@ -183,26 +204,6 @@ export function ConnectGitHub({
             ) : null}
           </TabsContent>
 
-          <TabsContent value="oauth" className="space-y-4 pt-4">
-            <p className="text-sm text-muted-foreground">
-              Redirects to GitHub for authorization. You will be returned to
-              this page with a token scoped to <code>repo</code> and{" "}
-              <code>workflow</code>.
-            </p>
-            <Button onClick={() => onConnectOAuth("oauth")}>
-              Connect with GitHub OAuth
-            </Button>
-          </TabsContent>
-
-          <TabsContent value="github-app" className="space-y-4 pt-4">
-            <p className="text-sm text-muted-foreground">
-              Connects via the MOREL GitHub App. Installs the app and
-              authorizes your account in one step.
-            </p>
-            <Button onClick={() => onConnectOAuth("github-app")}>
-              Connect with GitHub App
-            </Button>
-          </TabsContent>
         </Tabs>
       </CardContent>
     </Card>

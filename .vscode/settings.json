@@ -55,6 +55,7 @@
 
   // ── CSS: suppress false positives for Tailwind v4 at-rules ──────────────────
   "css.lint.unknownAtRules": "ignore",
+  "tailwindCSS.lint.suggestCanonicalClasses": "ignore",
 
   // ── Misc ─────────────────────────────────────────────────────────────────────
   "search.exclude": {

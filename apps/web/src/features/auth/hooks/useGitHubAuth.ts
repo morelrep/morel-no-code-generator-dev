@@ -286,7 +286,10 @@ export function useGitHubAuth() {
       accessToken: string;
       method: AuthMethod;
     };
-    void verify(parsed.accessToken, parsed.method);
+    // Defer past commit so verify()'s setState calls don't cascade renders.
+    queueMicrotask(() => {
+      void verify(parsed.accessToken, parsed.method);
+    });
   }, [verify]);
 
   return {
