@@ -12,7 +12,7 @@
     "wrangler": "catalog:"
   },
   "scripts": {
-    "dev": "infisical run --path=/workers/auth -- wrangler dev",
+"dev": "infisical export --env=dev --path=/workers/auth --format=dotenv > .dev.vars && wrangler dev",
     "build": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"lint not configured yet\"",

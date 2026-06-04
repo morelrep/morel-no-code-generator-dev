@@ -100,32 +100,69 @@ ______________________________________________________________________
 
 ## 5. Auth Gateway Deployment During Beta/MVP
 
-The primary Auth Gateway will be deployed as a Cloudflare Worker using Hono.
+The primary Auth Gateway is deployed as a Cloudflare Worker using Hono.
 
-During beta/MVP, the gateway will use Cloudflare's free Workers domain rather than a custom MOREL subdomain.
+During beta/MVP, the gateway uses Cloudflare's free Workers domain rather than a custom MOREL subdomain.
 
-### 5.1 Example URLs
+### 5.1 Deployed URLs
 
 ```plaintext
-Staging:
-  https://morel-auth-staging.<cloudflare-account>.workers.dev
+Local dev:
+  http://localhost:8787  (wrangler dev)
 
-Beta/MVP:
-  https://morel-auth-beta.<cloudflare-account>.workers.dev
+Staging (live):
+  https://morel-auth-staging.delpinoivivas.workers.dev
 
-Production later:
+Production (live):
+  https://morel-auth.delpinoivivas.workers.dev
+
+Production later (custom domain):
   https://auth.morel.<domain>
 ```
 
-### 5.2 Environment Configuration
+Cloudflare account: `delpinoivivas` (account ID: `a6d5fee2cd6af1ef0354e2c736dc712b`)
 
-The SPA must read the Auth Gateway base URL from environment configuration, not from hardcoded source constants.
+### 5.2 Wrangler Environment Configuration
+
+Two named environments in `workers/auth/wrangler.toml`:
+
+```toml
+name = "morel-auth"          # production
+
+[env.staging]
+name = "morel-auth-staging"  # staging
+```
+
+Deploy commands:
+
+```bash
+# Staging only
+pnpm exec wrangler deploy --env staging
+
+# Production
+pnpm exec wrangler deploy
+```
+
+### 5.3 SPA Environment Configuration
+
+The SPA reads the Auth Gateway base URL from environment configuration, not from hardcoded source constants.
 
 ```plaintext
-VITE_MOREL_AUTH_GATEWAY_URL=https://morel-auth-beta.<account>.workers.dev
+VITE_MOREL_AUTH_GATEWAY_URL=https://morel-auth-staging.delpinoivivas.workers.dev
 ```
 
 This makes later migration from a free Workers URL to `auth.morel.<domain>` trivial.
+
+### 5.4 Secrets Management
+
+Secrets are managed in Infisical and synced automatically to Cloudflare Workers via the Infisical → Cloudflare Workers integration:
+
+```plaintext
+Infoisical staging /worker  →  morel-auth-staging  (auto-sync)
+Infisical prod     /worker  →  morel-auth          (auto-sync)
+```
+
+Public non-secret vars (`GITHUB_DEVICE_CODE_URL`, `GITHUB_DEVICE_TOKEN_URL`) are hardcoded in `wrangler.toml [vars]` and not stored in Infisical.
 
 ______________________________________________________________________
 
@@ -169,11 +206,13 @@ POST /github/device/code
 POST /github/device/token
 ```
 
+All routes are implemented in `workers/auth/src/routes/`.
+
 ### 7.1 GET /health
 
 Purpose: basic liveness check for monitoring and fallback selection.
 
-Expected response:
+Implemented in `routes/health.ts`. Response:
 
 ```json
 {
@@ -328,16 +367,19 @@ ______________________________________________________________________
 
 ## 10. CORS Policy
 
-The Auth Gateway must use a strict allowlist. During beta/MVP, allowed origins include only the actual static SPA deployment URLs.
+The Auth Gateway uses a strict origin allowlist. During beta/MVP, allowed origins include only the actual static SPA deployment URLs.
 
-### 10.1 Allowed Origins (Example)
+Implemented in `workers/auth/src/lib/cors.ts`. The allowlist is configured via the `ALLOWED_ORIGINS` environment variable (comma-separated), injected at runtime from Infisical. The default fallback is `http://localhost:5173` for local dev.
+
+### 10.1 Allowed Origins
 
 ```plaintext
-https://<morel-v3-beta>.github.io
-https://<morel-v3-beta>.onrender.com
-https://<morel-v3-beta>.pages.dev
-http://localhost:5173  (development only)
+dev:        http://localhost:5173
+staging:    https://<morel-studio-staging>.pages.dev  (set in Infisical)
+production: https://<morel-studio>.pages.dev          (set in Infisical)
 ```
+
+Will be updated to final Pages/GitHub Pages URLs once the SPA is deployed.
 
 ### 10.2 Forbidden
 
@@ -345,7 +387,7 @@ http://localhost:5173  (development only)
 Access-Control-Allow-Origin: *
 ```
 
-The gateway must reject unknown origins.
+Unknown origins receive no CORS headers and requests are blocked.
 
 ______________________________________________________________________
 
@@ -355,17 +397,20 @@ The static SPA is low-risk because it has no server-side compute, no database, a
 
 ### 11.1 Required Protections
 
-- Strict CORS allowlist
-- Route allowlist
-- Method allowlist
-- Schema validation
-- Max body size
-- Fixed upstream GitHub/Zotero endpoints only — no arbitrary URL proxying
-- Conservative GitHub polling behavior
-- Rate limiting where available
-- No logging of tokens, device codes, PATs, vault secrets, or full auth bodies
-- Sentry error sampling
-- Normalized errors
+| Protection | Status |
+| -- | -- |
+| Strict CORS allowlist | ✅ implemented (`lib/cors.ts`) |
+| Schema validation on all request bodies | ✅ implemented (`lib/validate.ts` + Zod schemas) |
+| Env binding validation on every request | ✅ implemented (Zod `EnvSchema` in `index.ts`) |
+| Fixed upstream GitHub endpoints only | ✅ implemented (URLs hardcoded in `wrangler.toml`) |
+| Normalized errors | ✅ implemented (all routes return structured JSON errors) |
+| Route allowlist | ✅ by design — only 3 routes registered |
+| Method allowlist | ✅ CORS middleware restricts to GET, POST, OPTIONS |
+| Conservative GitHub polling behavior | ✅ slow_down/pending mapped in `routes/github-device.ts` |
+| No logging of tokens or secrets | ✅ no logging implemented |
+| Max body size | ⏳ not yet implemented |
+| Rate limiting | ⏳ deferred — Cloudflare plan-level protection in place |
+| Sentry error sampling | ⏳ deferred — Sentry not yet integrated |
 
 ### 11.2 Expected Failure Behavior
 
@@ -405,38 +450,27 @@ The Auth Gateway must be written as a portable Hono application. The core applic
 
 Provider-specific code must live in deployment adapters.
 
-### 12.3 Recommended Package Structure
+### 12.3 Current Package Structure
+
+For MVP, the worker is implemented as a single package at `workers/auth/` rather than the split `packages/auth-gateway-core` + `deploy/cloudflare` layout. The portability requirement is still met — no Cloudflare-specific APIs are used in core logic.
 
 ```plaintext
-packages/
-  auth-gateway-core/
-    app.ts
+workers/auth/
+  wrangler.toml          — Cloudflare deployment config (staging + production)
+  src/
+    index.ts             — Hono app entry, env validation, CORS wiring
+    types.ts             — Env interface (Zod schema + inferred type)
+    lib/
+      cors.ts            — configurable origin allowlist middleware
+      validate.ts        — Zod body parser helper
     routes/
-      health.ts
-      github-device.ts
-    services/
-      github-device.service.ts
+      health.ts          — GET /health
+      github-device.ts   — POST /github/device/code, POST /github/device/token
     schemas/
-      github-device.schema.ts
-    security/
-      cors.ts
-      rate-limit.ts
-    observability/
-      sentry.ts
-
-deploy/
-  cloudflare/
-    worker.ts
-    wrangler.toml
-  deno/
-    main.ts
-  netlify/
-    handler.ts
-  aws-lambda/
-    handler.ts
+      worker.schema.ts   — Zod schemas for all request/response shapes
 ```
 
-The core Hono app must be reusable across Cloudflare Workers, Deno Deploy, Netlify, and AWS Lambda with minimal adapter code.
+If a second deployment target (Deno Deploy, Netlify, AWS Lambda) is needed, the core Hono app in `src/` can be extracted to `packages/auth-gateway-core/` with minimal refactoring. The deployment adapter would only need to wrap `export default app` for the target runtime.
 
 ______________________________________________________________________
 
