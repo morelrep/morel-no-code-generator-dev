@@ -47,7 +47,11 @@ export function AuthDemo({ title, description }: AuthDemoProps) {
       {auth.status !== "connected" && (
         <ConnectGitHub
           status={auth.status}
+          deviceFlow={auth.deviceFlow}
           onConnectPat={auth.connectWithPat}
+          onConnectDeviceFlow={auth.connectWithDeviceFlow}
+          onCancelDeviceFlow={auth.disconnect}
+          onConnectOAuth={auth.connectWithOAuth}
         />
       )}
     </>

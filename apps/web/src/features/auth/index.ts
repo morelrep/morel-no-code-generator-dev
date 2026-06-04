@@ -9,6 +9,8 @@ export type {
   AuthMethod,
   AuthState,
   AuthStatus as GitHubAuthStatus,
+  DeviceFlowState,
+  DeviceFlowStatus,
   GitHubUser,
   WriteTestResult,
   WriteTestStep

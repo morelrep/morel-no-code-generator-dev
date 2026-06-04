@@ -2,6 +2,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { GITHUB_APP_SLUG } from "../hooks/useGitHubAuth";
 import type {
   AuthState,
   AuthStatus as AuthStatusValue,
@@ -25,15 +26,14 @@ function formatMethod(method: AuthState["method"]): string | null {
     return null;
   }
 
-  if (method === "pat") {
-    return "PAT";
-  }
+  const labels: Record<string, string> = {
+    pat: "PAT",
+    device: "DEVICE",
+    oauth: "OAUTH",
+    "github-app": "GITHUB-APP",
+  };
 
-  if (method === "oauth") {
-    return "OAuth App";
-  }
-
-  return "GitHub App";
+  return labels[method] ?? method.toUpperCase();
 }
 
 export function AuthStatus({ state, onRetry, onDisconnect }: AuthStatusProps) {
@@ -90,9 +90,11 @@ export function AuthStatus({ state, onRetry, onDisconnect }: AuthStatusProps) {
                 {scope}
               </Badge>
             ))
-          : state.method === "pat" && (
-              <Badge variant="secondary">Fine-grained PAT</Badge>
-            )}
+          : state.method === "pat" || state.method === "device" ? (
+              <Badge variant="secondary">Fine-grained token</Badge>
+            ) : state.method === "github-app" ? (
+              <Badge variant="secondary">App permissions</Badge>
+            ) : null}
         {onDisconnect && state.status === "connected" && (
           <Button
             variant="ghost"
@@ -104,6 +106,27 @@ export function AuthStatus({ state, onRetry, onDisconnect }: AuthStatusProps) {
           </Button>
         )}
       </CardContent>
+
+      {state.method === "github-app" && state.appInstalled === false && (
+        <Alert className="border-amber-500/50 bg-amber-500/5">
+          <AlertDescription className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <span className="text-sm">
+              The MOREL GitHub App is <strong>authorized</strong> but not yet{" "}
+              <strong>installed</strong> on your account. Install it to grant
+              repository permissions.
+            </span>
+            <Button variant="outline" size="sm" asChild>
+              <a
+                href={`https://github.com/apps/${GITHUB_APP_SLUG}/installations/new`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Install App ↗
+              </a>
+            </Button>
+          </AlertDescription>
+        </Alert>
+      )}
     </Card>
   );
 }

@@ -1,6 +1,7 @@
 import { Octokit } from "@octokit/rest";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { authLogger } from "../lib/authLogger";
+import { initiateInstallationFlow, initiateOAuthFlow } from "../lib/oauthFlow";
 import {
   GitHubPatSchema,
   GitHubUserSchema,
@@ -10,6 +11,13 @@ import type {
   AuthState,
   GitHubUser,
 } from "../types/githubAuth.types";
+import { useDeviceFlow } from "./useDeviceFlow";
+
+/**
+ * GitHub App slug used to build the installation URL.
+ * Must match the app name registered on GitHub (lowercased, hyphenated).
+ */
+export const GITHUB_APP_SLUG = "morel-studio-dev";
 
 const initialState: AuthState = {
   status: "disconnected",
@@ -17,6 +25,7 @@ const initialState: AuthState = {
   user: null,
   scopes: [],
   error: null,
+  appInstalled: null,
 };
 
 type AuthFlowError = Error & {
@@ -85,6 +94,7 @@ export function useGitHubAuth() {
   const [state, setState] = useState<AuthState>(initialState);
   const [token, setToken] = useState<string | null>(null);
   const lastTokenRef = useRef<string | null>(null);
+  const oauthPickupRan = useRef(false);
 
   const verify = useCallback(
     async (token: string, method: AuthMethod): Promise<GitHubUser> => {
@@ -123,8 +133,45 @@ export function useGitHubAuth() {
         user: userResult.data,
         scopes,
         error: null,
+        appInstalled: null,
       });
       setToken(token);
+
+      // After connecting, check whether the GitHub App is installed.
+      // PAT tokens don't use the app — skip for those.
+      if (method !== "pat") {
+        try {
+          const { data } =
+            await octokit.rest.apps.listInstallationsForAuthenticatedUser();
+          const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID as string;
+          const installed = data.installations.some(
+            (i) => i.app_slug === GITHUB_APP_SLUG || i.client_id === clientId,
+          );
+          authLogger.info(
+            installed
+              ? "GitHub App is installed on this account"
+              : "GitHub App is NOT installed — redirecting to install",
+          );
+          setState((s) => ({ ...s, appInstalled: installed }));
+
+          if (!installed) {
+            // Auto-redirect to installation page. "Request user authorization
+            // during installation" is enabled, so GitHub will redirect back
+            // to the callback URL with a fresh code after installation.
+            authLogger.info("Redirecting to GitHub App installation page...");
+            initiateInstallationFlow({
+              appSlug: GITHUB_APP_SLUG,
+              method: "github-app",
+            });
+            // Page navigates away — no further code runs here
+          }
+        } catch (err) {
+          authLogger.warn(
+            "Could not check GitHub App installation status",
+            err,
+          );
+        }
+      }
 
       return userResult.data;
     },
@@ -175,17 +222,79 @@ export function useGitHubAuth() {
     }
   }, [connectWithPat]);
 
+  const deviceFlow = useDeviceFlow();
+
+  const connectWithDeviceFlow = useCallback(
+    async (scopes: string[] = ["repo", "workflow"]) => {
+      setState((s) => ({
+        ...s,
+        status: "connecting",
+        method: "device",
+        error: null,
+      }));
+      await deviceFlow.start(scopes, async (token) => {
+        await verify(token, "device");
+      });
+    },
+    [deviceFlow, verify],
+  );
+
+  const connectWithOAuth = useCallback(
+    async (method: "oauth" | "github-app") => {
+      authLogger.info(`${method} flow: initiating redirect`);
+      setState((s) => ({ ...s, status: "connecting", method, error: null }));
+
+      if (method === "github-app") {
+        // Redirect to installation page — combines install + authorize.
+        initiateInstallationFlow({
+          appSlug: GITHUB_APP_SLUG,
+          method: "github-app",
+        });
+      } else {
+        await initiateOAuthFlow({
+          clientId: import.meta.env.VITE_GITHUB_CLIENT_ID as string,
+          redirectUri: `${window.location.origin}${import.meta.env.BASE_URL}auth/callback`,
+          scopes: ["repo", "workflow"],
+          method,
+        });
+      }
+      // Page navigates away — no further code runs here
+    },
+    [],
+  );
+
   const disconnect = useCallback(() => {
+    deviceFlow.cancel();
     authLogger.info("Disconnected");
     lastTokenRef.current = null;
     setToken(null);
     setState(initialState);
-  }, []);
+  }, [deviceFlow]);
+
+  // Pick up OAuth token from sessionStorage after callback redirect.
+  // Guard with a ref so React Strict Mode's double-mount does not
+  // consume the token on the first run and then cancel verification
+  // during cleanup before the second run finds an empty sessionStorage.
+  useEffect(() => {
+    if (oauthPickupRan.current) return;
+    const raw = sessionStorage.getItem("morel_oauth_token");
+    if (!raw) return;
+    oauthPickupRan.current = true;
+    sessionStorage.removeItem("morel_oauth_token");
+    const parsed = JSON.parse(raw) as {
+      accessToken: string;
+      method: AuthMethod;
+    };
+    void verify(parsed.accessToken, parsed.method);
+  }, [verify]);
 
   return {
     ...state,
     token,
     connectWithPat,
+    connectWithDeviceFlow,
+    connectWithOAuth,
+    deviceFlow: deviceFlow.state,
     retry,
     disconnect,
   };

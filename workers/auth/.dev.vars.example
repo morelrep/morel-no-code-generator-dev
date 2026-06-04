@@ -48,6 +48,14 @@ ALLOWED_ORIGINS=http://localhost:5173
 SENTRY_DSN=
 
 # ---------------------------------------------------------------------------
+# OAuth web flow — environment-specific redirect URI (get from Infisical /worker)
+# ---------------------------------------------------------------------------
+
+# Must match the callback URL registered in the GitHub App settings exactly.
+# Note: GITHUB_OAUTH_TOKEN_URL is a public constant in wrangler.toml [vars] — not here.
+GITHUB_OAUTH_REDIRECT_URI=http://localhost:5173/auth/callback
+
+# ---------------------------------------------------------------------------
 # Future variables (not yet in use)
 # ---------------------------------------------------------------------------
 

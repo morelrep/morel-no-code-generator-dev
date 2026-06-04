@@ -1,6 +1,7 @@
 import { Hono } from 'hono'
 import { createCorsMiddleware } from './lib/cors'
 import { registerDeviceFlow } from './routes/github-device'
+import { registerOAuthExchange } from './routes/github-oauth'
 import { registerHealth } from './routes/health'
 import { EnvSchema, type Env } from './types'
 
@@ -26,5 +27,6 @@ app.use('*', async (c, next) => {
 
 registerHealth(app)
 registerDeviceFlow(app)
+registerOAuthExchange(app)
 
 export default app

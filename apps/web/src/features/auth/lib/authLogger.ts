@@ -5,6 +5,7 @@ interface AuthLogger {
   groupEnd(): void;
   info(...args: unknown[]): void;
   debug(...args: unknown[]): void;
+  warn(...args: unknown[]): void;
   error(...args: unknown[]): void;
 }
 
@@ -17,6 +18,7 @@ function createLogger(): AuthLogger {
       groupEnd: noop,
       info: noop,
       debug: noop,
+      warn: noop,
       error: noop,
     };
   }
@@ -33,6 +35,9 @@ function createLogger(): AuthLogger {
     },
     debug(...args: unknown[]) {
       console.debug(PREFIX, ...args);
+    },
+    warn(...args: unknown[]) {
+      console.warn(PREFIX, ...args);
     },
     error(...args: unknown[]) {
       console.error(PREFIX, ...args);

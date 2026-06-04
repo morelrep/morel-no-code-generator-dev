@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "infisical run --path=/apps/web -- vite",
-    "build": "infisical run --path=/apps/web -- sh -c 'tsc -b && vite build'",
-    "preview": "infisical run --path=/apps/web -- vite preview",
+    "dev": "infisical export --env=dev --path=/apps/web --format=dotenv > .env.local && (trap 'rm -f .env.local' EXIT INT TERM; vite)",
+    "build": "infisical export --env=dev --path=/apps/web --format=dotenv > .env.local && (trap 'rm -f .env.local' EXIT INT TERM; tsc -b && vite build)",
+    "preview": "infisical export --env=dev --path=/apps/web --format=dotenv > .env.local && (trap 'rm -f .env.local' EXIT INT TERM; vite preview)",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",
     "test": "echo \"tests not configured yet\"",

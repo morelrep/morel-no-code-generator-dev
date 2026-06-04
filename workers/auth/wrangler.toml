@@ -6,6 +6,8 @@ compatibility_flags = ["nodejs_compat"]
 [vars]
 GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GITHUB_OAUTH_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GITHUB_OAUTH_REDIRECT_URI = "http://localhost:5173/auth/callback"
 
 [env.staging]
 name = "morel-auth-staging"
@@ -13,3 +15,5 @@ name = "morel-auth-staging"
 [env.staging.vars]
 GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GITHUB_OAUTH_TOKEN_URL = "https://github.com/login/oauth/access_token"
+GITHUB_OAUTH_REDIRECT_URI = "http://localhost:5173/auth/callback"
