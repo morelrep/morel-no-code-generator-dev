@@ -4,10 +4,11 @@ import path from 'node:path'
 import { defineConfig } from 'vite'
 
 // https://vite.dev/config/
-// base is '/morel-v3/' for GitHub Pages (served at /<repo-name>/)
-// and '/' for local dev and other providers.
+// VITE_BASE_PATH controls the public base path:
+//   - '/morel-v3/' for GitHub Pages (served at /<repo-name>/)
+//   - '/' for Cloudflare Pages and local dev (default)
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/morel-v3/' : '/',
+  base: command === 'build' ? (process.env.VITE_BASE_PATH ?? '/') : '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
