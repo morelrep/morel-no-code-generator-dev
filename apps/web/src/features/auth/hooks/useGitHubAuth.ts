@@ -14,10 +14,11 @@ import type {
 import { useDeviceFlow } from "./useDeviceFlow";
 
 /**
- * GitHub App slug used to build the installation URL.
- * Must match the app name registered on GitHub (lowercased, hyphenated).
+ * GitHub App slug — read from the VITE_GITHUB_APP_SLUG env var.
+ * Used to build installation URLs: https://github.com/apps/{slug}/installations/new
+ * Differs per environment: dev/staging use "morel-studio-dev", production uses "morel-studio".
  */
-export const GITHUB_APP_SLUG = "morel-studio-dev";
+export const GITHUB_APP_SLUG = import.meta.env.VITE_GITHUB_APP_SLUG as string;
 
 const initialState: AuthState = {
   status: "disconnected",

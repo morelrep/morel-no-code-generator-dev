@@ -3,6 +3,7 @@ import { z } from 'zod'
 const envSchema = z.object({
   VITE_MOREL_AUTH_GATEWAY_URL: z.url(),
   VITE_GITHUB_CLIENT_ID: z.string().min(1),
+  VITE_GITHUB_APP_SLUG: z.string().min(1),
   VITE_SENTRY_DSN: z.url().optional().default(''),
 })
 

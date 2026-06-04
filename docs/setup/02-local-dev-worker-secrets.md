@@ -84,3 +84,18 @@ wrangler reads it at startup and on hot-reload.
 | `dev` | `/workers/auth` | `.dev.vars` (via `infisical export`) |
 | `staging` | `/workers/auth` | Cloudflare (via Infisical integration) |
 | `production` | `/workers/auth` | Cloudflare (via Infisical integration) |
+
+The SPA (`apps/web`) uses a separate path:
+
+| Environment | Infisical path | Where secrets land |
+| -- | -- | -- |
+| `dev` | `/apps/web` | `.env.local` (via `infisical export` in `pnpm dev`) |
+| `staging` | `/apps/web` | Cloudflare Pages env vars or GitHub Actions secrets |
+| `production` | `/apps/web` | Cloudflare Pages env vars or GitHub Actions secrets |
+
+Verify injected values without starting the servers:
+
+```sh
+infisical export --env=dev --path=/workers/auth --format=dotenv
+infisical export --env=dev --path=/apps/web --format=dotenv
+```

@@ -30,18 +30,20 @@ Go to: [github.com/settings/apps/new](https://github.com/settings/apps/new)
 
 | Field | Value |
 | -- | -- |
-| Callback URL (line 1) | `http://127.0.0.1:5173/auth/callback` |
+| Callback URL (line 1) | `http://localhost:5173/auth/callback` |
 | Callback URL (line 2) | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
 | Expire user authorization tokens | checked |
-| Request user authorization during installation | unchecked |
+| Request user authorization (OAuth) during installation | **checked** |
+| Redirect on update | **checked** |
 | Enable Device Flow | **checked** |
+
+> **Important:** The installation redirect always uses the **first** callback URL — it cannot be overridden per-request. Always put the local dev URL first for the dev app. See `docs/reference/01-github-app-auth-common-mistakes.md`.
 
 ### 1.3 Post Installation
 
 | Field | Value |
 | -- | -- |
 | Setup URL | leave empty |
-| Redirect on update | unchecked |
 
 ### 1.4 Webhook
 
@@ -60,13 +62,18 @@ Go to: [github.com/settings/apps/new](https://github.com/settings/apps/new)
 | Contents | Read and write |
 | Actions | Read and write |
 | Pages | Read and write |
+| Administration | Read and write |
 | Metadata | Read-only (mandatory, auto-set) |
 
 All other permissions: No access.
 
+> **Note:** Administration: Read and write is required for the write-access smoke test (`DELETE /repos/{owner}/{repo}`).
+
 ### 1.6 Where Can This App Be Installed?
 
-Select: **Only on this account**
+Select: **Any account**
+
+> **Important:** "Only on this account" (the default) prevents other users from installing the app and causes a 404 on the authorize page for non-owner accounts.
 
 ### 1.7 After Creation
 
@@ -74,9 +81,10 @@ GitHub will show the app settings page. Copy and save:
 
 | Value | Where to store |
 | -- | -- |
-| App ID | Infisical `/worker` → `GITHUB_APP_ID` (dev + staging environments) |
-| Client ID | Infisical `/worker` → `GITHUB_CLIENT_ID` (dev + staging) |
-| Client ID | Infisical `/web` → `VITE_GITHUB_CLIENT_ID` (dev + staging) |
+| App ID | Infisical `/workers/auth` → `GITHUB_APP_ID` (dev + staging environments) |
+| Client ID | Infisical `/workers/auth` → `GITHUB_CLIENT_ID` (dev + staging) |
+| Client ID | Infisical `/apps/web` → `VITE_GITHUB_CLIENT_ID` (dev + staging) |
+| App slug (from app URL) | Infisical `/apps/web` → `VITE_GITHUB_APP_SLUG` (dev + staging) |
 
 Then generate a client secret:
 
@@ -86,7 +94,7 @@ Then generate a client secret:
 
 | Value | Where to store |
 | -- | -- |
-| Client Secret | Infisical `/worker` → `GITHUB_CLIENT_SECRET` (dev + staging environments) |
+| Client Secret | Infisical `/workers/auth` → `GITHUB_CLIENT_SECRET` (dev + staging environments) |
 
 ### 1.8 Private Key
 
@@ -114,18 +122,19 @@ Go to: [github.com/settings/apps/new](https://github.com/settings/apps/new)
 
 | Field | Value |
 | -- | -- |
+| Callback URL | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
 | Expire user authorization tokens | checked |
-| Request user authorization during installation | unchecked |
+| Request user authorization (OAuth) during installation | **checked** |
+| Redirect on update | **checked** |
 | Enable Device Flow | **checked** |
 
-> Production app not deployed yet. Update callback URL when production is ready.
+> Production app not deployed yet. Update callback URL when production is deployed.
 
 ### 2.3 Post Installation
 
 | Field | Value |
 | -- | -- |
 | Setup URL | leave empty |
-| Redirect on update | unchecked |
 
 ### 2.4 Webhook
 
@@ -142,20 +151,22 @@ Same as the dev app:
 | Contents | Read and write |
 | Actions | Read and write |
 | Pages | Read and write |
+| Administration | Read and write |
 | Metadata | Read-only |
 
 ### 2.6 Where Can This App Be Installed?
 
-Select: **Only on this account**
+Select: **Any account**
 
 ### 2.7 After Creation
 
 | Value | Where to store |
 | -- | -- |
-| App ID | Infisical `/worker` → `GITHUB_APP_ID` (production environment) |
-| Client ID | Infisical `/worker` → `GITHUB_CLIENT_ID` (production) |
-| Client ID | Infisical `/web` → `VITE_GITHUB_CLIENT_ID` (production) |
-| Client Secret | Infisical `/worker` → `GITHUB_CLIENT_SECRET` (production) |
+| App ID | Infisical `/workers/auth` → `GITHUB_APP_ID` (production environment) |
+| Client ID | Infisical `/workers/auth` → `GITHUB_CLIENT_ID` (production) |
+| Client ID | Infisical `/apps/web` → `VITE_GITHUB_CLIENT_ID` (production) |
+| App slug (from app URL) | Infisical `/apps/web` → `VITE_GITHUB_APP_SLUG` (production) |
+| Client Secret | Infisical `/workers/auth` → `GITHUB_CLIENT_SECRET` (production) |
 
 ### 2.8 Private Key
 
@@ -173,7 +184,7 @@ After completing both registrations, all of the following should be filled in In
 
 Infisical project ID: `86b469f7-276d-49f9-8795-472e793cdaf0`
 
-### `/worker` path — synced to Cloudflare Workers via Infisical integration
+### `/workers/auth` path — synced to Cloudflare Workers via Infisical integration
 
 | Variable | dev | staging | production |
 | -- | -- | -- | -- |
@@ -181,7 +192,7 @@ Infisical project ID: `86b469f7-276d-49f9-8795-472e793cdaf0`
 | `GITHUB_CLIENT_ID` | Dev client ID | Dev client ID | Prod client ID |
 | `GITHUB_CLIENT_SECRET` | Dev client secret | Dev client secret | Prod client secret |
 | `ALLOWED_ORIGINS` | `http://localhost:5173` | `https://jdelpino-dev.github.io` | production URL when deployed |
-| `GITHUB_OAUTH_REDIRECT_URI` | `http://127.0.0.1:5173/auth/callback` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` | production URL when deployed |
+| `GITHUB_OAUTH_REDIRECT_URI` | `http://localhost:5173/auth/callback` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` | production URL when deployed |
 | `SENTRY_DSN` | empty | staging DSN | prod DSN |
 
 Not in Infisical — hardcoded in `wrangler.toml` as `[vars]`:
@@ -193,11 +204,12 @@ Future (not yet in use):
 
 - `GITHUB_APP_PRIVATE_KEY` — PEM private key, only if worker needs App-level auth
 
-### `/web` path — used by Vite builds via Infisical CLI
+### `/apps/web` path — used by Vite builds via Infisical CLI
 
 | Variable | dev | staging | production |
 | -- | -- | -- | -- |
 | `VITE_GITHUB_CLIENT_ID` | Dev client ID | Dev client ID | Prod client ID |
+| `VITE_GITHUB_APP_SLUG` | `morel-studio-dev` | `morel-studio-dev` | `morel-studio` |
 | `VITE_MOREL_AUTH_GATEWAY_URL` | `http://localhost:8787` | `https://morel-auth-staging.delpinoivivas.workers.dev` | `https://morel-auth.delpinoivivas.workers.dev` |
 | `VITE_SENTRY_DSN` | empty | staging DSN | prod DSN |
 
@@ -233,4 +245,7 @@ update the callback URLs in each app's settings:
 4. Click **Save changes**
 
 No code changes or redeployment needed — callback URLs are only used for the
-OAuth web flow redirect, not for the device flow.
+OAuth web flow redirect and the installation redirect, not for the device flow.
+
+> Remember: the installation redirect always uses the first registered callback URL.
+> Keep `http://localhost:5173/auth/callback` as the first entry on the dev app.

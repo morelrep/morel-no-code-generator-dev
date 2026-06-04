@@ -12,7 +12,6 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-import { GITHUB_APP_SLUG } from "../hooks/useGitHubAuth";
 import type {
   AuthState,
   DeviceFlowState,
@@ -197,31 +196,11 @@ export function ConnectGitHub({
 
           <TabsContent value="github-app" className="space-y-4 pt-4">
             <p className="text-sm text-muted-foreground">
-              Connects via the MOREL GitHub App. Authorization is tied to the
-              app's installation permissions rather than OAuth scopes.
+              Connects via the MOREL GitHub App. Installs the app and
+              authorizes your account in one step.
             </p>
-            <div className="rounded-md border bg-muted/50 p-3 text-xs text-muted-foreground space-y-1">
-              <p className="font-medium text-foreground">Two steps required:</p>
-              <ol className="list-decimal list-inside space-y-0.5">
-                <li>
-                  <strong>Install</strong> the app on your GitHub account (
-                  <a
-                    href={`https://github.com/apps/${GITHUB_APP_SLUG}/installations/new`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline"
-                  >
-                    install now ↗
-                  </a>
-                  )
-                </li>
-                <li>
-                  <strong>Authorize</strong> via the button below
-                </li>
-              </ol>
-            </div>
             <Button onClick={() => onConnectOAuth("github-app")}>
-              Authorize GitHub App
+              Connect with GitHub App
             </Button>
           </TabsContent>
         </Tabs>
