@@ -1,8 +1,15 @@
-name = "morel-auth-gateway"
+name = "morel-auth"
 main = "src/index.ts"
 compatibility_date = "2026-05-15"
 compatibility_flags = ["nodejs_compat"]
 
 [vars]
+GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
+GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
+
+[env.staging]
+name = "morel-auth-staging"
+
+[env.staging.vars]
 GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
