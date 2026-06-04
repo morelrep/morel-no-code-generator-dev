@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "infisical export --env=dev --path=/apps/web --format=dotenv > .env.local && (trap 'rm -f .env.local' EXIT INT TERM; vite)",
     "build": "infisical export --env=dev --path=/apps/web --format=dotenv > .env.local && (trap 'rm -f .env.local' EXIT INT TERM; tsc -b && vite build)",
+    "build:ci": "tsc -b && vite build",
     "preview": "infisical export --env=dev --path=/apps/web --format=dotenv > .env.local && (trap 'rm -f .env.local' EXIT INT TERM; vite preview)",
     "typecheck": "tsc -b --noEmit",
     "lint": "eslint .",

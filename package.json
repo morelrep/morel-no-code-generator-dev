@@ -11,6 +11,7 @@
 
     "build": "pnpm -r build",
     "build:app": "pnpm --filter @morel/web build",
+    "build:app:ci": "pnpm --filter @morel/web build:ci",
     "build:worker": "pnpm --filter @morel/github-auth-worker build",
 
     "typecheck": "pnpm -r typecheck",
