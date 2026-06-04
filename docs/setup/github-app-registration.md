@@ -168,9 +168,11 @@ ______________________________________________________________________
 
 ## 3. Infisical Variable Summary
 
-After completing both registrations, all of the following should be filled in Infisical:
+After completing both registrations, all of the following should be filled in Infisical.
 
-### `/worker` path
+Infisical project ID: `86b469f7-276d-49f9-8795-472e793cdaf0`
+
+### `/worker` path — synced to Cloudflare Workers via Infisical integration
 
 | Variable | dev | staging | production |
 | -- | -- | -- | -- |
@@ -180,13 +182,41 @@ After completing both registrations, all of the following should be filled in In
 | `ALLOWED_ORIGINS` | `http://localhost:5173` | staging pages URL | production pages URL |
 | `SENTRY_DSN` | empty | staging DSN | prod DSN |
 
-### `/web` path
+Not in Infisical — hardcoded in `wrangler.toml` as `[vars]`:
+
+- `GITHUB_DEVICE_CODE_URL` = `https://github.com/login/device/code`
+- `GITHUB_DEVICE_TOKEN_URL` = `https://github.com/login/oauth/access_token`
+
+Future (not yet in use):
+
+- `GITHUB_APP_PRIVATE_KEY` — PEM private key, only if worker needs App-level auth
+
+### `/web` path — used by Vite builds via Infisical CLI
 
 | Variable | dev | staging | production |
 | -- | -- | -- | -- |
 | `VITE_GITHUB_CLIENT_ID` | Dev client ID | Dev client ID | Prod client ID |
-| `VITE_MOREL_AUTH_GATEWAY_URL` | `http://localhost:8787` | staging worker URL | prod worker URL |
+| `VITE_MOREL_AUTH_GATEWAY_URL` | `http://localhost:8787` | `https://morel-auth-staging.delpinoivivas.workers.dev` | `https://morel-auth.delpinoivivas.workers.dev` |
 | `VITE_SENTRY_DSN` | empty | staging DSN | prod DSN |
+
+Future (not yet in use):
+
+- `VITE_POSTHOG_HOST` — PostHog proxy URL when product analytics are enabled
+- `VITE_POSTHOG_KEY` — PostHog project API key
+
+### `/ops` path — never synced, local/CI use only
+
+| Variable | Value |
+| -- | -- |
+| `CLOUDFLARE_ACCOUNT_ID` | `a6d5fee2cd6af1ef0354e2c736dc712b` |
+| `CLOUDFLARE_API_TOKEN` | token used by Infisical → Cloudflare sync |
+| `INFISICAL_PROJECT_ID` | `86b469f7-276d-49f9-8795-472e793cdaf0` |
+
+Future (not yet in use):
+
+- `SENTRY_AUTH_TOKEN` — for uploading source maps in CI
+- `CLOUDFLARE_PAGES_PROJECT` — if automating Pages deployments from CI
+- `GH_TOKEN` — if adding GitHub Actions automation from CLI
 
 ______________________________________________________________________
 

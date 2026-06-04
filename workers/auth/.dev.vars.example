@@ -1,29 +1,57 @@
 # =============================================================================
-# MOREL AUTH WORKER — Environment variables
+# MOREL AUTH WORKER (workers/auth) — Environment variables
 # =============================================================================
-# For local dev: copy to .dev.vars and fill in values from Infisical.
-# Secrets (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, GITHUB_APP_ID, SENTRY_DSN)
-# must be obtained from Infisical — never put real values in this file.
-# For staging / production: push secrets with:
-#   wrangler secret put <KEY> --env <staging|production>
+# For local dev: copy this file to .dev.vars and fill in secrets from Infisical.
+# For staging / production: secrets are synced automatically via the
+# Infisical → Cloudflare Workers integration (no manual wrangler secret put needed).
 # DO NOT commit files without the .example suffix.
+#
+# Source of truth: Infisical project → environment → /worker
+# Infisical project ID: 86b469f7-276d-49f9-8795-472e793cdaf0
+#
+# NOTE: GITHUB_DEVICE_CODE_URL and GITHUB_DEVICE_TOKEN_URL are public constants
+# hardcoded in wrangler.toml [vars] — they do not belong in Infisical or here.
 
-# GitHub App ID (number shown on the app settings page).
-# Secret — get from Infisical /worker
+# ---------------------------------------------------------------------------
+# GitHub App — secrets (get from Infisical /worker)
+# ---------------------------------------------------------------------------
+
+# Numeric App ID shown at the top of the GitHub App settings page.
 GITHUB_APP_ID=
 
-# GitHub App Client ID.
-# Secret — get from Infisical /worker
+# Client ID of the GitHub App for this environment.
+# dev + staging: Morel Studio Dev app
+# production:    Morel Studio app
 GITHUB_CLIENT_ID=
 
-# GitHub App Client Secret.
-# Secret — get from Infisical /worker
+# Client Secret of the GitHub App.
+# Required for the OAuth web flow token exchange.
 GITHUB_CLIENT_SECRET=
 
-# Comma-separated list of allowed CORS origins.
-# dev: http://localhost:5173
+# ---------------------------------------------------------------------------
+# CORS
+# ---------------------------------------------------------------------------
+
+# Comma-separated list of allowed origins.
+# dev:        http://localhost:5173
+# staging:    https://morel-auth-staging.delpinoivivas.workers.dev,http://localhost:5173
+# production: https://morel-auth.delpinoivivas.workers.dev
 ALLOWED_ORIGINS=http://localhost:5173
 
+# ---------------------------------------------------------------------------
+# Monitoring
+# ---------------------------------------------------------------------------
+
 # Sentry DSN for worker error reporting.
-# Leave empty in dev to suppress Sentry noise from local machines.
+# Leave empty in dev to suppress noise from local machines.
+# Get from: sentry.io → project settings → Client Keys (DSN)
 SENTRY_DSN=
+
+# ---------------------------------------------------------------------------
+# Future variables (not yet in use)
+# ---------------------------------------------------------------------------
+
+# GitHub App private key in PEM format — needed only if the worker ever
+# authenticates as the App itself (e.g. installation access tokens for
+# server-side repo operations). Not required for device flow or OAuth web flow.
+# GITHUB_APP_PRIVATE_KEY=
