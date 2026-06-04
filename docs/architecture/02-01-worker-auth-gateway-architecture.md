@@ -79,19 +79,25 @@ MOREL Studio will be a static SPA with mostly static content and minimal interac
 - Workflow status display
 - Links to generated/public outputs
 
-### 4.2 Candidate Deployment Targets
+### 4.2 Deployment Targets
 
-During beta/MVP, the static SPA may be deployed to one of the following free or near-free provider domains:
+**MVP: GitHub Pages only:**
 
 ```plaintext
-GitHub Pages:
-  https://<org-or-project>.github.io/<site>
+MVP (GitHub Pages):
+  https://jdelpino-dev.github.io/morel-v3
+```
 
-Render Static Site:
-  https://<site>.onrender.com
+GitHub Pages is acceptable for MVP because the SPA is fully static — no server-side compute,
+database, or backend session state. GitHub's hosting infrastructure provides sufficient
+resilience for beta/MVP scale.
 
-Cloudflare Pages:
-  https://<site>.pages.dev
+Future options remain open if the project outgrows GitHub Pages:
+
+```plaintext
+Render Static Site:   https://<site>.onrender.com
+Cloudflare Pages:     https://<site>.pages.dev
+Custom domain later:  https://studio.morel.<domain>
 ```
 
 The exact public beta URL can be changed without affecting the architecture, as long as it is included in the Auth Gateway CORS allowlist.
@@ -375,11 +381,12 @@ Implemented in `workers/auth/src/lib/cors.ts`. The allowlist is configured via t
 
 ```plaintext
 dev:        http://localhost:5173
-staging:    https://<morel-studio-staging>.pages.dev  (set in Infisical)
-production: https://<morel-studio>.pages.dev          (set in Infisical)
+staging:    https://jdelpino-dev.github.io/morel-v3  (set in Infisical)
+production: https://jdelpino-dev.github.io/morel-v3  (set in Infisical)
 ```
 
-Will be updated to final Pages/GitHub Pages URLs once the SPA is deployed.
+Staging and production share the same GitHub Pages URL for MVP.
+Will be updated to a custom domain in production hardening phase.
 
 ### 10.2 Forbidden
 

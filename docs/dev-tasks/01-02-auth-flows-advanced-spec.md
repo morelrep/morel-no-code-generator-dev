@@ -86,155 +86,248 @@ curl http://localhost:8787/health
 # → {"ok":true,"service":"morel-auth-gateway","runtime":"cloudflare","version":"0.1.0"}
 ```
 
-### 2.3 GitHub App settings — required changes
+### 2.3 URL reference — all environments
 
-Before any flow that involves a redirect (Phases 7A and 7B) will work, two settings must be
-configured in the GitHub App's settings page.
+Every environment has its own set of URLs that must be consistent across four places:
+the GitHub App settings, Infisical, the worker (`wrangler.toml` and `.dev.vars`), and
+the SPA build config. A mismatch in any one of these will silently break the auth flow.
 
-Go to: **GitHub → Settings → Developer settings → GitHub Apps → Morel Studio Dev**
-(or navigate directly: `https://github.com/settings/apps/<your-app-slug>`)
+#### 2.3.1 URL map per environment
 
-#### 2.3.1 Enable Device Flow (Phase 6 prerequisite)
+The SPA base URL drives everything. Once you know where the SPA is deployed, all other
+values are derived from it.
 
-Device Flow will fail with `error: disabled` from GitHub unless this is explicitly turned on.
+**`dev` (local)**
 
-In the GitHub App settings page scroll to the **"Optional features"** section and enable:
+| What | Exact URL |
+| -- | -- |
+| SPA base | `http://localhost:5173` |
+| Worker base | `http://localhost:8787` |
+| OAuth callback | `http://127.0.0.1:5173/auth/callback` |
+| GitHub App | Morel Studio Dev (`dev` + `staging` share this app) |
+
+**`staging`**
+
+| What | Exact URL |
+| -- | -- |
+| SPA base | `http://localhost:5173` (no live staging URL — tested locally) |
+| Worker base | `https://morel-auth-staging.delpinoivivas.workers.dev` |
+| OAuth callback | `http://127.0.0.1:5173/auth/callback` |
+| GitHub App | Morel Studio Dev (same app as `dev`) |
+
+**`production`**
+
+| What | Exact URL |
+| -- | -- |
+| SPA base | `https://jdelpino-dev.github.io/morel-v3` |
+| Worker base | `https://morel-auth.delpinoivivas.workers.dev` |
+| OAuth callback | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
+| GitHub App | Morel Studio (separate production app) |
+
+> **Note:** `dev` and `staging` share the **Morel Studio Dev** GitHub App.
+> `production` uses the separate **Morel Studio** GitHub App.
+> Both apps need the same configuration changes described below.
+
+#### 2.3.2 Derived values — what goes where
+
+Using the URL map above, here is exactly what each system needs to contain for each
+environment, without placeholders.
+
+**GitHub App settings → "Callback URL" field**
+(Each app needs its own set. Multi-line — one URL per line.)
+
+*Morel Studio Dev app* — used for `dev` and `staging`:
+
+```plaintext
+http://127.0.0.1:5173/auth/callback
+```
+
+*Morel Studio app* — used for `production`:
+
+```plaintext
+https://jdelpino-dev.github.io/morel-v3/auth/callback
+```
+
+**Infisical `/workers/auth` → `GITHUB_OAUTH_REDIRECT_URI`**
+
+| Infisical env | Value |
+| -- | -- |
+| `dev` | `http://127.0.0.1:5173/auth/callback` |
+| `staging` | `http://127.0.0.1:5173/auth/callback` |
+| `production` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
+
+**Infisical `/workers/auth` → `ALLOWED_ORIGINS`** (existing variable — update when deploying)
+
+| Infisical env | Value |
+| -- | -- |
+| `dev` | `http://localhost:5173` |
+| `staging` | `http://localhost:5173` |
+| `production` | `https://jdelpino-dev.github.io` |
+
+`ALLOWED_ORIGINS` is comma-separated. Staging intentionally includes `localhost` so you can
+point your local SPA at the live staging worker during integration testing.
+
+**SPA build config → `VITE_MOREL_AUTH_GATEWAY_URL`**
+(In `apps/web/.env.local` for dev; in Cloudflare Pages env vars for staging/production.)
+
+| Environment | Value |
+| -- | -- |
+| `dev` | `http://localhost:8787` |
+| `staging` | `https://morel-auth-staging.delpinoivivas.workers.dev` |
+| `production` | `https://morel-auth.delpinoivivas.workers.dev` |
+
+**SPA build config → `VITE_GITHUB_CLIENT_ID`**
+(Public — safe to embed in the SPA bundle.)
+
+| Environment | Value |
+| -- | -- |
+| `dev` | Client ID of **Morel Studio Dev** app (from GitHub App settings or Infisical) |
+| `staging` | Client ID of **Morel Studio Dev** app |
+| `production` | Client ID of **Morel Studio** app |
+
+> The client ID is shown on the GitHub App settings page under
+> **GitHub → Settings → Developer settings → GitHub Apps → `app name`**.
+> It starts with `Iv1.` for GitHub Apps or a short alphanumeric string for OAuth Apps.
+
+#### 2.3.3 Critical consistency rule
+
+The `GITHUB_OAUTH_REDIRECT_URI` value in Infisical, the `redirect_uri` the SPA sends to
+GitHub during the authorization redirect, and the URL registered in the GitHub App settings
+**must all be the same string — character for character, including the path**. GitHub performs
+an exact string match, not a prefix match. A trailing slash, `http` vs `https`, or missing
+`/auth/callback` path will cause `redirect_uri_mismatch` and the flow breaks completely.
+
+### 2.4 GitHub App settings — required configuration
+
+Two GitHub Apps exist. Changes must be applied to each app separately.
+
+**Morel Studio Dev** (used by `dev` and `staging`):
+`https://github.com/settings/apps/morel-studio-dev` *(substitute actual slug)*
+
+**Morel Studio** (used by `production`):
+`https://github.com/settings/apps/morel-studio` *(substitute actual slug)*
+
+Apply the following changes to **both apps**:
+
+#### 2.4.1 Enable Device Flow (Phase 6 prerequisite)
+
+Scroll to **"Optional features"** and enable:
 
 ```plaintext
 ☑ Enable Device Flow
 ```
 
-Click **Save changes**. This is a one-time change per app. It applies to all environments
-(dev, staging, production) that share the same GitHub App.
+Click **Save changes**. Without this, GitHub returns `{"error":"device_flow_disabled"}` when
+the worker calls `POST /github/device/code`, and the SPA shows a generic gateway error.
 
-#### 2.3.2 Register callback URLs (Phase 7 prerequisite)
+#### 2.4.2 Register callback URLs (Phase 7 prerequisite)
 
-In the GitHub App settings page, find the **"Callback URL"** field. GitHub Apps support one
-callback URL per line. Add all environments you want to test:
+Scroll to **"Callback URL"** and enter the URLs from the table in section 2.3.2 for this app
+(one per line). Click **Save changes**.
+
+What this field looks like in the GitHub UI after editing:
+
+*For Morel Studio Dev:*
 
 ```plaintext
-http://localhost:5173/auth/callback
-https://<morel-studio-staging>.pages.dev/auth/callback
-https://<morel-studio-production>.pages.dev/auth/callback
+http://127.0.0.1:5173/auth/callback
 ```
 
-Replace the placeholder hostnames with the actual Cloudflare Pages URLs once they are deployed.
-For now, the `localhost` entry is sufficient for local dev.
+*For Morel Studio:*
 
-Click **Save changes**.
+```plaintext
+https://jdelpino-dev.github.io/morel-v3/auth/callback
+```
 
-> **Why multiple callback URLs matter:** GitHub validates the `redirect_uri` in the authorization
-> request against this list. If the URL in the request is not registered, GitHub rejects the
-> entire authorization attempt with `redirect_uri_mismatch` — the callback page never receives a
-> code. There is no error in the SPA until GitHub redirects back with `?error=redirect_uri_mismatch`.
+Update these if the SPA is later moved to Cloudflare Pages or a custom domain.
 
-#### 2.3.3 Verify the OAuth callback is active
+#### 2.4.3 Confirm OAuth user authorization is enabled
 
-Still on the GitHub App settings page, confirm:
+Confirm the following checkbox is enabled on each app's settings page:
 
 ```plaintext
 ☑ Request user authorization (OAuth) during installation
 ```
 
-This should already be enabled if the app was set up for user auth. If it is disabled, the
-OAuth redirect flow will not be available to users who have not yet installed the app.
+If disabled, users who install the app for the first time will not be taken through the OAuth
+redirect flow and the tab will appear broken.
 
-### 2.4 Infisical secrets — new variables per environment
+### 2.5 Infisical secrets — what to add and where
 
-The existing Infisical → Cloudflare Workers integration automatically syncs secrets from Infisical
-into the deployed worker. For local dev, `pnpm dev` runs `infisical export` to write secrets to
-`.dev.vars` before wrangler starts (see `docs/setup/local-dev-worker-secrets.md` for the full
-explanation).
+The Infisical project ID is `86b469f7-276d-49f9-8795-472e793cdaf0`.
+All worker secrets live at path `/workers/auth`.
 
-The Infisical project ID is `86b469f7-276d-49f9-8795-472e793cdaf0`. All worker secrets live at
-path `/workers/auth`.
+For local dev, the `pnpm dev` script auto-exports all secrets from Infisical into `.dev.vars`
+before wrangler starts (see `docs/setup/local-dev-worker-secrets.md`). After adding a new
+secret to Infisical, just restart the worker — no manual file editing needed.
+
+For staging/production, the Infisical → Cloudflare Workers integration syncs automatically.
+No `wrangler secret put` commands are needed.
 
 #### Variables already in Infisical (no changes needed)
 
-| Variable | All envs |
-| -- | -- |
-| `GITHUB_APP_ID` | ✅ already set |
-| `GITHUB_CLIENT_ID` | ✅ already set |
-| `GITHUB_CLIENT_SECRET` | ✅ already set |
+| Variable | `dev` | `staging` | `production` |
+| -- | -- | -- | -- |
+| `GITHUB_APP_ID` | ✅ set | ✅ set | ✅ set |
+| `GITHUB_CLIENT_ID` | ✅ Morel Studio Dev client ID | ✅ Morel Studio Dev client ID | ✅ Morel Studio client ID |
+| `GITHUB_CLIENT_SECRET` | ✅ set | ✅ set | ✅ set |
+| `ALLOWED_ORIGINS` | `http://localhost:5173` | *(update when SPA deployed — see 2.3.2)* | *(update when SPA deployed)* |
 
 #### New variable to add: `GITHUB_OAUTH_REDIRECT_URI`
 
-This variable is environment-specific (each environment redirects back to a different SPA URL)
-so it lives in Infisical, not in `wrangler.toml`.
+Go to **Infisical → morel-v3 project → Secrets → select environment → path `/workers/auth`**
+and add:
 
-Go to: **Infisical → morel-v3 project → /workers/auth** and add one entry per environment:
-
-| Environment | Variable | Value |
+| Infisical env | Variable | Exact value |
 | -- | -- | -- |
-| `dev` | `GITHUB_OAUTH_REDIRECT_URI` | `http://localhost:5173/auth/callback` |
-| `staging` | `GITHUB_OAUTH_REDIRECT_URI` | `https://<morel-studio-staging>.pages.dev/auth/callback` |
-| `production` | `GITHUB_OAUTH_REDIRECT_URI` | `https://<morel-studio-production>.pages.dev/auth/callback` |
+| `dev` | `GITHUB_OAUTH_REDIRECT_URI` | `http://127.0.0.1:5173/auth/callback` |
+| `staging` | `GITHUB_OAUTH_REDIRECT_URI` | `http://127.0.0.1:5173/auth/callback` |
+| `production` | `GITHUB_OAUTH_REDIRECT_URI` | `https://jdelpino-dev.github.io/morel-v3/auth/callback` |
 
-The value must **exactly match** one of the callback URLs registered in the GitHub App settings
-(section 2.3.2). A mismatch between what the worker sends to GitHub and what is registered in
-the GitHub App settings will cause GitHub to reject every token exchange.
+Staging uses the same localhost value as dev — there is no live staging SPA URL for MVP.
+Update all values if the SPA is later moved to Cloudflare Pages.
 
-#### Variables that stay in `wrangler.toml` (not Infisical)
+#### Variables that stay in `wrangler.toml` (never in Infisical)
 
-These are public constants — the same in every environment and not sensitive:
-
-| Variable | Value | Location |
-| -- | -- | -- |
-| `GITHUB_DEVICE_CODE_URL` | `https://github.com/login/device/code` | `wrangler.toml [vars]` |
-| `GITHUB_DEVICE_TOKEN_URL` | `https://github.com/login/oauth/access_token` | `wrangler.toml [vars]` |
-| `GITHUB_OAUTH_TOKEN_URL` | `https://github.com/login/oauth/access_token` | `wrangler.toml [vars]` |
-
-Add `GITHUB_OAUTH_TOKEN_URL` to `wrangler.toml [vars]` and `[env.staging.vars]`:
+Public constants — identical in every environment, not sensitive:
 
 ```toml
 [vars]
-GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
+GITHUB_DEVICE_CODE_URL  = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
 GITHUB_OAUTH_TOKEN_URL  = "https://github.com/login/oauth/access_token"
 
 [env.staging.vars]
-GITHUB_DEVICE_CODE_URL = "https://github.com/login/device/code"
+GITHUB_DEVICE_CODE_URL  = "https://github.com/login/device/code"
 GITHUB_DEVICE_TOKEN_URL = "https://github.com/login/oauth/access_token"
 GITHUB_OAUTH_TOKEN_URL  = "https://github.com/login/oauth/access_token"
 ```
 
-#### SPA environment variables (not in Infisical)
+#### SPA build-time variables (not in Infisical — not secrets)
 
-These are Vite build-time variables. They are not secrets and do not belong in Infisical.
-For local dev, they go in `apps/web/.env.local` (gitignored). For staging/production, set
-them in the Cloudflare Pages (or Render) build environment configuration.
-
-| Variable | Local dev value | Notes |
-| -- | -- | -- |
-| `VITE_MOREL_AUTH_GATEWAY_URL` | `http://localhost:8787` | Worker base URL |
-| `VITE_GITHUB_CLIENT_ID` | `<your GitHub App client_id>` | Public — safe to embed in SPA |
-
-The full `apps/web/.env.local` for Phases 6–7:
+For local dev, put these in `apps/web/.env.local` (gitignored):
 
 ```dotenv
+# apps/web/.env.local
 VITE_MOREL_AUTH_GATEWAY_URL=http://localhost:8787
-VITE_GITHUB_CLIENT_ID=<GitHub App client_id from Infisical or GitHub App settings>
+VITE_GITHUB_CLIENT_ID=<Morel Studio Dev client_id>
 ```
 
-#### How local dev picks up the new Infisical secret
+For staging and production, set the same variables in the **Cloudflare Pages → Settings →
+Environment variables** panel (or the equivalent in Render/GitHub Pages build config),
+using the per-environment values from the table in section 2.3.2.
 
-No manual steps are needed. The `pnpm dev` script in `workers/auth/package.json` runs:
+#### `workers/auth/.dev.vars.example` — update to document new variable
 
-```sh
-infisical export --env=dev --path=/workers/auth --format=dotenv > .dev.vars
+After adding `GITHUB_OAUTH_REDIRECT_URI` to Infisical, also update `.dev.vars.example`
+so future developers know it exists:
+
+```diff
++# OAuth web flow — environment-specific redirect URI (get from Infisical /workers/auth)
++GITHUB_OAUTH_REDIRECT_URI=http://localhost:5173/auth/callback
++
++# Note: GITHUB_OAUTH_TOKEN_URL is a public constant in wrangler.toml [vars] — not here.
 ```
-
-This fetches **all** secrets at `/workers/auth` for the `dev` environment and writes them to
-`.dev.vars`. Once you add `GITHUB_OAUTH_REDIRECT_URI` to Infisical under `dev`, it will appear
-in `.dev.vars` automatically on the next `pnpm dev` restart. You do not need to edit `.dev.vars`
-manually.
-
-#### How staging and production pick it up
-
-The Infisical → Cloudflare Workers integration syncs secrets automatically whenever you save
-changes in Infisical. After adding `GITHUB_OAUTH_REDIRECT_URI` to the `staging` and `production`
-environments in Infisical, the next deployment of the worker will have the variable available.
-No `wrangler secret put` commands are needed.
 
 ______________________________________________________________________
 
