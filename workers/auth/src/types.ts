@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 export const EnvSchema = z.object({
+  GITHUB_APP_ID: z.string().min(1),
   GITHUB_CLIENT_ID: z.string().min(1),
   GITHUB_CLIENT_SECRET: z.string().min(1).optional(),
   GITHUB_DEVICE_CODE_URL: z.url(),
