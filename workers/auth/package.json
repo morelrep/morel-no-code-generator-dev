@@ -1,5 +1,5 @@
 {
-  "name": "@morel/github-auth-worker",
+  "name": "@morel/auth-worker",
   "private": true,
   "type": "module",
   "dependencies": {
@@ -7,11 +7,12 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "catalog:",
     "typescript": "catalog:",
     "wrangler": "catalog:"
   },
   "scripts": {
-    "dev": "wrangler dev",
+    "dev": "infisical run --path=/workers/auth -- wrangler dev",
     "build": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
     "lint": "echo \"lint not configured yet\"",

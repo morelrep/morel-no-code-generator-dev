@@ -1,0 +1,26 @@
+# =============================================================================
+# MOREL AUTH WORKER — Environment variables
+# =============================================================================
+# For local dev: copy to .dev.vars and fill in values.
+# For staging / production: set secrets via Infisical (path: /worker)
+# and push with: wrangler secret put <KEY> --env <staging|production>
+# DO NOT commit files without the .example suffix.
+
+# GitHub App / OAuth App Client ID for this environment.
+# Use the dev/staging app for dev + staging; the prod app for production.
+GITHUB_CLIENT_ID=
+
+# GitHub OAuth App Client Secret.
+# Required only for the legacy OAuth web flow (not for device flow).
+# Injected at runtime — never hard-code or commit this value.
+GITHUB_CLIENT_SECRET=
+
+# Comma-separated list of allowed CORS origins.
+# dev:        http://localhost:5173
+# staging:    https://morel-studio-staging.<account>.pages.dev,http://localhost:5173
+# production: https://morel-studio.<account>.pages.dev
+ALLOWED_ORIGINS=
+
+# Sentry DSN for worker error reporting.
+# Leave empty in dev to suppress Sentry noise from local machines.
+SENTRY_DSN=
