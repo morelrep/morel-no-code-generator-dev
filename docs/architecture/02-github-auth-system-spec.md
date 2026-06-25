@@ -119,9 +119,18 @@ React Strict Mode's double-invocation from consuming the value on the first moun
 failing silently on the second. `requestAnimationFrame` was also removed from the pickup
 effect for the same reason — Strict Mode's cleanup cancels the frame.
 
+> **Planned change:** the `sessionStorage` token handoff will be replaced by passing the
+> authorization `code` directly to the Web Worker broker (which performs the exchange), plus
+> `history.replaceState` URL scrubbing — removing the handoff window entirely. See
+> `03-client-token-broker-design.md` §4.1 and §8.
+
 **Tokens live in memory only.** Tokens are held in React state (`useState`), never
 in `localStorage`, `sessionStorage` (cleared immediately after pickup), cookies, or the URL.
 They are never passed as props to rendering components and never appear in logs.
+
+> **Planned change:** the token will move out of React state into a **Web Worker token broker**
+> that owns acquisition, use, refresh, and disposal; `useGitHubAuth()` will no longer return
+> `token`. See `03-client-token-broker-design.md` §4.
 
 **`codeVerifier` is optional in the exchange pipeline.** The installation flow does not
 support PKCE. The Zod schema, callback handler, and worker exchange endpoint all treat
@@ -305,6 +314,12 @@ Body: `{ code: string, codeVerifier?: string }`
 Returns: `{ accessToken, tokenType, scope }`
 Note: `codeVerifier` is optional — omit it for the GitHub App installation flow.
 
+### `POST /github/oauth/refresh` (Planned)
+
+Body: `{ refreshToken: string }`
+Returns: `{ accessToken, refreshToken, expiresIn, refreshTokenExpiresIn, scope }`
+Not yet implemented. Enables GitHub App token expiration with silent refresh; refresh requires the client secret and runs only in the Worker. See `03-client-token-broker-design.md` §5.
+
 ______________________________________________________________________
 
 ## 10. Security Properties
@@ -317,6 +332,8 @@ ______________________________________________________________________
 - **`authLogger` silenced in production** — all logger methods are no-ops when `import.meta.env.DEV` is false
 - **GitHub API version pinned** — all Octokit instances use `X-GitHub-Api-Version: 2026-03-10`
 - **Test repos always private** — write test repos are created as private to avoid polluting public profiles
+
+Planned hardening (token broker, CSP, token expiration/refresh, gateway hardening, WebAuthn step-up) is summarized in §12 and specified in `03-client-token-broker-design.md`.
 
 ______________________________________________________________________
 
@@ -343,3 +360,34 @@ Typecheck both:
 ```sh
 pnpm -r typecheck
 ```
+
+______________________________________________________________________
+
+## 12. Planned Security Hardening
+
+The following changes are **planned, not yet implemented**. They are specified in
+`03-client-token-broker-design.md`; this section tracks the deltas from the system as it
+currently exists (described above).
+
+- **Web Worker token broker.** The access token moves out of React state into a dedicated
+  Web Worker that owns acquisition, use (Octokit), refresh, and disposal. `useGitHubAuth()`
+  stops returning `token` and instead exposes status + capability methods. (`03` §4)
+- **Token acquisition tail in the broker.** The callback hands the authorization `code` to the
+  broker; the access token never touches the main-thread heap. The `sessionStorage` handoff is
+  removed, and callback URLs are scrubbed with `history.replaceState`. (`03` §4.1, §8)
+- **GitHub token expiration + refresh.** Enable GitHub App user-token expiration and add
+  `POST /github/oauth/refresh`; the broker refreshes silently. (`03` §5)
+- **CSP + Trusted Types.** Delivered via a `<meta>` tag in `index.html`, with a strict
+  `connect-src` allowlist as the exfiltration backstop. (`03` §6)
+- **Gateway hardening.** Stop echoing raw upstream error text (normalized error codes), enforce
+  `Content-Type` and a max body size, add `no-store` headers, remove caller-supplied `clientId`
+  from the device routes, and enforce a server-side scope allowlist. (`03` §11)
+- **Session containment + revocation.** Auto-lock on idle/hidden, destructive-op gating, op
+  budgets, and disconnect-with-revoke. (`03` §9, §10)
+- **Least privilege.** Revisit the GitHub App's `Administration: Read and write` permission
+  (used today by the write test) and minimize requested scopes. (`03` §9.4)
+- **WebAuthn step-up (premium tier).** Hardware-backed user verification before destructive
+  operations, verified server-side; requires the gateway to store credential public keys — a
+  premium-tier feature. (`03` §12.1, `01` §6.3)
+- **Supply-chain hardening.** Minimal pinned dependencies, audit in CI, no third-party scripts
+  on token-handling pages. (`03` §7)

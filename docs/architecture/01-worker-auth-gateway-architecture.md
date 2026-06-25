@@ -6,6 +6,8 @@ This document defines the specific architecture for the MOREL V3 micro-backend l
 
 This specification does not replace the full MOREL V3 product specification. It narrows the implementation architecture for the worker/micro-backend layer and its relationship to the rest of the system.
 
+Client-side SPA security — token handling, CSP, session containment, and the Web Worker token broker — is specified in `03-client-token-broker-design.md`. This document defers to `03` for those concerns and is kept consistent with it.
+
 ______________________________________________________________________
 
 ## 2. Final Architectural Decision
@@ -200,19 +202,29 @@ The Auth Gateway is not a general backend. It is a narrow authentication interme
 
 After authentication, the browser-based SPA uses Octokit directly to call GitHub APIs.
 
+### 6.3 Future Exception — Premium Accounts (WebAuthn Step-Up)
+
+The "Out of Scope" list above describes the free/MVP gateway, which stores no users, sessions, or credentials and remains fully stateless.
+
+A planned hardening feature — **WebAuthn step-up gating for destructive operations** (see `03-client-token-broker-design.md` §12.1) — requires the gateway to verify WebAuthn assertions server-side, which in turn requires storing **per-user credential public keys and short-lived challenges**. This is a deliberate, minimal deviation from the stateless principle: it stores *public* keys and challenges only — never tokens, secrets, or vault material.
+
+This exception is **not** part of the free/MVP tier. It is expected to ship only for a future **premium tier**: users with online accounts/sessions persisted on the Cloudflare backend (Worker + in-memory database, e.g. Durable Objects / KV / D1) for a fee. Free users remain on the fully stateless, no-stored-account model. The premium account model must be designed and approved before this is implemented.
+
 ______________________________________________________________________
 
 ## 7. Primary Auth Gateway Routes
 
-The MVP Auth Gateway exposes only the following routes:
+The Auth Gateway exposes only authentication routes. Current and planned routes:
 
 ```plaintext
 GET  /health
 POST /github/device/code
 POST /github/device/token
+POST /github/oauth/exchange       (implemented — see 02 §9)
+POST /github/oauth/refresh        (planned — token refresh, see 03 §5)
 ```
 
-All routes are implemented in `workers/auth/src/routes/`.
+Routes are implemented in `workers/auth/src/routes/`. The route allowlist is deliberately small; no non-auth routes are registered.
 
 ### 7.1 GET /health
 
@@ -293,6 +305,22 @@ Possible normalized outputs:
 
 The Auth Gateway must respect GitHub's required polling interval and must not encourage aggressive polling from the browser.
 
+### 7.4 POST /github/oauth/exchange
+
+Purpose: exchanges an OAuth/GitHub-App authorization `code` for an access token using the `GITHUB_CLIENT_SECRET` (held only in the Worker). Fully specified in `02-github-auth-system-spec.md` §9. PKCE `codeVerifier` is included when present (OAuth flow) and omitted for the GitHub App installation flow.
+
+### 7.5 POST /github/oauth/refresh (Planned)
+
+Purpose: exchanges a GitHub App **refresh token** for a new short-lived access token, enabling token expiration without forcing re-authentication. Refresh requires the client secret and therefore must run in the Worker, never the browser. See `03-client-token-broker-design.md` §5.
+
+```plaintext
+POST /github/oauth/refresh
+  body:    { refreshToken }
+  returns: { accessToken, refreshToken, expiresIn, refreshTokenExpiresIn, scope }
+```
+
+Not yet implemented; depends on enabling GitHub App user-token expiration.
+
 ______________________________________________________________________
 
 ## 8. Octokit Integration
@@ -334,6 +362,8 @@ Token lives only in memory.
 Token disappears on reload, sign-out, or browser close.
 ```
 
+In the target architecture the access token is held inside a **Web Worker token broker**, not in React state, and is never returned to the UI or to hooks. The broker owns token acquisition, use (via Octokit), refresh, and disposal. See `03-client-token-broker-design.md` §4. With GitHub App token expiration enabled, the broker also holds a refresh token in memory and silently refreshes via the gateway (§7.5, `03` §5).
+
 ### 9.2 Optional Persistent Mode (Local Vault)
 
 ```plaintext
@@ -343,6 +373,8 @@ Passphrase is not stored.
 Passphrase derives an encryption key.
 Encrypted token blob is stored locally.
 ```
+
+If this mode is ever implemented, only the **refresh token** (not the access token) should be persisted, minimizing blast radius. This is the single justification for reintroducing a vault and is otherwise out of scope. See `03-client-token-broker-design.md` §5.
 
 ### 9.3 Allowed Local Storage Targets
 
@@ -411,13 +443,18 @@ The static SPA is low-risk because it has no server-side compute, no database, a
 | Schema validation on all request bodies | ✅ implemented (`lib/validate.ts` + Zod schemas) |
 | Env binding validation on every request | ✅ implemented (Zod `EnvSchema` in `index.ts`) |
 | Fixed upstream GitHub endpoints only | ✅ implemented (URLs hardcoded in `wrangler.toml`) |
-| Normalized errors | ✅ implemented (all routes return structured JSON errors) |
-| Route allowlist | ✅ by design — only 3 routes registered |
+| Structured JSON errors | ✅ implemented (all routes return structured errors) |
+| Upstream error text not leaked to client | ⏳ planned — routes currently echo upstream text (`03` §11.3) |
+| Route allowlist | ✅ by design — only auth routes registered |
 | Method allowlist | ✅ CORS middleware restricts to GET, POST, OPTIONS |
+| `Content-Type` enforcement | ⏳ planned (`03` §11.1) |
 | Conservative GitHub polling behavior | ✅ slow_down/pending mapped in `routes/github-device.ts` |
 | No logging of tokens or secrets | ✅ no logging implemented |
-| Max body size | ⏳ not yet implemented |
-| Rate limiting | ⏳ deferred — Cloudflare plan-level protection in place |
+| Caller-supplied `clientId` removed; scope allowlist | ⏳ planned (`03` §11.4) |
+| `no-store` cache headers on auth responses | ⏳ planned (`03` §11.2) |
+| Max body size | ⏳ planned (`03` §11.1) |
+| Rate limiting | ⏳ deferred — Cloudflare plan-level protection in place (`03` §11.5) |
+| CSP + Trusted Types (SPA) | ⏳ planned (`03` §6) |
 | Sentry error sampling | ⏳ deferred — Sentry not yet integrated |
 
 ### 11.2 Expected Failure Behavior
@@ -662,6 +699,8 @@ Alternative:
   protection is desired before Cloudflare DNS migration
 ```
 
+Because GitHub Pages cannot set response headers, the SPA's Content Security Policy and Trusted Types are delivered via a `<meta>` tag in `index.html`. CSP is the primary control protecting the in-browser token (its `connect-src` allowlist is the exfiltration backstop) and is independent of the DDoS posture above. See `03-client-token-broker-design.md` §6.
+
 ______________________________________________________________________
 
 ## 19. Cost Posture
@@ -694,7 +733,8 @@ ______________________________________________________________________
 | GitHub API | Octokit in browser after token acquisition |
 | Auth mode | GitHub Device Authorization Flow through Auth Gateway |
 | Auth fallback | Fine-grained PAT as advanced option |
-| Token storage | Session-only by default; optional encrypted local vault |
+| Token storage | Held in a Web Worker token broker; session-only by default; optional encrypted refresh-token vault (future) — see `03-client-token-broker-design.md` |
+| SPA security | CSP + Trusted Types, Web Worker token broker, URL hygiene (see `03-client-token-broker-design.md`) |
 | Remote compute | GitHub Actions reusable workflows |
 | Monitoring | Sentry |
 | Website analytics | Cloudflare Web Analytics |
