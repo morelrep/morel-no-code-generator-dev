@@ -4,22 +4,19 @@
   "description": "",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.1.2",
+  "packageManager": "pnpm@11.16.0",
   "scripts": {
     "dev": "pnpm --filter @morel/web dev",
     "dev:worker": "pnpm --filter @morel/github-auth-worker dev",
-
     "build": "pnpm -r build",
     "build:app": "pnpm --filter @morel/web build",
     "build:app:ci": "pnpm --filter @morel/web build:ci",
     "build:worker": "pnpm --filter @morel/github-auth-worker build",
-
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint . && pnpm -r lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test": "pnpm -r test",
-
     "clean": "pnpm -r clean",
     "check": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test && pnpm run build",
     "check:outdated": "tsx scripts/check-outdated-series-fast.ts",
@@ -39,6 +36,6 @@
   },
   "engines": {
     "node": ">=22.16.0",
-    "pnpm": ">=11.1.2"
+    "pnpm": ">=11.16.0"
   }
 }
